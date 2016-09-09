@@ -51,14 +51,28 @@ static int cmd_si(char *args){
 }
 
 void cmd_info_wp();
+static void print_b(unsigned char a)
+{
+		const static char hex_map[][2]={
+					"0","1","2","3","4","5","6","7",
+							"8","9","a","b","c","d","e","f"}; 
+			printf("%s%s",hex_map[a>>4],hex_map[a&0xf]);
+}
 
-void printf_re(unsigned r){
-	char map[]={'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+static void printf_re(unsigned a)
+{
+		print_b((a>>24)&0xff);
+			print_b((a>>16)&0xff);
+				print_b((a>>8)&0xff);
+					print_b(a&0xff);
+}
+/*void printf_re(unsigned int r){
+	char map[][2]={"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"};
         int i;
         for(i=28;i>=0;i=i-4){
-                  printf("%c",map[((r>>i)&(0xff))]);
+                  printf("%s",map[((r>>i)&(0xf))]);
 	}
-}
+}*/
 
 static int cmd_info(char *args){
 	if(*args=='r'){
