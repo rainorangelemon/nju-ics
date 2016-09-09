@@ -115,7 +115,7 @@ static int cmd_x_total(char *args){
 	/*"sscanf(args,"%d%s",&area_size,expr_string);
         unsigned int result = expr(expr_string,true);*/ ///Finish in Step two
 	unsigned int expr_number;
-       	sscanf(args,"%x%x",&area_size,&expr_number);
+       	sscanf(args,"%d%x",&area_size,&expr_number);
 	cmd_x(area_size,expr_number);
         return 0;
 }
