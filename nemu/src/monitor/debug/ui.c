@@ -50,6 +50,54 @@ static int cmd_si(char *args){
 	return 0;	
 }
 
+void cmd_info_wp();
+
+void printf_re(unsigned int r){
+	char map[]={'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+        unsigned int i;
+        for(i=28;i>=0;i=i-4){
+                  printf("%c",map[((r>>i)&(0xff))]);
+	}
+}
+
+static int cmd_info(char *args){
+	if(*args=='r'){
+	    printf("eax:0x");
+	    printf_re(cpu.eax);
+	    printf("\n");
+	    printf("ecx:0x");
+	    printf_re(cpu.ecx);
+	    printf("\n");
+	    printf("edx:0x");
+	    printf_re(cpu.edx);
+	    printf("\n");
+	    printf("ebx:0x");
+	    printf_re(cpu.ebx);
+	    printf("\n"); 
+	    printf("esp:0x");
+	    printf_re(cpu.esp);
+	    printf("\n");
+	    printf("ebp:0x"); 
+	    printf_re(cpu.ebp);
+	    printf("\n");
+	    printf("esi:0x");
+	    printf_re(cpu.esi);
+	    printf("\n"); 
+	    printf("edi:0x");
+            printf_re(cpu.edi);	    
+	    printf("\n");
+	    printf("eip:0x");
+	    printf_re(cpu.eip);		
+	    printf("\n");
+	    return 0;
+	}/*else if(*args=='w'){
+	    cmd_info_wp();
+	    return 0;
+	}*/
+        printf("input Error");
+	return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -61,6 +109,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step Into", cmd_si },
+	{"info","Get Infomation",cmd_info},
 
 	/* TODO: Add more commands */
 
