@@ -98,6 +98,29 @@ static int cmd_info(char *args){
 	return 0;
 }
 
+void cmd_x(unsigned int area_size,unsigned int result){
+	        unsigned int memory_number;
+	        unsigned int i;		
+		for(i=0; i<area_size; i++){
+		       	memory_number = swaddr_read(result,4);
+	                printf("0x%x",result);          				 	        printf(":  0x%x",memory_number);
+	                if(result!=(area_size-1)){					                        printf("\n");						                }      
+	                result++;     
+		}
+}
+
+static int cmd_x_total(char *args){
+        /*char* expr_string;*/	
+	unsigned int area_size;
+	/*"sscanf(args,"%d%s",&area_size,expr_string);
+        unsigned int result = expr(expr_string,true);*/ ///Finish in Step two
+	unsigned int expr_number;
+       	sscanf(args,"%x%x",&area_size,&expr_number);
+	cmd_x(area_size,expr_number);
+        return 0;
+}
+
+
 static int cmd_help(char *args);
 
 static struct {
@@ -109,7 +132,8 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step Into", cmd_si },
-	{"info","Get Infomation",cmd_info},
+	{"info SUBCMD","Get Infomation",cmd_info},
+	{"x N EXPR","Print Memory",cmd_x_total},
 
 	/* TODO: Add more commands */
 
