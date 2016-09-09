@@ -114,6 +114,7 @@ static int cmd_x_total(char *args){
 	unsigned int area_size;
 	/*"sscanf(args,"%d%s",&area_size,expr_string);
         unsigned int result = expr(expr_string,true);*/ ///Finish in Step two
+	///check after Step 2
 	unsigned int expr_number;
        	sscanf(args,"%d%x",&area_size,&expr_number);
 	cmd_x(area_size,expr_number);
