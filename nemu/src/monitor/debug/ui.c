@@ -132,8 +132,8 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step Into", cmd_si },
-	{"info SUBCMD","Get Infomation",cmd_info},
-	{"x N EXPR","Print Memory",cmd_x_total},
+	{"info","Get Infomation",cmd_info},
+	{"x","Print Memory",cmd_x_total},
 
 	/* TODO: Add more commands */
 
