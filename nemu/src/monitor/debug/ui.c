@@ -54,7 +54,7 @@ void cmd_info_wp();
 
 void printf_re(unsigned r){
 	char map[]={'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
-        unsigned int i;
+        int i;
         for(i=28;i>=0;i=i-4){
                   printf("%c",map[((r>>i)&(0xff))]);
 	}
