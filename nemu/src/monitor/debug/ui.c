@@ -47,7 +47,6 @@ static int cmd_si(char *args){
 	    else
 		    printf("wrong number!\n");
 	}
-	cpu_exec(n);
 	return 0;	
 }
 
