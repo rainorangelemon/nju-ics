@@ -37,16 +37,14 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_si(char *args){
-        int n=0;
+        int n;
         if(args == NULL){
 	    n = 1;
 	}
-	{
-	    if((sscanf(args,"%d",&n))>0)
-		    cpu_exec(n);
-	    else
-		    printf("wrong number!\n");
-	}
+        if((sscanf(args,"%d",&n))>0)
+	    cpu_exec(n);
+	else
+	    printf("wrong number!\n");
 	return 0;	
 }
 
