@@ -40,7 +40,8 @@ static int cmd_si(char *args){
         int n=0;
         if(args == NULL){
 	    n = 1;
-	}else{
+	}
+	{
 	    if((sscanf(args,"%d",&n))>0)
 		    cpu_exec(n);
 	    else
