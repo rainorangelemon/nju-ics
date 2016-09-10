@@ -99,12 +99,15 @@ static int cmd_info(char *args){
 
 void cmd_x(unsigned int area_size,unsigned int result){
 	        unsigned int memory_number;
-	        unsigned int i;		
+	        unsigned int i;
+		unsigned int counter=0;		
 		for(i=0; i<area_size; i++){
-		       	memory_number = swaddr_read(result,4);
-	                printf("0x%x",result);          				 	        printf(":  0x%x",memory_number);
-	                if(result!=(area_size-1)){					                        printf("\n");						                }      
-	                result++;     
+			printf("0x%x",result);
+			for(counter=0;counter<4;counter++){
+		         	memory_number = swaddr_read(result,1);          		 	        printf(":  0x%x",memory_number);
+				result++;
+			}
+	                if(result!=(area_size-1)){					                        printf("\n");						                }     
 		}
 }
 
