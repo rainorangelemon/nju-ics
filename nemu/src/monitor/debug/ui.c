@@ -37,12 +37,12 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_si(char *args){
-        int si_number;
+        unsigned int si_number;
         if(args == NULL){
 	    si_number = 1;
 	    return 0;
 	}
-        if((sscanf(args,"%d",&si_number))>0)
+        if((sscanf(args,"%u",&si_number))>0)
 	    cpu_exec(si_number);
 	else
 	    printf("wrong number!\n");
