@@ -42,6 +42,7 @@ static int cmd_si(char *args){
 	    si_number = 1;
 	    return 0;
 	}
+	sscanf(args,"%u",&si_number);
         if((sscanf(args,"%u",&si_number))>0)
 	    cpu_exec(si_number);
 	else
