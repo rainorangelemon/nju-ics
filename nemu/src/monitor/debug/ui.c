@@ -37,7 +37,7 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_si(char *args){
-        unsigned int si_number;
+        unsigned si_number;
         if(args == NULL){
 	    si_number = 1;
 	    return 0;
