@@ -44,7 +44,8 @@ static int cmd_si(char *args){
 	}
 	sscanf(args,"%u",&si_number);
         if((sscanf(args,"%u",&si_number))>0)
- 	    { cpu_exec(si_number);
+ 	    { printf("si_number:%u\n",si_number);
+	      cpu_exec(si_number);
 	      printf("Running..\n");
 	    }
 	else
