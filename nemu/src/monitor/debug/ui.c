@@ -36,7 +36,7 @@ static int cmd_q(char *args) {
 	return -1;
 }
 
-static int cmd_si(char *args){
+/*static int cmd_si(char *args){
         unsigned int si_number;
         if(args == NULL){
 	    si_number = 1;
@@ -47,6 +47,22 @@ static int cmd_si(char *args){
 	else
 	    printf("wrong number!\n");
 	return 0;	
+}*/
+
+static int cmd_si(char *args)
+{
+		unsigned step_num;
+			/*if no step number is specified, by default it execute one instruction*/
+			if(args==NULL)
+					{
+								cpu_exec(1);
+										return 0;
+											}
+				if(sscanf(args,"%u",&step_num)>0)
+							cpu_exec(step_num);
+					else
+								printf("Error, you should follow the si command with a number!\n");
+					return 0;
 }
 
 void cmd_info_wp();
