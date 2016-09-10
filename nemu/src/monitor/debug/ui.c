@@ -102,9 +102,9 @@ void cmd_x(unsigned int area_size,unsigned int result){
 	        unsigned int i;
 		unsigned int counter=0;		
 		for(i=0; i<area_size; i++){
-			printf("0x%x",result);
+			printf("0x%x:  0x",result);
 			for(counter=0;counter<4;counter++){
-		         	memory_number = swaddr_read(result,1);          		 	        printf(":  0x%x",memory_number);
+		         	memory_number = swaddr_read(result,1);          		 	        printf("%x",memory_number);
 				result++;
 			}
 	                if(result!=(area_size-1)){					                        printf("\n");						                }     
