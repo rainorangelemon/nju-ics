@@ -166,9 +166,9 @@ int domi_op(int p,int q){
 	for(index=q;index>=p;index--){
 		int left=0;
 		if(tokens[index].type == '('){
-			left++;
-		}else if(tokens[index].type == ')'){
 			left--;
+		}else if(tokens[index].type == ')'){
+			left++;
 		}
 		if((!find_operator(tokens[index].type))||(left!=0))
 			continue;
@@ -201,6 +201,8 @@ uint32_t eval(int p,int q){
 		int op = domi_op(p,q);
 		int val1 = eval(p,op-1);
 		int val2 = eval(op+1,q);
+		printf("val1:%d\n",val1); //TODO: for debug
+		printf("val2:%d\n",val2); //TODO: for debug
 		switch(tokens[op].type){
 			case '+': return val1 + val2;
 			case '-': return val1 - val2;
