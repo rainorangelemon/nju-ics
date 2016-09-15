@@ -89,7 +89,7 @@ static bool make_token(char *e) {
 				 * of tokens, some extra actions should be performed.
 				 */
 
-				printf("position:%d type:%d\n",position-substr_len,rules[i].token_type);  ///for debug
+				//printf("position:%d type:%d\n",position-substr_len,rules[i].token_type);  ///for debug
 				switch(rules[i].token_type) {
 					case NOTYPE:
 						break;
@@ -130,7 +130,7 @@ static bool make_token(char *e) {
 						break;
 				}
 
-				printf("nr_token:%d type:%d\n",nr_token-1,tokens[nr_token-1].type);  ///for debug
+				//printf("nr_token:%d type:%d\n",nr_token-1,tokens[nr_token-1].type);  ///for debug
 
 				break;
 			}
@@ -168,7 +168,7 @@ bool find_operator(int m){
                 if(priority[i].type == m)
                         return true;
         }
-	printf("%d is not an operator\n",m);
+	///printf("%d is not an operator\n",m);
         return false;	
 }
 
@@ -203,7 +203,7 @@ int domi_op(int p,int q){
 			total_position = index;
 		}
 	}
-	printf("total_position:%d\n",total_position);
+	///printf("total_position:%d\n",total_position);
 	return total_position;
 }
 
@@ -319,7 +319,7 @@ uint32_t eval(int p,int q){
 		return eval(p+1,q-1);
 	}else{
 		int op = domi_op(p,q);
-		printf("dominant operator:%d\n",op); //TODO: for debug
+		///printf("dominant operator:%d\n",op); //TODO: for debug
 		int val2 = eval(op+1,q);
 		switch(tokens[op].type){
 			case DEREF: return swaddr_read((swaddr_t)val2,4);
@@ -327,8 +327,8 @@ uint32_t eval(int p,int q){
 			case NEG: return -val2;
 			default:{
 				int val1 = eval(p,op-1);
-				printf("val1:%d\n",val1); //TODO: for debug
-				printf("val2:%d\n",val2); //TODO: for debug
+				///printf("val1:%d\n",val1); //TODO: for debug
+				///printf("val2:%d\n",val2); //TODO: for debug
 				switch(tokens[op].type){
 					case '+': return val1 + val2;
 					case '-': return val1 - val2;
