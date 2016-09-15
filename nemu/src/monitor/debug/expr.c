@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, Number
+	NOTYPE=256, EQ=0, DEC=1, HEX=2
 
 	/* TODO: Add more token types */
 
@@ -21,10 +21,15 @@ static struct rule {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
-
-	{"\\d+",Number},			//number
-       	{" +", NOTYPE},				// spaces
-	{"\\+", '+'},					// plus
+	{"0x\\d+",HEX},			//12 number
+	{"\\d+",DEC},			//10 number
+       	{" +", NOTYPE},			// spaces
+	{"\\*",'*'},			//multiply
+	{"/",'/'},			//divide
+	{"\\+", '+'},			// plus
+	{"-",'-'},			//minus
+	{"\\(",'('},
+	{"\\)",')'},
 	{"==", EQ}						// equal
 };
 
@@ -82,12 +87,31 @@ static bool make_token(char *e) {
 				switch(rules[i].token_type) {
 					Token temp;
 					temp.type=rules[i].token_type;
-					case '+':{
-						temp.str[0]='+';
+					case DEC:
+						if(substr_len>10){
+							printf("too big integer!\n");
+							return false;
+						}
+						strncpy(temp.str,substr_start,substr_len);
+						temp.str[substr_len]='\0';
 						tokens[nr_token]=temp;
-						nr_token++;	
-					}
-					default: panic("please implement me");
+						nr_token++;
+						break;
+					case HEX:
+						if(substr_len>10){
+							printf("too big integer!\n");
+							return false;
+						}
+						strncpy(temp.str,substr_start+2,substr_len-2);
+						temp.str[substr_len-2]='\0';
+						tokens[nr_token]=temp;
+						nr_token++;
+						break;
+					default:
+						temp.str[0]='\0';
+						tokens[nr_token]=temp;
+						nr_token++;
+						break;
 				}
 
 				break;
@@ -101,6 +125,88 @@ static bool make_token(char *e) {
 	}
 
 	return true; 
+}
+
+struct made{
+	int order; 
+	int type;
+}priority[]={
+        {5,'+'},
+        {5,'-'},
+        {7,'*'},
+        {7,'/'}	
+};
+
+bool find_operator(int m){
+        int size_prio = sizeof(priority)/sizeof(priority[0]);
+        int i;
+        for(i=0;i<size_prio;i++){
+                if(priority[i].type == m)
+                        return true;
+        }
+        return false;	
+}
+
+int find_order(int m){
+	int size_prio = sizeof(priority)/sizeof(priority[0]);
+	int i;
+	for(i=0;i<size_prio;i++){
+		if(priority[i].type == m)
+			return priority[i].order;
+	}
+	return -1;
+}
+
+int domi_op(int p,int q){
+	int index;
+	int total_order = 257;
+	int total_position = q;
+	for(index=q;index>=p;index--){
+		int left=0;
+		if(tokens[index].type == '('){
+			left++;
+		}else if(tokens[index].type == ')'){
+			left--;
+		}
+		if((!find_operator(tokens[index].type))||(left!=0))
+			continue;
+		int current_order = find_order(tokens[index].type);
+		if(current_order < total_order){
+			total_order = current_order;
+			total_position = index;
+		}
+	}
+	return total_position;
+}
+
+bool check_parentneheses(int p,int q){
+///TODO:Finish this
+	return true;
+}
+
+uint32_t eval(int p,int q){
+	if(p > q){
+		printf("Bad expression!\n");
+		assert(0);
+	}else if(p == q){
+		/* TODO: Finish the HEX function*/
+		int eval_number;
+		sscanf(tokens[p].str,"%d",&eval_number);
+		return eval_number;
+	}else if(check_parentneheses(p,q) == true){
+		return eval(p+1,q-1);
+	}else{
+		int op = domi_op(p,q);
+		int val1 = eval(p,op-1);
+		int val2 = eval(op+1,q);
+		switch(tokens[op].type){
+			case '+': return val1 + val2;
+			case '-': return val1 - val2;
+			case '*': return val1 * val2;
+			case '/': return val1 / val2;  	  
+			default:assert(0);
+		}
+	}
 }
 
 uint32_t expr(char *e, bool *success) {
