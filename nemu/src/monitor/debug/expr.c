@@ -84,6 +84,7 @@ static bool make_token(char *e) {
 				 * of tokens, some extra actions should be performed.
 				 */
 
+				printf("position:%d type:%d\n",position-substr_len,rules[i].token_type);
 				switch(rules[i].token_type) {
 					Token temp;
 					temp.type=rules[i].token_type;
