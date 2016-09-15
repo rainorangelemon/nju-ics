@@ -165,8 +165,8 @@ int domi_op(int p,int q){
 	int index;
 	int total_order = 257;
 	int total_position = -1;
+	int left=0;
 	for(index=q;index>=p;index--){
-		int left=0;
 		if(tokens[index].type == '('){
 			left--;
 		}else if(tokens[index].type == ')'){
