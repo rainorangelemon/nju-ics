@@ -21,8 +21,8 @@ static struct rule {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
-	{"0x\\d+",HEX},			//12 number
-	{"\\d+",DEC},			//10 number
+	{"0[xX][0-9a-fA-F]+",HEX},			//12 number
+	{"[0-9]+",DEC},			//10 number
        	{" +", NOTYPE},			// spaces
 	{"\\*",'*'},			//multiply
 	{"/",'/'},			//divide
