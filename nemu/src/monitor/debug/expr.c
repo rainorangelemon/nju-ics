@@ -69,8 +69,6 @@ static bool make_token(char *e) {
 	
 	nr_token = 0;
 
-	printf("NR_REGEX:%d\n",NR_REGEX); //use for debug
-
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
@@ -89,6 +87,8 @@ static bool make_token(char *e) {
 				switch(rules[i].token_type) {
 					Token temp;
 					temp.type=rules[i].token_type;
+					case NOTYPE:
+						break;
 					case DEC:
 						if(substr_len>10){
 							printf("too big integer!\n");
