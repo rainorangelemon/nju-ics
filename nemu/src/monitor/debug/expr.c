@@ -320,16 +320,27 @@ uint32_t eval(int p,int q){
 	}else{
 		int op = domi_op(p,q);
 		printf("dominant operator:%d\n",op); //TODO: for debug
-		int val1 = eval(p,op-1);
 		int val2 = eval(op+1,q);
-		printf("val1:%d\n",val1); //TODO: for debug
-		printf("val2:%d\n",val2); //TODO: for debug
 		switch(tokens[op].type){
-			case '+': return val1 + val2;
-			case '-': return val1 - val2;
-			case '*': return val1 * val2;
-			case '/': return val1 / val2;  	  
-			default:assert(0);
+			case DEREF: return swaddr_read((swaddr_t)val2,4);
+			case '!': return (!val2);
+			case NEG: return -val2;
+			default:{
+				int val1 = eval(p,op-1);
+				printf("val1:%d\n",val1); //TODO: for debug
+				printf("val2:%d\n",val2); //TODO: for debug
+				switch(tokens[op].type){
+					case '+': return val1 + val2;
+					case '-': return val1 - val2;
+					case '*': return val1 * val2;
+					case '/': return val1 / val2;
+					case EQ : return (val1 == val2);
+					case NEQ: return (val1 != val2);
+					case LO_AND: return (val1 && val2);
+					case LO_OR: return (val1 || val2);	     
+					default:assert(0);
+				}
+			}
 		}
 	}
 }
@@ -342,7 +353,13 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	/*panic("please implement me");*/
+	int i;
+	for(i=0;i<nr_token;i++){
+		if((tokens[i].type=='*')&&((i==0)||(tokens[i-1].type=='(')||(find_operator(tokens[i-1].type))))
+			tokens[i].type=DEREF;
+		if((tokens[i].type=='-')&&((i==0)||(tokens[i-1].type=='(')||(find_operator(tokens[i-1].type))))
+                        tokens[i].type=NEG;
+	}
 	return eval(0,nr_token-1);
 }
 
