@@ -148,10 +148,16 @@ struct made{
 	int order; 
 	int type;
 }priority[]={
-        {5,'+'},
-        {5,'-'},
-        {7,'*'},
-        {7,'/'}	
+	{13,DEREF},
+	{13,'!'},
+	{11,'+'},
+        {11,'-'},
+        {12,'*'},
+        {12,'/'},
+	{8,EQ},
+	{8,NEQ},
+	{4,LO_AND},
+	{3,LO_OR}
 };
 
 bool find_operator(int m){
@@ -222,6 +228,71 @@ bool check_parentneheses(int p,int q){
 	return false;
 }
 
+struct registers{
+	char name[4];
+	int index;
+};
+
+struct registers reg_4[]={
+	{"eax",R_EAX},
+	{"ecx",R_ECX},
+	{"edx",R_EDX},
+	{"ebx",R_EBX},
+	{"esp",R_ESP},
+	{"ebp",R_EBP},
+	{"esi",R_ESI},
+	{"edi",R_EDI}
+};
+
+struct registers reg_2[]={
+	{"ax",R_AX},
+	{"cx",R_CX},
+	{"dx",R_DX},
+	{"bx",R_BX},
+	{"sp",R_SP},
+	{"bp",R_BP},
+	{"si",R_SI},
+	{"di",R_DI}
+};
+
+struct registers reg_1[]={
+	{"al",R_AL},
+	{"cl",R_CL},
+	{"dl",R_DL},
+	{"bl",R_BL},
+	{"ah",R_AH},
+	{"ch",R_CH},
+	{"dh",R_DH},
+	{"bh",R_BH}
+};
+
+bool read_register(char* start,int* number){
+	if(strcmp(start,"eip")==0){
+		*number=cpu.eip;
+		return true;
+	}
+	int i;
+	for(i=0;i<8;i++){
+		if(strcmp(start,reg_4[i].name)==0){
+			*number=reg_l(reg_4[i].index);
+			return true;
+		}
+	}
+        for(i=0;i<8;i++){
+                if(strcmp(start,reg_2[i].name)==0){
+                        *number=reg_w(reg_2[i].index);
+                        return true;
+                }
+        }
+        for(i=0;i<8;i++){
+                if(strcmp(start,reg_1[i].name)==0){
+                        *number=reg_b(reg_1[i].index);
+                        return true;
+                }
+        }
+	return false;
+}
+
 uint32_t eval(int p,int q){
 	if(p > q){
 		printf("Bad expression!\n");
@@ -235,6 +306,9 @@ uint32_t eval(int p,int q){
 				break;
 			case HEX:
 				sscanf(tokens[p].str,"%x",&eval_number);
+				break;
+			case '$':
+				read_register(tokens[p].str,&eval_number);
 				break;
 			default:
 				break;
