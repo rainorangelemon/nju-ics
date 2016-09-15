@@ -187,7 +187,24 @@ int domi_op(int p,int q){
 }
 
 bool check_parentneheses(int p,int q){
-///TODO:Finish this
+	if((tokens[p].type!='(')||(tokens[q].type!=')'))
+		return false;
+	int index;
+	int left=0;
+	for(index=p;index<=q;index++){
+		if((tokens[index].type!='(')&&(tokens[index].type!=')'))
+			continue;
+		if(tokens[index].type=='('){
+			left++;
+		}else{
+			left--;
+		}
+		if(left==0){
+			break;
+		}
+	}
+	if(index==q)
+		return true;
 	return false;
 }
 
