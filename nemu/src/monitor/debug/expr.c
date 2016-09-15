@@ -219,7 +219,7 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me");
+	/*panic("please implement me");*/
 	return eval(0,nr_token-1);
 }
 
