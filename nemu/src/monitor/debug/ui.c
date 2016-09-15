@@ -126,6 +126,12 @@ static int cmd_x_total(char *args){
         return 0;
 }
 
+static int cmd_p(char *args){
+
+
+
+	return 0;
+}
 
 static int cmd_help(char *args);
 
@@ -140,6 +146,7 @@ static struct {
 	{ "si", "Step Into", cmd_si },
 	{"info","Get Infomation",cmd_info},
 	{"x","Print Memory",cmd_x_total},
+	{"p","Caculate the exper",cmd_p},
 
 	/* TODO: Add more commands */
 
