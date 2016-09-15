@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE=256, EQ=0, DEC=1, HEX=2
+	NOTYPE=256, EQ=0, DEC=1, HEX=2, NEQ=3, DEREF=4, LO_AND=5, LO_OR=6, NEG=7
 
 	/* TODO: Add more token types */
 
@@ -21,6 +21,7 @@ static struct rule {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
+	{"\\$[a-zA-Z]+",'$'},		//find the register
 	{"0[xX][0-9a-fA-F]+",HEX},			//12 number
 	{"[0-9]+",DEC},			//10 number
        	{" +", NOTYPE},			// spaces
@@ -30,7 +31,11 @@ static struct rule {
 	{"-",'-'},			//minus
 	{"\\(",'('},
 	{"\\)",')'},
-	{"==", EQ}						// equal
+	{"==", EQ},			// equal
+	{"!=",NEQ},			//not equal
+	{"&&",LO_AND},			//logical and
+	{"\\|\\|",LO_OR},		//logical or
+	{"!",'!'}			//logical not
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -108,6 +113,15 @@ static bool make_token(char *e) {
 						tokens[nr_token].str[substr_len-2]='\0';
 						nr_token++;
 						break;
+					case '$':
+						if(substr_len>4){
+							printf("There is no this type of register.\n");
+							return false;
+						}
+						tokens[nr_token].type=rules[i].token_type;
+						strncpy(tokens[nr_token].str,substr_start+1,substr_len-1);
+						tokens[nr_token].str[substr_len-1]='\0';
+						nr_token++;
 					default:
 						tokens[nr_token].type=rules[i].token_type;
 						tokens[nr_token].str[0]='\0';
