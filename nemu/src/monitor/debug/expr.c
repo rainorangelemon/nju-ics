@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ
+	NOTYPE = 256, EQ, Number
 
 	/* TODO: Add more token types */
 
@@ -22,7 +22,8 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 
-	{" +",	NOTYPE},				// spaces
+	{"\\d+",Number},
+       	{" +", NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
 	{"==", EQ}						// equal
 };
@@ -79,6 +80,13 @@ static bool make_token(char *e) {
 				 */
 
 				switch(rules[i].token_type) {
+					Token temp;
+					temp.type=rules[i].token_type;
+					case '+':{
+						temp.str[0]='+';
+						tokens[nr_token]=temp;
+						nr_token++;	
+					}
 					default: panic("please implement me");
 				}
 
