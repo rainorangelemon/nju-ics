@@ -194,7 +194,7 @@ int domi_op(int p,int q){
 			left++;
 		}
 		if((!find_operator(tokens[index].type))||(left!=0)){
-			printf("%d is not a operator\n",index);
+			//printf("%d is not a operator\n",index);
 			continue;
 		}
 		int current_order = find_order(tokens[index].type);
