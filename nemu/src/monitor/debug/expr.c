@@ -178,6 +178,7 @@ int domi_op(int p,int q){
 			total_position = index;
 		}
 	}
+	printf("total_position:%d\n",total_position);
 	return total_position;
 }
 
