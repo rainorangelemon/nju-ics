@@ -199,6 +199,7 @@ uint32_t eval(int p,int q){
 		return eval(p+1,q-1);
 	}else{
 		int op = domi_op(p,q);
+		printf("dominant operator:%d\n",op); //TODO: for debug
 		int val1 = eval(p,op-1);
 		int val2 = eval(op+1,q);
 		printf("val1:%d\n",val1); //TODO: for debug
