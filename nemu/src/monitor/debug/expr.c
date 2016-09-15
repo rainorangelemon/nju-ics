@@ -146,6 +146,7 @@ bool find_operator(int m){
                 if(priority[i].type == m)
                         return true;
         }
+	printf("%d is not an operator\n",m);
         return false;	
 }
 
