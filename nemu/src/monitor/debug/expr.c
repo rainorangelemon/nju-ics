@@ -170,7 +170,9 @@ int domi_op(int p,int q){
 		}else if(tokens[index].type == ')'){
 			left++;
 		}
-		if((!find_operator(tokens[index].type))||(left!=0))
+		if((!find_operator(tokens[index].type))||(left!=0)){
+			printf("%d is not a operator\n",index);
+		}
 			continue;
 		int current_order = find_order(tokens[index].type);
 		if(current_order < total_order){
