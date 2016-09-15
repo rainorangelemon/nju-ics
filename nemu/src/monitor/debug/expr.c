@@ -229,7 +229,16 @@ uint32_t eval(int p,int q){
 	}else if(p == q){
 		/* TODO: Finish the HEX function*/
 		int eval_number;
-		sscanf(tokens[p].str,"%d",&eval_number);
+		switch(tokens[p].type){
+			case DEC:
+				sscanf(tokens[p].str,"%d",&eval_number);
+				break;
+			case HEX:
+				sscanf(tokens[p].str,"%x",&eval_number);
+				break;
+			default:
+				break;
+		}
 		return eval_number;
 	}else if(check_parentneheses(p,q) == true){
 		return eval(p+1,q-1);
