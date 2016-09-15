@@ -115,7 +115,7 @@ static bool make_token(char *e) {
 						break;
 				}
 
-				printf("nr_token:%d type:%d\n",nr_token-1,tokens[nr_token-1].type);
+				printf("nr_token:%d type:%d\n",nr_token-1,tokens[nr_token-1].type);  ///for debug
 
 				break;
 			}
@@ -174,8 +174,8 @@ int domi_op(int p,int q){
 		}
 		if((!find_operator(tokens[index].type))||(left!=0)){
 			printf("%d is not a operator\n",index);
-		}
 			continue;
+		}
 		int current_order = find_order(tokens[index].type);
 		if(current_order < total_order){
 			total_order = current_order;
