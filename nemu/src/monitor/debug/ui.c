@@ -127,9 +127,14 @@ static int cmd_x_total(char *args){
 }
 
 static int cmd_p(char *args){
-
-
-
+	bool * success=malloc(sizeof(bool));
+	int result;
+	result=expr(args,success);
+	if(success==false)
+		printf("Input wrong!\n");
+	else
+		printf("The result is %d.\n",result);
+	free(success);
 	return 0;
 }
 
