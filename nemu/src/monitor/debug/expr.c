@@ -212,6 +212,7 @@ uint32_t eval(int p,int q){
 }
 
 uint32_t expr(char *e, bool *success) {
+	init_regex();
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
