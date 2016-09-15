@@ -86,7 +86,6 @@ static bool make_token(char *e) {
 
 				printf("position:%d type:%d\n",position-substr_len,rules[i].token_type);  ///for debug
 				switch(rules[i].token_type) {
-					tokens[nr_token].type=rules[i].token_type;
 					case NOTYPE:
 						break;
 					case DEC:
@@ -94,6 +93,7 @@ static bool make_token(char *e) {
 							printf("too big integer!\n");
 							return false;
 						}
+						tokens[nr_token].type=rules[i].token_type;
 						strncpy(tokens[nr_token].str,substr_start,substr_len);
 						tokens[nr_token].str[substr_len]='\0';
 						nr_token++;
@@ -103,11 +103,13 @@ static bool make_token(char *e) {
 							printf("too big integer!\n");
 							return false;
 						}
+						tokens[nr_token].type=rules[i].token_type;
 						strncpy(tokens[nr_token].str,substr_start+2,substr_len-2);
 						tokens[nr_token].str[substr_len-2]='\0';
 						nr_token++;
 						break;
 					default:
+						tokens[nr_token].type=rules[i].token_type;
 						tokens[nr_token].str[0]='\0';
 						nr_token++;
 						break;
