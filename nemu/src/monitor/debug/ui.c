@@ -52,7 +52,13 @@ static int cmd_si(char *args){
 	return 0;	
 }
 
-void cmd_info_wp();
+void cmd_info_wp(){
+	WP * temp=get_head();
+	while(temp!=NULL){
+		printf("watchpoint %d  %s: %d\n",(*temp).NO,(*temp).expr_str,(*temp).data);
+		temp=(*temp).next;
+	}
+}
 
 void printf_re(unsigned int r){
 	char map[][2]={"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"};
@@ -92,10 +98,10 @@ static int cmd_info(char *args){
 	    printf_re(cpu.eip);		
 	    printf("\n");
 	    return 0;
-	}/*else if(*args=='w'){
+	}else if(*args=='w'){
 	    cmd_info_wp();
 	    return 0;
-	}*/
+	}
         printf("input Error");
 	return 0;
 }
@@ -128,6 +134,7 @@ static int cmd_x_total(char *args){
 
 static int cmd_p(char *args){
 	bool * success=malloc(sizeof(bool));
+	* success=true;
 	int result;
 	result=expr(args,success);
 	if(success==false)
@@ -135,6 +142,38 @@ static int cmd_p(char *args){
 	else
 		printf("The result is %d.\n",result);
 	free(success);
+	return 0;
+}
+
+static int cmd_w(char *args){
+	bool success=true;
+	int result;
+	result=expr(args,&success);
+	if(success==false){
+		printf("Create failed. Wrong input!\n");
+	}else{
+		WP * wp =new_wp();
+		(*wp).expr_str=malloc((sizeof(char))*(1+strlen(args)));
+		sscanf(args,"%s",(*wp).expr_str);
+		(*wp).data=result;
+	}
+	return 0;
+}
+
+static int cmd_dw(char *args){
+	WP * temp=get_head();
+	int index;
+	sscanf(args,"%d",&index);
+	while(temp!=NULL){
+		if((*temp).NO==index){
+			free((*temp).expr_str);
+			free_wp(temp);
+		}
+		temp=(*temp).next;
+	}
+	if(temp==NULL){
+		printf("Cannot find watchpoint!\n");
+	}
 	return 0;
 }
 
@@ -152,6 +191,9 @@ static struct {
 	{"info","Get Infomation",cmd_info},
 	{"x","Print Memory",cmd_x_total},
 	{"p","Caculate the exper",cmd_p},
+	{"w","Create a watchpoint",cmd_w},
+	{"d","Delete a watchpoint",cmd_dw},
+
 
 	/* TODO: Add more commands */
 
