@@ -83,7 +83,7 @@ void cpu_exec(volatile uint32_t n) {
 			int result;
 			result=expr((*temp).expr_str,&success);
 			if(result!=(*temp).data){
-				printf("watchpoint: %d\n",(*temp).NO);
+				printf("watchpoint: %d %s\n",(*temp).NO,(*temp).expr_str);
 				printf("Old Value: %d\n",(*temp).data);
 				printf("New Value: %d\n",result);
 				(*temp).data=result;
