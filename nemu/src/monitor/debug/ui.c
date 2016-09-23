@@ -167,16 +167,12 @@ static int cmd_dw(char *args){
 	while(temp!=NULL){
 		if((*temp).NO==index){
 			free((*temp).expr_str);
-			printf("Finish free\n");
 			free_wp(temp);
-			printf("Finish free_wp\n");
-			break;
+			return 0;
 		}
 		temp=(*temp).next;
 	}
-	if(temp==NULL){
-		printf("Cannot find watchpoint!\n");
-	}
+	printf("Cannot find watchpoint!\n");
 	return 0;
 }
 
