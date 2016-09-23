@@ -168,6 +168,7 @@ static int cmd_dw(char *args){
 		if((*temp).NO==index){
 			free((*temp).expr_str);
 			free_wp(temp);
+			break;
 		}
 		temp=(*temp).next;
 	}
