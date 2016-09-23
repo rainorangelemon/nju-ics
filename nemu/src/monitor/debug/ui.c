@@ -164,6 +164,7 @@ static int cmd_dw(char *args){
 	WP * temp=get_head();
 	int index;
 	sscanf(args,"%d",&index);
+	printf("aishiteiruze\n");
 	while(temp!=NULL){
 		if((*temp).NO==index){
 			free((*temp).expr_str);
