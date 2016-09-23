@@ -120,15 +120,19 @@ void cmd_x(unsigned int area_size,unsigned int result){
 		}
 }
 
-static int cmd_x_total(char *args){
-        /*char* expr_string;*/	
+static int cmd_x_total(char *args){	
 	unsigned int area_size;
-	/*"sscanf(args,"%d%s",&area_size,expr_string);
-        unsigned int result = expr(expr_string,true);*/ ///Finish in Step two
-	//check after Step 2
-	unsigned int expr_number;
-       	sscanf(args,"%d%*2s%x",&area_size,&expr_number);
-	cmd_x(area_size,expr_number);
+	char * expr_str=malloc((sizeof(char))*(strlen(args)));
+	bool success=true;
+	sscanf(args,"%d%s",&area_size,expr_str);
+        int result = expr(expr_str,&success);
+	if(success==false){
+		free(expr_str);
+		printf("Wrong expr.\n");
+		return 0;
+	}
+	cmd_x(area_size,result);
+	free(expr_str);
         return 0;
 }
 
