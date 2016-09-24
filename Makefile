@@ -79,10 +79,3 @@ count:
 	@now=$(find nemu  -iregex ".*?\.[ch]" | xargs cat | wc -l)
 	@echo "pa1 not contain blank line"
 	@find nemu  -iregex ".*?\.[ch]" | xargs cat | grep -v ^/$ | wc -l
-	@echo "the number following is the number of lines you write"
-	@git checkout origin/master
-	@echo "master contain blank line"
-	@find nemu  -iregex ".*?\.[ch]" | xargs cat | wc -l
-	@now=$(find nemu  -iregex ".*?\.[ch]" | xargs cat | wc -l)
-	@echo "master not contain blank line"
-	@find nemu  -iregex ".*?\.[ch]" | xargs cat | grep -v ^/$ | wc -l
