@@ -80,6 +80,6 @@ count:
 	@echo "pa1 not contain blank line"
 	@find nemu  -iregex ".*?\.[ch]" | xargs cat | grep -v ^/$ | wc -l
 	@echo "the number following is the number of lines you write"
-	@git checkout master
+	@git checkout master > NULL 
 	@past=$(find nemu  -iregex ".*?\.[ch]" | xargs cat | wc -l)
 	@echo $(now)-$(past)
