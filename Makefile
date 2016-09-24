@@ -74,5 +74,12 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 submit: clean
 	cd .. && tar cvj $(shell pwd | grep -o '[^/]*$$') > $(STU_ID).tar.bz2
 count:
-	echo "pa1 contain blank line"
-	cat 'find nemu  -name .*?\.[ch]' | wc -l
+	@echo "pa1 contain blank line"
+	@find nemu  -iregex ".*?\.[ch]" | xargs cat | wc -l
+	@now=$(find nemu  -iregex ".*?\.[ch]" | xargs cat | wc -l)
+	@echo "pa1 not contain blank line"
+	@find nemu  -iregex ".*?\.[ch]" | xargs cat | grep -v ^/$ | wc -l
+	@echo "the number following is the number of lines you write"
+	@git checkout master
+	@past=$(find nemu  -iregex ".*?\.[ch]" | xargs cat | wc -l)
+	@echo $(now)-$(past)
