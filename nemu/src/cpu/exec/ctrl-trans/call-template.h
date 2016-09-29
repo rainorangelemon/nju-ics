@@ -5,7 +5,7 @@
 static void do_execute(){
 	reg_l(R_ESP)=reg_l(R_ESP)-2;
 	MEM_W(reg_l(R_ESP),cpu.eip+DATA_BYTE+1);
-	enp=eip+op_src->imm;
+	cpu.eip=cpu.eip+op_src->imm;
 	print_asm_template1();
 }
 
