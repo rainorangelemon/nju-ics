@@ -84,6 +84,9 @@ void restart() {
 	/* Read the entry code into memory. */
 	load_entry();
 
+	/* Set the register ok */
+	cpu.flags.eflags=0x2;
+
 	/* Set the initial instruction pointer. */
 	cpu.eip = ENTRY_START;
 

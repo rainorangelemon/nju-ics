@@ -27,7 +27,33 @@ typedef struct {
 	    uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 	};
     };
-	swaddr_t eip;
+
+    swaddr_t eip;
+    //EFLAGS
+
+    	union{
+		uint32_t eflags;
+		struct{
+			uint8_t cf:1;
+			uint8_t space1:1;
+			uint8_t pf:1;
+			uint8_t space2:1;
+			uint8_t af:1;
+			uint8_t space3:1;
+			uint8_t zf:1;
+			uint8_t sf:1;
+			uint8_t tf:1;
+			uint8_t ief:1;
+			uint8_t df:1;
+			uint8_t of:1;
+			uint8_t io:2;
+			uint8_t nt:1;
+			uint8_t space4:1;
+			uint8_t rf:1;
+			uint8_t vm:1;
+			uint16_t space5;
+		}bits;
+	}flags;
 
 } CPU_state;
 
