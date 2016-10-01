@@ -2,7 +2,7 @@
 
 #define jcc_helper(name,length,condition) \
 make_helper(concat4(j,name,_,length)) { \
-	int len=concat(decode_i_,length) (eip); \
+	int len=concat(decode_i_,length) (eip+1); \
 	if(condition==1){ \
 		cpu.eip=cpu.eip+op_src->val; \
 	} \
