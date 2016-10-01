@@ -29,5 +29,3 @@ make_helper(ret_c2){
 	reg_l(R_ESP)=reg_l(R_ESP)+op_src->val;
         return len+1;
 }
-
-#undef DATA_BYTE
