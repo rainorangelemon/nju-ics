@@ -32,6 +32,11 @@ make_group(group1_sx_v,
 	inv, inv, inv, inv, 
 	inv, inv, inv, inv)
 
+/* 0x8f */
+make_group(group2_7,
+	pop_i_v, inv, inv, inv,
+        inv, inv, inv, inv)
+
 /* 0xc0 */
 make_group(group2_i_b,
 	inv, inv, inv, inv, 
@@ -82,6 +87,7 @@ make_group(group5,
 	inv, inv, inv, inv, 
 	inv, inv, inv, inv)
 
+
 make_group(group6,
 	inv, inv, inv, inv, 
 	inv, inv, inv, inv)
@@ -114,9 +120,9 @@ helper_fun opcode_table [256] = {
 /* 0x44 */	inv, inv, inv, inv,
 /* 0x48 */	inv, inv, inv, inv,
 /* 0x4c */	inv, inv, inv, inv,
-/* 0x50 */	push_r_l, push_r_l, push_r_l, push_r_l,
-/* 0x54 */	push_r_l, push_r_l, push_r_l, push_r_l,
-/* 0x58 */	inv, inv, inv, inv,
+/* 0x50 */	push_r_v, push_r_v, push_r_v, push_r_v,
+/* 0x54 */	push_r_v, push_r_v, push_r_v, push_r_v,
+/* 0x58 */	pop_r_v, inv, inv, inv,
 /* 0x5c */	inv, inv, inv, inv,
 /* 0x60 */	inv, inv, inv, inv,
 /* 0x64 */	inv, inv, operand_size, inv,
@@ -129,7 +135,7 @@ helper_fun opcode_table [256] = {
 /* 0x80 */	group1_b, group1_v, inv, group1_sx_v, 
 /* 0x84 */	inv, test_r2rm_v, inv, inv,
 /* 0x88 */	mov_r2rm_b, mov_r2rm_v, mov_rm2r_b, mov_rm2r_v,
-/* 0x8c */	inv, inv, inv, inv,
+/* 0x8c */	inv, inv, inv, group2_7,
 /* 0x90 */	inv, inv, inv, inv,
 /* 0x94 */	inv, inv, inv, inv,
 /* 0x98 */	inv, inv, inv, inv,

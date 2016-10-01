@@ -7,6 +7,7 @@
 #include "data-mov/xchg.h"
 
 #include "data-trans/push.h"
+#include "data-trans/pop.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
