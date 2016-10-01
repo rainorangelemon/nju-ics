@@ -32,4 +32,29 @@ extern char assembly[];
 #define print_asm_template3() \
 	print_asm(str(instr) str(SUFFIX) " %s,%s,%s", op_src->str, op_src2->str, op_dest->str)
 
+#define set_sf(patient,DATA_BYTE) \
+	unsigned int result1=0; \
+	if(DATA_BYTE==1){ \
+	result1=patient>>7; \
+	}else if(DATA_BYTE==2){ \
+		result1=patient>>15; \
+	}else if(DATA_BYTE==4){ \
+	        result1=patient>>31; \
+	} \
+	cpu.flags.bits.sf=result1;
+
+#define set_zf(patient)\
+	        if(patient==0){ \
+	                cpu.flags.bits.zf=1; \
+	        }else{ \
+	                cpu.flags.bits.zf=0; \
+	        }
+
+#define set_pf(patient)\
+	        result1=(patient)&(0xff); \
+	        if((result1==0)||(result1==3)||(result1==5)||(result1==6)||(result1==9)||(result1==10)||(result1==12)||(result1==15)) \
+	                cpu.flags.bits.pf=1; \
+	        else \
+	                cpu.flags.bits.pf=0;
+
 #endif
