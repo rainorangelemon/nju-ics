@@ -89,7 +89,7 @@ extern char assembly[];
         }else if(DATA_BYTE==2){ \
                 unsigned int result6=doctor+patient+cin;\
 		unsigned int result7=((result6)<<15)>>15; \
-                cpu.flags.bits.cf=result6^cin; \
+                cpu.flags.bits.cf=result7^cin; \
         }else if(DATA_BYTE==4){ \
                 unsigned long long doctor1=doctor; \
 		unsigned long long patient1=patient; \
