@@ -3,8 +3,13 @@
 #define instr push
 
 static void do_execute() {
-	reg_l(R_ESP)=reg_l(R_ESP)-2;
-	MEM_W(reg_l(R_ESP),reg_l(op_src->reg));	
+	if(ops_decoded.is_operand_size_16==true){
+		reg_l(R_ESP)=reg_l(R_ESP)-2;
+		MEM_W(reg_l(R_ESP),op_src->val);
+	}else{
+		reg_l(R_ESP)=reg_l(R_ESP)-4;
+		MEM_W(reg_l(R_ESP),op_src->val);
+	}	
 	print_asm_template1();
 }
 
