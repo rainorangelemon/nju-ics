@@ -11,11 +11,11 @@ make_helper(ret_c3){
 		reg_l(R_ESP)=reg_l(R_ESP)+4;
 		cpu.eip=val;
 	}
-	return 1;
+	return 0;
 }
 
 make_helper(ret_c2){
-        int len=decode_i_w(eip+1);
+        decode_i_w(eip+1);
 	if(ops_decoded.is_operand_size_16==true){
 		int val=swaddr_read(reg_l(R_ESP),2);
                 reg_l(R_ESP)=reg_l(R_ESP)+2;
@@ -27,5 +27,5 @@ make_helper(ret_c2){
                 cpu.eip=val;
         }
 	reg_l(R_ESP)=reg_l(R_ESP)+op_src->val;
-        return len+1;
+        return 0;
 }
