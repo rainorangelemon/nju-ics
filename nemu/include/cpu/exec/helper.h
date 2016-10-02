@@ -32,19 +32,21 @@ extern char assembly[];
 #define print_asm_template3() \
 	print_asm(str(instr) str(SUFFIX) " %s,%s,%s", op_src->str, op_src2->str, op_dest->str)
 
-#define set_of(doctor,patient) \
-	unsigned int result1=0; \
-	result1=doctor+patient; \
+#define set_of(doctor,patient,DATA_BYTE,cin) \
 	if(DATA_BYTE==1){ \
+	        unsigned int result1=doctor+patient+cin; \
 		unsigned int result2=(result1&0xff)>>7; \
 		unsigned int result3=((result1)<<23)>>23; \
 		cpu.flags.bits.of=result2^result3; \
 	}else if(DATA_BYTE==2){ \
-                unsigned int result2=((result1&0xffff))>>15; \
+		unsigned int result1=doctor+patient+cin; \
+		unsigned int result2=((result1&0xffff))>>15; \
                 unsigned int result3=((result1)<<15)>>15; \
                 cpu.flags.bits.of=result2^result3; \
 	}else if(DATA_BYTE==4){ \
-		unsigned long long result4=result1; \
+		unsigned long long doctor2=doctor; \
+                unsigned long long patient2=patient; \
+                unsigned long long result4=doctor2+patient2+cin; \
                 unsigned long long result2=((result4)&(0x0000ffff))>>31; \
                 unsigned long long result3=(((result4)&(0xffff0000))<<31)>>31; \
                 cpu.flags.bits.of=result2^result3; \
@@ -53,11 +55,14 @@ extern char assembly[];
 #define set_sf(patient,DATA_BYTE) \
 	unsigned int result5; \
 	if(DATA_BYTE==1){ \
-		result5=patient>>7; \
+		result5=patient&0xff; \
+		result5=result5>>7; \
 	}else if(DATA_BYTE==2){ \
-		result5=patient>>15; \
+		result5=patient&0xffff; \
+		result5=result5>>15; \
 	}else if(DATA_BYTE==4){ \
-	        result5=patient>>31; \
+	        result5=patient&0xffffffff; \
+		result5=result5>>31; \
 	} \
 	cpu.flags.bits.sf=result5;
 
@@ -75,7 +80,31 @@ extern char assembly[];
 	        else \
 	                cpu.flags.bits.pf=0;
 
-//#define set_cf(doctor,patient,cin,DATA_BYTE) 
-//	static unsigned int result1=
+
+#define set_cf(doctor,patient,cin,DATA_BYTE) \
+        if(DATA_BYTE==1){ \
+        	unsigned int result6=doctor+patient+cin; \
+		unsigned int result7=((result6)<<23)>>23; \
+                cpu.flags.bits.cf=result7^cin; \
+        }else if(DATA_BYTE==2){ \
+                unsigned int result6=doctor+patient+cin;\
+		unsigned int result7=((result6)<<15)>>15; \
+                cpu.flags.bits.cf=result6^cin; \
+        }else if(DATA_BYTE==4){ \
+                unsigned long long doctor1=doctor; \
+		unsigned long long patient1=patient; \
+		unsigned long long result8=doctor1+patient1; \
+                result8=result8+cin; \
+		unsigned long long result7=((result8)<<31)>>31; \
+                cpu.flags.bits.cf=result7^cin; \
+        }
+
+#define set_af(doctor,patient,cin) \
+		int doctor3=(doctor)&0xf; \
+		int patient3=(patient)&0xf; \
+		int result9=doctor3+patient3+cin; \
+		int result10=result9>>4; \
+		int result11=(result9&0xf)>>3; \
+		cpu.flags.bits.af=result10^result11;
 
 #endif
