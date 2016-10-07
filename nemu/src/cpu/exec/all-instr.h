@@ -8,6 +8,7 @@
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
 #include "data-mov/movsx.h"
+#include "data-mov/movzx.h"
 
 #include "data-trans/push.h"
 #include "data-trans/pop.h"
