@@ -3,6 +3,7 @@
 #include "ctrl-trans/call.h"
 #include "ctrl-trans/jcc.h"
 #include "ctrl-trans/ret.h"
+#include "ctrl-trans/leave.h"
 
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
