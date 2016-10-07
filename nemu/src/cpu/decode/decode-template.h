@@ -35,8 +35,12 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	
 	//panic("please implement me");
 
-	op_src->simm=(DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
-
+	if(DATA_BYTE==4)
+		op_src->simm=(DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
+	else if(ops_decoded.is_operand_size_16)
+		op_src->simm=(int)(int16_t)(uint16_t)instr_fetch(eip,DATA_BYTE);
+	else
+		op_src->simm=(int)(int8_t)(uint8_t)instr_fetch(eip,DATA_BYTE);
 	op_src->val = op_src->simm;
 
 #ifdef DEBUG
