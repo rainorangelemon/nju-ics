@@ -34,7 +34,7 @@ make_group(group1_sx_v,
 
 /* 0x8f */
 make_group(group2_7,
-	pop_i_v, inv, inv, inv,
+	pop_rm_v, inv, inv, inv,
         inv, inv, inv, inv)
 
 /* 0xc0 */
