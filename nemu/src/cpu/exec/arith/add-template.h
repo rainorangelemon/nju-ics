@@ -19,7 +19,7 @@ static void do_execute (){
 		set_sf(sum,2);
 		set_zf(sum);
 		set_pf(sum);
-		set_cf(op_dest->val,op_src->val,0,1);
+		set_cf(op_dest->val,op_src->val,0,2);
 		set_af(op_dest->val,op_src->val,0);
 	}else if(DATA_BYTE==4){
 		int32_t sum=op_dest->val+op_src->val;
