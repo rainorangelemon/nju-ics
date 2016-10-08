@@ -21,7 +21,7 @@ make_helper(concat(decode_i_, SUFFIX)) {
 	return DATA_BYTE;
 }
 
-#if DATA_BYTE == 1 || DATA_BYTE == 4
+//#if DATA_BYTE == 1 || DATA_BYTE == 4
 /* sign immediate */
 make_helper(concat(decode_si_, SUFFIX)) {
 	op_src->type = OP_TYPE_IMM;
@@ -35,12 +35,12 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	
 	//panic("please implement me");
 
-	if(DATA_BYTE==4)
-		op_src->simm=(DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
-	else if(ops_decoded.is_operand_size_16)
+	if(op_src->size==2)
 		op_src->simm=(int)(int16_t)(uint16_t)instr_fetch(eip,DATA_BYTE);
-	else
+	else if(op_src->size==1)
 		op_src->simm=(int)(int8_t)(uint8_t)instr_fetch(eip,DATA_BYTE);
+	else
+		op_src->simm=(DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
 	op_src->val = op_src->simm;
 
 #ifdef DEBUG
@@ -48,7 +48,7 @@ make_helper(concat(decode_si_, SUFFIX)) {
 #endif
 	return DATA_BYTE;
 }
-#endif
+//#endif
 
 /* eAX */
 static int concat(decode_a_, SUFFIX) (swaddr_t eip, Operand *op) {
