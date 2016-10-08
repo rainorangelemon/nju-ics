@@ -7,8 +7,12 @@ static void do_execute () {
 	OPERAND_W(op_dest, result);
 
 	/* TODO: Update EFLAGS. */
-	panic("please implement me");
-
+        cpu.flags.bits.cf=0;
+        cpu.flags.bits.of=0;
+        set_sf(result,DATA_BYTE);
+        set_zf(result);
+        set_pf(result);
+        /* I assume af to be unchanged */
 	print_asm_template2();
 }
 
