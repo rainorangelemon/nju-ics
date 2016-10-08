@@ -88,18 +88,18 @@ extern char assembly[];
 #define set_cf(doctor,patient,cin,DATA_BYTE) \
         if(DATA_BYTE==1){ \
         	unsigned int result6=doctor+patient+cin; \
-		unsigned int result7=((result6)<<23)>>23; \
+		unsigned int result7=((result6)<<23)>>31; \
                 cpu.flags.bits.cf=result7^cin; \
         }else if(DATA_BYTE==2){ \
                 unsigned int result6=doctor+patient+cin;\
-		unsigned int result7=((result6)<<15)>>15; \
+		unsigned int result7=((result6)<<15)>>31; \
                 cpu.flags.bits.cf=result7^cin; \
         }else if(DATA_BYTE==4){ \
                 unsigned long long doctor1=doctor; \
 		unsigned long long patient1=patient; \
 		unsigned long long result8=doctor1+patient1; \
                 result8=result8+cin; \
-		unsigned long long result7=((result8)<<31)>>31; \
+		unsigned long long result7=((result8)<<31)>>63; \
                 cpu.flags.bits.cf=result7^cin; \
         }
 
