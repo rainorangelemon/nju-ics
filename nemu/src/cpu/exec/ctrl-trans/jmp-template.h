@@ -11,15 +11,14 @@ make_helper(concat(jmp_rel_,SUFFIX)){
 	return len+1;
 }
 
-#if ((DATA_TYPE==2) || (DATA_TYPE==4))
 make_helper(concat(jmp_rm_,SUFFIX)){
-	int len=concat(decode_rm,SUFFIX)(eip+1);
+	concat(decode_rm_,SUFFIX)(eip+1);
 	if(ops_decoded.is_operand_size_16==true)
 		cpu.eip=(op_src->val)&0xffff;
 	else
 		cpu.eip=op_src->val;
 	return 0;
 }
-#endif
+
 
 #include "cpu/exec/template-end.h"
