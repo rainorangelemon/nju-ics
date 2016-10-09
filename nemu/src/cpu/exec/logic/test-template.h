@@ -3,7 +3,7 @@
 #define instr test
 
 static void do_execute (){
-	unsigned int result = (op_src->val)&(op_dest->val);
+	DATA_TYPE result = (op_src->val)&(op_dest->val);
 	set_sf(result,DATA_BYTE);
 	set_zf(result);
 	set_pf(result);
