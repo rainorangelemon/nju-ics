@@ -95,8 +95,8 @@ extern char assembly[];
 		unsigned int result7=((result6)<<15)>>31; \
                 cpu.flags.bits.cf=result7^cin; \
         }else if(DATA_BYTE==4){ \
-                unsigned long long doctor1=doctor; \
-		unsigned long long patient1=patient; \
+                unsigned long long doctor1=(uint32_t)doctor; \
+		unsigned long long patient1=(uint32_t)patient; \
 		unsigned long long result8=doctor1+patient1; \
                 result8=result8+cin; \
 		unsigned long long result7=((result8)<<31)>>63; \
