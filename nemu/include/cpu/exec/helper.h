@@ -81,9 +81,9 @@ extern char assembly[];
 	        else \
 	                cpu.flags.bits.pf=0; \
 	        if((result13==0)||(result13==3)||(result13==5)||(result13==6)||(result13==9)||(result13==10)||(result13==12)||(result13==15)) \
-	                cpu.flags.bits.pf=~(cpu.flags.bits.pf); \
+	                cpu.flags.bits.pf=(cpu.flags.bits.pf); \
 	        else \
-	                cpu.flags.bits.pf=cpu.flags.bits.pf;
+	                cpu.flags.bits.pf=~(cpu.flags.bits.pf);
 
 #define set_cf(doctor,patient,cin,DATA_BYTE) \
         if(DATA_BYTE==1){ \
