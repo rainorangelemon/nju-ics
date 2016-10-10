@@ -3,7 +3,7 @@
 #define instr call
 
 make_helper(concat(call_rel_,SUFFIX)){
-	int len=concat(decode_si_,SUFFIX)(eip+1);
+	int len=(DATA_TYPE_S)concat(decode_i_,SUFFIX)(eip+1);
 	if(ops_decoded.is_operand_size_16==true){
 		reg_l(R_ESP)=reg_l(R_ESP)-2;
 		uint16_t ip=(cpu.eip+DATA_BYTE+1)&(0x0000ffff);
