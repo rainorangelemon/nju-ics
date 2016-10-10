@@ -12,6 +12,7 @@ static void do_execute(){
 		IncDec=-DATA_BYTE;	
 	}
 	reg_l(R_ESI)=reg_l(R_ESI)+IncDec;
+	print_asm(str(instr));
 }
 
 make_helper(concat3(instr,_,SUFFIX)){
