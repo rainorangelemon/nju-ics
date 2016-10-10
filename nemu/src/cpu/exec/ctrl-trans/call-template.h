@@ -12,6 +12,7 @@ make_helper(concat(call_rel_,SUFFIX)){
 	}else{
 		reg_l(R_ESP)=reg_l(R_ESP)-4;
 		MEM_W(reg_l(R_ESP),cpu.eip+DATA_BYTE+1);
+		printf("%x",op_src->val);
 		cpu.eip=cpu.eip+op_src->val;
 	}
 	print_asm_template1();
