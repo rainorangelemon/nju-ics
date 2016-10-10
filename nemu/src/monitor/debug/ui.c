@@ -180,6 +180,15 @@ static int cmd_dw(char *args){
 	return 0;
 }
 
+static int cmd_flag(){
+	printf("cf: %d\n",cpu.flags.bits.cf);
+	printf("pf: %d\n",cpu.flags.bits.pf);
+	printf("zf: %d\n",cpu.flags.bits.zf);
+	printf("sf: %d\n",cpu.flags.bits.sf);
+	printf("of: %d\n",cpu.flags.bits.of);
+	return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -196,6 +205,7 @@ static struct {
 	{"p","Caculate the exper",cmd_p},
 	{"w","Create a watchpoint",cmd_w},
 	{"d","Delete a watchpoint",cmd_dw},
+	{"flags","Print Flags",cmd_flag},
 
 
 	/* TODO: Add more commands */
