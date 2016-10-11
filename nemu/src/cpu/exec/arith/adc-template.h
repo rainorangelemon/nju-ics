@@ -36,8 +36,8 @@ static void do_execute (){
 		set_zf(sum);
 		set_pf(sum);
 		set_af(op_dest->val,op_src->val,cpu.flags.bits.cf);	
-		unsigned long long doctor1=op_dest->val; 
-                unsigned long long patient1=op_src->val; 
+		unsigned long long doctor1=(uint32_t)op_dest->val; 
+                unsigned long long patient1=(uint32_t)op_src->val; 
                 unsigned long long result8=doctor1+patient1; 
                 result8=result8+cpu.flags.bits.cf; 
                 unsigned long long result7=((result8)<<31)>>63; 
