@@ -8,7 +8,7 @@ static void do_execute() {
 		MEM_W(reg_l(R_ESP),op_src->val);
 	}else{
 		reg_l(R_ESP)=reg_l(R_ESP)-4;
-		MEM_W(reg_l(R_ESP),op_src->val);
+		swaddr_write(reg_l(R_ESP),4,op_src->val);
 	}	
 	print_asm_template1();
 }
