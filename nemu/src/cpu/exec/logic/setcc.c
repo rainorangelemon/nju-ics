@@ -1,5 +1,7 @@
 #include "cpu/exec/helper.h"
 
+#define instr set
+
 #define setcc_helper(name,condition) \
 make_helper(concat(set,name)){ \
 	int len1=decode_rm_b(eip+1); \
@@ -44,3 +46,4 @@ setcc_helper(s,cpu.flags.bits.sf==1)
 setcc_helper(z,cpu.flags.bits.zf==1)
 
 #undef setcc_helper
+#undef instr

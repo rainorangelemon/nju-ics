@@ -2,6 +2,8 @@
 
 #include "cpu/decode/modrm.h"
 
+#define instr movsx
+
 make_helper(movsx_rmb2r_w){
 	op_src->size = 1;
 	int len = read_ModR_M(eip+1, op_src, op_dest);
@@ -31,3 +33,5 @@ make_helper(movsx_rmw2r){
 	print_asm_template2();
 	return len+1;
 }
+
+#undef instr
