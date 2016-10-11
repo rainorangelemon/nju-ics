@@ -47,8 +47,8 @@ extern char assembly[];
 		unsigned long long doctor2=(uint32_t)doctor; \
                 unsigned long long patient2=(uint32_t)patient; \
                 unsigned long long result4=doctor2+patient2+cin; \
-                unsigned long long result2=((result4)&(0x0000ffff))>>31; \
-                unsigned long long result3=(((result4)&(0xffff0000))<<31)>>63; \
+                unsigned long long result2=((result4)&(0xffffffff))>>31; \
+                unsigned long long result3=(result4<<31)>>63; \
                 cpu.flags.bits.of=result2^result3; \
 	}
 
