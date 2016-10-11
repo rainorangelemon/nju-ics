@@ -1,5 +1,7 @@
 #include "cpu/exec/template-start.h"
 
+#define instr jcc
+
 #define jcc_helper(name,condition) \
 make_helper(concat4(j,name,_,SUFFIX)) { \
 	int len=concat(decode_si_,SUFFIX) (eip+1); \
