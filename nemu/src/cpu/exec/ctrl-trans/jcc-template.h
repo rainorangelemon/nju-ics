@@ -4,7 +4,7 @@
 
 #define jcc_helper(name,condition) \
 make_helper(concat4(j,name,_,SUFFIX)) { \
-	int len=instr_fetch(eip+1,DATA_BYTE); \
+	int len=(int32_t)(DATA_TYPE_S)instr_fetch(eip+1,DATA_BYTE); \
 	if(condition){ \
 		cpu.eip=cpu.eip+op_src->val; \
 	} \
