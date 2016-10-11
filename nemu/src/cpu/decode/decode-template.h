@@ -40,7 +40,7 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	else if(op_src->size==1)
 		op_src->simm=(int)(int8_t)(uint8_t)instr_fetch(eip,DATA_BYTE);
 	else
-		op_src->simm=instr_fetch(eip,DATA_BYTE);
+		op_src->simm=(DATA_TYPE)instr_fetch(eip,DATA_BYTE);
 	op_src->val = op_src->simm;
 
 #ifdef DEBUG
