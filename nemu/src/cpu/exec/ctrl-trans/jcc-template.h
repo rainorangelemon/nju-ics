@@ -8,6 +8,7 @@ make_helper(concat4(j,name,_,SUFFIX)) { \
 	} \
 	if(ops_decoded.is_operand_size_16==true) \
 		cpu.eip=((cpu.eip+len+1)&(0xffff))-len-1; \
+	print_asm_template1(); \
 	return len+1; \
 }
 
