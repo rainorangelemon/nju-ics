@@ -34,21 +34,20 @@ extern char assembly[];
 
 #define set_of(doctor,patient,DATA_BYTE,cin) \
 	if(DATA_BYTE==1){ \
-	        unsigned int result1=(uint32_t)doctor+(uint32_t)patient+cin; \
-		unsigned int result2=(result1&0xff)>>7; \
-		unsigned int result3=((result1)<<23)>>31; \
+	        unsigned int result1=((((uint32_t)(uint8_t)doctor)<<25)>>25)+((((uint32_t)(uint8_t)patient)<<25)>>25)+cin; \
+		unsigned int result2=((uint32_t)(uint8_t)doctor+(uint32_t)(uint8_t)patient+cin)>>8; \
+		unsigned int result3=(result1)>>7; \
 		cpu.flags.bits.of=result2^result3; \
 	}else if(DATA_BYTE==2){ \
-		unsigned int result1=(uint32_t)doctor+(uint32_t)patient+cin; \
-		unsigned int result2=((result1&0xffff))>>15; \
-                unsigned int result3=((result1)<<15)>>31; \
+		unsigned int result1=((((uint32_t)(uint16_t)doctor)<<17)>>17)+((((uint32_t)(uint16_t)patient)<<17)>>17)+cin; \
+		unsigned int result2=((uint32_t)(uint16_t)doctor+(uint32_t)(uint16_t)patient+cin)>>15; \
+                unsigned int result3=(result1)>>15; \
                 cpu.flags.bits.of=result2^result3; \
 	}else if(DATA_BYTE==4){ \
-		unsigned long long doctor2=(uint32_t)doctor; \
-                unsigned long long patient2=(uint32_t)patient; \
-                unsigned long long result4=doctor2+patient2+cin; \
-                unsigned long long result2=((result4)&(0xffffffff))>>31; \
-                unsigned long long result3=(result4<<31)>>63; \
+		unsigned long long doctor2=(uint64_t)(uint32_t)doctor; \
+                unsigned long long patient2=(uint64_t)(uint32_t)patient; \
+                unsigned long long result2=(((doctor2<<33)>>33)+((patient2<<33)>>33)+cin)>>31; \
+                unsigned long long result3=(doctor2+patient2+cin)>>32; \
                 cpu.flags.bits.of=result2^result3; \
 	}
 
