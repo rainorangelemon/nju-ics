@@ -4,12 +4,12 @@
 
 #define jcc_helper(name,condition) \
 make_helper(concat4(j,name,_,SUFFIX)) { \
-	int len=(int32_t)(DATA_TYPE_S)instr_fetch(eip+1,DATA_BYTE); \
+	op_src->val=(int32_t)(DATA_TYPE_S)instr_fetch(eip+1,DATA_BYTE); \
 	if(condition){ \
 		cpu.eip=cpu.eip+op_src->val; \
 	} \
 	if(ops_decoded.is_operand_size_16==true) \
-		cpu.eip=((cpu.eip+len+1)&(0xffff))-len-1; \
+		cpu.eip=((cpu.eip+DATA_BYTE+1)&(0xffff))-DATA_BYTE-1; \
 	print_asm_template1(); \
 	return DATA_BYTE+1; \
 }
