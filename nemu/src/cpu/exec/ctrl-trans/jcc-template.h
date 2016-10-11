@@ -11,7 +11,7 @@ make_helper(concat4(j,name,_,SUFFIX)) { \
 	if(ops_decoded.is_operand_size_16==true) \
 		cpu.eip=((cpu.eip+len+1)&(0xffff))-len-1; \
 	print_asm_template1(); \
-	return len+1; \
+	return DATA_BYTE+1; \
 }
 
 jcc_helper(a,(cpu.flags.bits.cf==0)&&(cpu.flags.bits.zf==0))
