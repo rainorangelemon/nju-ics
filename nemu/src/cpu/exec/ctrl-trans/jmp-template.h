@@ -3,13 +3,13 @@
 #define instr jmp
 
 make_helper(concat(jmp_rel_,SUFFIX)){
-	op_src->val=(DATA_TYPE_S)instr_fetch(eip+1,DATA_BYTE);
+	int len=concat(decode_si_,SUFFIX)(eip+1);
 	cpu.eip=cpu.eip+op_src->val;
 	if(ops_decoded.is_operand_size_16==true){
 		cpu.eip=cpu.eip&0xffff;
 	}
 	print_asm_template1();
-	return DATA_BYTE+1;
+	return len+1;
 }
 
 #if ((DATA_BYTE==2) || (DATA_BYTE==4))
