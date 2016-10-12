@@ -50,7 +50,7 @@ FLOAT f2F(float a) {
 			unsigned int expr1 : 8;
 			unsigned int number1 : 23;
 		}bits;
-		int floating;
+		float floating;
 	}transfer;
 	int expr;
 	transfer.floating=a;
