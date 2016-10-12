@@ -1,8 +1,12 @@
 #include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	nemu_assert(0);
-	return 0;
+	long long unsigned int result;
+	long long unsigned int a1=a;
+	long long unsigned int b1=b;
+	result=a1*a2;
+	result=result>>16;
+	return (int)result;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
@@ -23,9 +27,9 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-
-	nemu_assert(0);
-	return 0;
+	long long int a1=(long long int)(a)<<32;
+	int a2=b;
+	return a1/a2;
 }
 
 FLOAT f2F(float a) {
