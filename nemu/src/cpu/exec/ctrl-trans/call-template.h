@@ -19,15 +19,15 @@ make_helper(concat(call_rel_,SUFFIX)){
 }
 
 make_helper(concat(call_rm_,SUFFIX)){
-	concat(decode_rm_,SUFFIX)(eip+1);
+	int len=concat(decode_rm_,SUFFIX)(eip+1);
 	if(ops_decoded.is_operand_size_16==true){
 		reg_l(R_ESP)=reg_l(R_ESP)-2;
-		uint16_t ip=(cpu.eip+2)&(0x0000ffff);
+		uint16_t ip=(cpu.eip+len+1)&(0x0000ffff);
 		MEM_W(reg_l(R_ESP),ip);
 		cpu.eip=((op_src->val)&(0x0000ffff));		
 	}else{
 		reg_l(R_ESP)=reg_l(R_ESP)-4;
-		MEM_W(reg_l(R_ESP),cpu.eip+2);
+		MEM_W(reg_l(R_ESP),cpu.eip+len+1);
 		cpu.eip=op_src->val;
 	}
 	print_asm_template1();
