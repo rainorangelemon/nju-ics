@@ -3,7 +3,7 @@
 #define instr call
 
 make_helper(concat(call_rel_,SUFFIX)){
-	int len=concat(decode_si_,SUFFIX)(eip+1);
+	op_src->val=(DATA_TYPE_S)instr_fetch(eip+1,DATA_BYTE);
 	if(ops_decoded.is_operand_size_16==true){
 		reg_l(R_ESP)=reg_l(R_ESP)-2;
 		uint16_t ip=(cpu.eip+DATA_BYTE+1)&(0x0000ffff);
@@ -15,7 +15,7 @@ make_helper(concat(call_rel_,SUFFIX)){
 		cpu.eip=cpu.eip+op_src->val;
 	}
 	print_asm_template1();
-	return len+1;
+	return DATA_BYTE+1;
 }
 
 make_helper(concat(call_rm_,SUFFIX)){
