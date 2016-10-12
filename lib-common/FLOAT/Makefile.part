@@ -14,8 +14,8 @@ $(FLOAT): $(FLOAT_A_OBJ)
 
 $(FLOAT_O):
 	@mkdir -p obj/lib-common/FLOAT
-	$(CC) -MMD -Wall -Werror -c $(FLOAT_CFLAGS_EXTRA) -o  obj/lib-common/FLOAT/FLOAT.o $(LIB_COMMON_DIR)/FLOAT/FLOAT.c
+	$(CC) -c $(FLOAT_CFLAGS_EXTRA) -o  obj/lib-common/FLOAT/FLOAT.o $(LIB_COMMON_DIR)/FLOAT/FLOAT.c
 
 $(FLOAT_VFPRINTF_O):
 	@mkdir -p obj/lib-common/FLOAT
-	$(CC) -MMD -Wall -Werror -c $(FLOAT_CFLAGS_EXTRA) -o obj/lib-common/FLOAT/FLOAT_vfprintf.o $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c
+	$(CC) -c $(FLOAT_CFLAGS_EXTRA) -o obj/lib-common/FLOAT/FLOAT_vfprintf.o $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c
