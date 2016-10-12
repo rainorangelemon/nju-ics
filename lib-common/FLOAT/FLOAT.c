@@ -2,9 +2,7 @@
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	long long unsigned int result;
-	long long unsigned int a1=a;
-	long long unsigned int b1=b;
-	result=a1*a2;
+	result=(long long)a*(long long)b;
 	result=result>>16;
 	return (int)result;
 }
@@ -27,9 +25,13 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-	long long int a1=(long long int)(a)<<32;
-	int a2=b;
-	return a1/a2;
+	int extend = ((long long int)a)>>32;
+	asm volatile ("idiv %2":"=a"(a),"=d"(extend):"r"(b),"a"(a),"d"(extend));
+	int result=a<<16;
+	a=extend<<16;
+	extend = ((long long int)a)>>32;
+	asm volatile ("idiv %2":"=a"(a),"=d"(extend):"r"(b),"a"(a),"d"(extend));
+	return result+a;
 }
 
 FLOAT f2F(float a) {
@@ -42,14 +44,42 @@ FLOAT f2F(float a) {
 	 * stack. How do you retrieve it to another variable without
 	 * performing arithmetic operations on it directly?
 	 */
-
-	nemu_assert(0);
-	return 0;
+	union Transfer{
+		struct Bits{
+			unsigned int sign : 1;
+			unsigned int expr1 : 8;
+			unsigned int number1 : 23;
+		}bits;
+		int floating;
+	}transfer;
+	int expr;
+	transfer.floating=a;
+	unsigned int number=transfer.bits.number1;
+	if(transfer.bits.expr1!=0){
+		expr=transfer.bits.expr1-127;
+	}else{
+		expr=1-127;
+	}
+	number=number+((1)<<23);
+	if(expr>7){
+		number=(number<<(expr-7));
+	}else if(expr>-17){
+		number=(number>>(7-expr));
+	}
+	if(transfer.bits.sign==1){
+		number=~(number)+1;
+	}
+	return number;
 }
 
 FLOAT Fabs(FLOAT a) {
-	nemu_assert(0);
-	return 0;
+	if((int)a<0){
+		a=((~a)+1);				
+	}
+	if((int)a<0){
+		a=0;
+	}
+	return a;
 }
 
 /* Functions below are already implemented */
