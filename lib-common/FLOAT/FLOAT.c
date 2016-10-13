@@ -50,17 +50,17 @@ FLOAT f2F(float a) {
 		float floating;
 	}transfer;
 	transfer.floating=a;
-	uint32_t expr2=transfer.gg<<1;
+	unsigned int expr2=transfer.gg<<1;
 	expr2=expr2>>24;
-	uint8_t expr = expr2;
+	umsigned int expr = (expr2)&0xff;
 	unsigned int number=(transfer.gg)&(0x7fffff);
 	if(expr!=0){
-		expr=expr-127;
+		expr=(expr-127)&0xff;
 	}else{
-		expr=1-127;
+		expr=(1-127)&0xff;
 	}
 	number=number+(1<<23);
-	number=(number>>((int32_t)7-(int32_t)(int8_t)expr));
+	number=(number>>((int32_t)7-(int)expr));
 	if((transfer.gg>>31)==1){
 		number=-number;
 	}
