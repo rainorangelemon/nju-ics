@@ -3,7 +3,7 @@
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	long long unsigned int result;
 	result=(long long)a*(long long)b;
-	result=result>>16;
+	result=(result>>16);
 	return (int)result;
 }
 
@@ -27,9 +27,10 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 */
 	int extend = ((long long int)a)>>32;
 	asm volatile ("idiv %2":"=a"(a),"=d"(extend):"r"(b),"a"(a),"d"(extend));
-	int result=a<<16;
-	a=extend<<16;
-	extend = ((long long int)a)>>32;
+	int result=(a<<16);
+	long long int m=(long long )extend<<16;
+	extend=(m)>>32;
+	a=(int)m;
 	asm volatile ("idiv %2":"=a"(a),"=d"(extend):"r"(b),"a"(a),"d"(extend));
 	return result+a;
 }
@@ -45,38 +46,32 @@ FLOAT f2F(float a) {
 	 * performing arithmetic operations on it directly?
 	 */
 	union Transfer{
-		struct Bits{
-			unsigned int sign : 1;
-			unsigned int expr1 : 8;
-			unsigned int number1 : 23;
-		}bits;
+		unsigned int gg;
 		float floating;
 	}transfer;
-	int expr;
 	transfer.floating=a;
-	unsigned int number=transfer.bits.number1;
-	if(transfer.bits.expr1!=0){
-		expr=transfer.bits.expr1-127;
+	uint32_t expr2=transfer.gg<<1;
+	expr2=expr2>>24;
+	uint8_t expr = expr2;
+	unsigned int number=(transfer.gg)&(0x7fffff);
+	if(expr!=0){
+		expr=expr-127;
 	}else{
 		expr=1-127;
 	}
-	number=number+((1)<<23);
-	if(expr>7){
-		number=(number<<(expr-7));
-	}else if(expr>-17){
-		number=(number>>(7-expr));
-	}
-	if(transfer.bits.sign==1){
-		number=~(number)+1;
+	number=number+(1<<23);
+	number=(number>>((int32_t)7-(int32_t)(int8_t)expr));
+	if((transfer.gg>>31)==1){
+		number=-number;
 	}
 	return number;
 }
 
 FLOAT Fabs(FLOAT a) {
 	if((int)a<0){
-		a=((~a)+1);				
+		a=-a;				
 	}
-	if((int)a<0){
+	if(a<0){
 		a=0;
 	}
 	return a;
