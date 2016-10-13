@@ -2,17 +2,10 @@
 
 make_helper(cwtl_cltd){
 	if(ops_decoded.is_operand_size_16){
-		if((int16_t)reg_w(R_EAX)<0){
-			reg_w(R_EDX)=0xffff;
-		}else{
-			reg_w(R_EDX)=0;
-		}
+		reg_w(R_EDX)=((int16_t)reg_w(R_EAX))>>15;
 	}else{
-		if((int32_t)reg_l(R_EAX)<0){
-			reg_l(R_EDX)=0xffffffff;
-		}else{
-			reg_l(R_EDX)=0;
-		}
+		reg_l(R_EDX)=((int32_t)reg_l(R_EAX))>>31;
 	}
+	print_asm("cwtl");
 	return 1;
 }
