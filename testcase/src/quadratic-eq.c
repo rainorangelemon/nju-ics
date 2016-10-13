@@ -7,8 +7,8 @@ int main() {
 	FLOAT a = f2F(0.5);
 	nemu_assert(a==0x8000);
 	FLOAT b = f2F(0.5);
-	nemu_assert(b==0xffff8000);
 	FLOAT c = f2F(-0.5);
+	nemu_assert(b==0xffff8000);
 
 	FLOAT dt = F_mul_F(b, b) - F_mul_F(F_mul_int(a, 4), c);
 	nemu_assert(dt==0x14000);
