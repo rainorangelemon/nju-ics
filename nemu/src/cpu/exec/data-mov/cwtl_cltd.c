@@ -2,9 +2,11 @@
 
 make_helper(cwtl_cltd){
 	if(ops_decoded.is_operand_size_16){
-		reg_w(R_EDX)=((int16_t)reg_w(R_EAX))>>15;
+		int16_t bits=reg_w(R_EAX);
+		reg_w(R_EDX)=bits>>15;
 	}else{
-		reg_l(R_EDX)=((int32_t)reg_l(R_EAX))>>31;
+		int32_t bits=reg_l(R_EAX);
+		reg_l(R_EDX)=bits>>31;
 	}
 	print_asm("cwtl");
 	return 1;
