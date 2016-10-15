@@ -4,8 +4,8 @@
 
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 static void do_execute () {
-	DATA_TYPE in = op_src2->val;
-	DATA_TYPE out = op_dest->val;
+	DATA_TYPE in = op_dest->val;
+	DATA_TYPE out = op_src2->val;
 
 	uint8_t count = op_src->val;
 	count &= 0x1f;
