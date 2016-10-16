@@ -13,8 +13,12 @@ swaddr_t find_address(char *variable){
 	int i;
 	for(i=0;i<nr_symtab_entry;i++){
 		if(ELF32_ST_TYPE(symtab[i].st_info)==STT_OBJECT){
-			if(strcmp(strtab+symtab[i].st_name,variable)==0)
-				return symtab[i].st_value;
+			if(strcmp(strtab+symtab[i].st_name,variable)==0){
+				if(i==nr_symtab_entry-1)
+					return symtab[i].st_value;
+				else if((symtab[i+1].st_name-symtab[i].st_name)==strlen(variable))
+					return symtab[i].st_value;
+			}
 		}
 	}
 	return -1;
