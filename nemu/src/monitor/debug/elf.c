@@ -16,7 +16,7 @@ swaddr_t find_address(char *variable){
 			if(strcmp(strtab+symtab[i].st_name,variable)==0){
 				if(i==nr_symtab_entry-1)
 					return symtab[i].st_value;
-				else if((symtab[i+1].st_name-symtab[i].st_name)==strlen(variable))
+				else if((symtab[i+1].st_name-symtab[i].st_name-1)==strlen(variable))
 					return symtab[i].st_value;
 			}
 		}
