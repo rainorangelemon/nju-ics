@@ -6,8 +6,10 @@
 #include <sys/types.h>
 #include <regex.h>
 
+swaddr_t find_address(char *variable);
+
 enum {
-	NOTYPE=256, EQ=0, DEC=1, HEX=2, NEQ=3, DEREF=4, LO_AND=5, LO_OR=6, NEG=7
+	NOTYPE=256, EQ=0, DEC=1, HEX=2, NEQ=3, DEREF=4, LO_AND=5, LO_OR=6, NEG=7, VARIABLE=8
 
 	/* TODO: Add more token types */
 
@@ -21,6 +23,7 @@ static struct rule {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
+	{"[_a-zA-Z]+[_a-zA-Z0-9]*",VARIABLE},
 	{"\\$[a-zA-Z]+",'$'},		//find the register
 	{"0[xX][0-9a-fA-F]+",HEX},			//12 number
 	{"[0-9]+",DEC},			//10 number
@@ -92,6 +95,16 @@ static bool make_token(char *e) {
 				//printf("position:%d type:%d\n",position-substr_len,rules[i].token_type);  ///for debug
 				switch(rules[i].token_type) {
 					case NOTYPE:
+						break;
+					case VARIABLE:
+						if(substr_len>31){
+							printf("too long variable!\n");
+							return false;
+						}
+						tokens[nr_token].type=rules[i].token_type;
+						strncpy(tokens[nr_token].str,substr_start,substr_len);
+						tokens[nr_token].str[substr_len]='\0';
+						nr_token++;
 						break;
 					case DEC:
 						if(substr_len>10){
@@ -311,6 +324,15 @@ uint32_t eval(int p,int q){
 			case '$':
 				read_register(tokens[p].str,&eval_number);
 				break;
+			case VARIABLE:
+				eval_number=find_address(tokens[p].str);
+				if(eval_number==-1){
+					printf("variable not found!\n");
+					return 0;
+					break;
+				}else{
+					return eval_number;
+				}
 			default:
 				break;
 		}

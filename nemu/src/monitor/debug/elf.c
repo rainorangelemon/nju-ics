@@ -8,6 +8,18 @@ static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
+
+swaddr_t find_address(char *variable){
+	int i;
+	for(i=0;i<nr_symtab_entry;i++){
+		if(ELF32_ST_TYPE(symtab[i].st_info)==STT_OBJECT){
+			if(strcmp(strtab+symtab[i].st_name,variable)==0)
+				return symtab[i].st_value;
+		}
+	}
+	return -1;
+}
+
 void load_elf_tables(int argc, char *argv[]) {
 	int ret;
 	Assert(argc == 2, "run NEMU with format 'nemu [program]'");
