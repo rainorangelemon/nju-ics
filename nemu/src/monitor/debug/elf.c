@@ -8,6 +8,26 @@ static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
+bool find_func(int eip, int maximum,char *func_name,int *address){
+	int i;
+	for(i=0;i<nr_symtab_entry;i++){
+		if(ELF32_ST_TYPE(symtab[i].st_info)==STT_FUNC){
+			if((eip>=symtab[i].st_value)&&(eip<(symtab[i].st_value+symtab[i].st_size))){
+				char *start=strtab+symtab[i].st_name;
+				int len=strlen(start);
+				if(len>=maximum){
+					break;
+				}else{
+					strncpy(func_name,start,len);
+					func_name[len]='\0';
+					*address=symtab[i].st_value;
+					return 1;
+				}
+			}
+		}
+	}
+	return 0;
+}
 
 swaddr_t find_address(char *variable){
 	int i;

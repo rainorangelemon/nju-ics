@@ -191,6 +191,36 @@ static int cmd_flag(){
 
 static int cmd_help(char *args);
 
+bool find_func(int eip,int maximum,char *func_name,int *address);
+
+static int cmd_bt(){
+	swaddr_t eip=cpu.eip;
+	swaddr_t ebp=cpu.ebp;
+	int case_number=0;
+	while(ebp!=0){
+		int maximum=100;
+		char function[100];
+		int addr;
+		bool success = find_func(eip,maximum,function,&addr);
+		if(success==0){
+			printf("Unknown eip address.\n");
+			return 0;
+		}else{
+			printf("case %d:  ",case_number);
+			printf("address 0x%x ",addr);
+			printf("name %s ",function);
+			int i;
+			for(i=0;i<4;i++)
+				printf("args %d 0x%x",i,swaddr_read(ebp+8+4*i,4));
+		}
+		printf("\n");
+		eip = swaddr_read(ebp+4,4);
+		ebp = swaddr_read(ebp,4);
+		case_number++;
+	}
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -206,7 +236,7 @@ static struct {
 	{"w","Create a watchpoint",cmd_w},
 	{"d","Delete a watchpoint",cmd_dw},
 	{"flags","Print Flags",cmd_flag},
-
+	{"bt","Print the Stack Frame Chain",cmd_bt},
 
 	/* TODO: Add more commands */
 
