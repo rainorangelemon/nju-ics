@@ -211,7 +211,7 @@ static int cmd_bt(){
 			printf("name %s ",function);
 			int i;
 			for(i=0;i<4;i++)
-				printf("args %d 0x%x",i,swaddr_read(ebp+8+4*i,4));
+				printf("args %d 0x%x   ",i,swaddr_read(ebp+8+4*i,4));
 		}
 		printf("\n");
 		eip = swaddr_read(ebp+4,4);
