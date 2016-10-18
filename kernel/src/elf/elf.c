@@ -45,16 +45,17 @@ uint32_t loader() {
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			int i=ph->p_offset;		       	
-			for(;i<ph->offset+ph->p_filesz;i++){
-				ramdisk_read(buf[i],i+ph->p_vaddr-ph->p_offset,1);
+			for(;i<ph->p_offset+ph->p_filesz;i++){
+				ramdisk_read(&buf[i],i+ph->p_vaddr-ph->p_offset,1);
 			}
 			
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-			int i=ph->p_filesz;		       	
+			i=ph->p_filesz;
+			uint8_t zero=0;			
 			for(;i<ph->p_memsz;i++){
-				ramdisk_read(0,i+ph->p_vaddr,1);
+				ramdisk_read(&zero,i+ph->p_vaddr,1);
 			}
 
 #ifdef IA32_PAGE
