@@ -31,7 +31,7 @@ uint32_t loader() {
 	elf = (void*)buf;
 
 	/* TODO: fix the magic number with the correct one */
-	const uint32_t elf_magic = 0xBadC0de;
+	const uint32_t elf_magic = 0x7f454c46;
 	uint32_t *p_magic = (void *)buf;
 	nemu_assert(*p_magic == elf_magic);
 
@@ -44,12 +44,18 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			 
-			 
+			int i=ph->p_offset;		       	
+			for(;i<ph->offset+ph->p_filesz;i++){
+				ramdisk_read(buf[i],i+ph->p_vaddr-ph->p_offset,1);
+			}
+			
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-
+			int i=ph->p_filesz;		       	
+			for(;i<ph->p_memsz;i++){
+				ramdisk_read(0,i+ph->p_vaddr,1);
+			}
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
