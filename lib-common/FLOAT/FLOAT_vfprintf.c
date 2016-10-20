@@ -27,6 +27,10 @@ static void modify_vfprintf() {
 	 * hijack.
 	 */
 
+	int *p;
+	p=_vfprintf_internal+0x306;
+	*p=0xfffff8df;
+
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
 		ssize_t nf;
