@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <sys/mman.h>
 #include <stdint.h>
 #include "FLOAT.h"
 
@@ -16,7 +17,8 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 */
 
 	char buf[80];
-	int len = sprintf(buf, "0x%08x", f);
+//	long long new1 = ((long long)((long long)f * 1000000))>>16;
+//	int len = sprintf(buf, "%.6llu", new1);
 	return __stdio_fwrite(buf, len, stream);
 }
 
@@ -27,9 +29,19 @@ static void modify_vfprintf() {
 	 * hijack.
 	 */
 
-	int *p;
-	p=_vfprintf_internal+0x306;
-	*p=0xfffff8df;
+	int p;
+	p=(int)(&_vfprintf_internal)+0x306+1;
+	mprotect((void*)((int)(p-100)&(0xfffff000)),4096*2,PROT_READ | PROT_WRITE | PROT_EXEC);
+	*(uint32_t *)p=*(uint32_t *)p+(int)((int)&format_FLOAT-(int)&_fpmaxtostr);
+
+	p=p-1; ///the start address of call
+	*(uint8_t *)(p-0xa)=0x57;  //the start of fstpt -> push %edi
+	*(uint8_t *)(p-0xb)=0x08;  //the change of sub
+	*(uint16_t *)(p-0x9)=0x9090; //
+	*(uint16_t *)(p-0x15)=0x3a8b;
+	*(uint32_t *)(p-0x13)=0x90909090;
+	*(uint8_t *)(p-0xf)=0x90;
+	
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
