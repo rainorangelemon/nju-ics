@@ -104,8 +104,8 @@ static void modify_ppfs_setargs() {
 	 */
 
 	int p;
-	p=(int)&_ppfs_setargs+0x74;
-	*(uint16_t *)p = 0x2deb;
+	p=(int)&_ppfs_setargs+0x71;
+	*(uint16_t *)p = 0x30eb;
 
 #if 0
 	enum {                          /* C type: */
