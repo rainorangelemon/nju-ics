@@ -102,6 +102,10 @@ static void modify_ppfs_setargs() {
 	 * the modification.
 	 */
 
+	int p;
+	p=(int)&_ppfs_setargs+0x71;
+	*(uint16_t *)p = 0x30eb;
+
 #if 0
 	enum {                          /* C type: */
 		PA_INT,                       /* int */
