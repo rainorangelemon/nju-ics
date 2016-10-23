@@ -14,6 +14,7 @@ static void do_execute(){
 	}
 	reg_l(R_ESI)=reg_l(R_ESI)+IncDec;
 	reg_l(R_EDI)=reg_l(R_EDI)+IncDec;
+	print_asm_template1();
 }
 
 make_helper(concat3(instr,_,SUFFIX)){
