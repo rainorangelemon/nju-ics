@@ -22,7 +22,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	if(new1>0){
 		new1=new1>>16;
 	}else{
-		new1=new1+65535;
+	/*	new1=new1+65535;*/
 		new1=new1>>16;
 	}
 	int len = sprintf(buf,"%lld",new1);
