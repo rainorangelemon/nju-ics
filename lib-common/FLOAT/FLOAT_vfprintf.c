@@ -18,16 +18,14 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 */
 
 	char buf[80];
-	long long new1 = ((long long)(int)f);
 	int len=0;
-	if(new1<0){
-		new1 = -new1;
+	if(f<0){
 		f=-f;
 		len = sprintf(buf,"-"); 		
 	}
-	len = len+sprintf(len+buf,"%u",new1>>16);
+	len = len+sprintf(len+buf,"%u",f>>16);
 	len = len+sprintf(len+buf,".");
-	len = len+sprintf(len+buf,"%.6llu",(((long long)(new1&(0xffff)))*1000000)>>16);
+	len = len+sprintf(len+buf,"%.6llu",((long long)(((long long)(f&(0xffff)))*1000000))>>16);
 	return __stdio_fwrite(buf, len, stream);
 }
 
