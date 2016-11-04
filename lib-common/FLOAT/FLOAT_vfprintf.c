@@ -58,7 +58,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 					        len += sprintf(buf+len, "%.6llu", frac);
 
 							return __stdio_fwrite(buf, len, stream);
-}
+*/}
 
 static void modify_vfprintf() {
 	/* TODO: Implement this function to hijack the formating of "%f"
