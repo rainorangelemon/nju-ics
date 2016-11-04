@@ -21,12 +21,11 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	long long new1 = ((long long)f);
 	int len=0;
 	if(new1<0){
-		f=-f;
 		new1 = -new1;
 		len = sprintf(buf,"-"); 
 		
 	}
-	len = len+sprintf(len+buf,"%u",f>>16);
+	len = len+sprintf(len+buf,"%llu",new1>>16);
 	len = len+sprintf(buf+len,".");
 	uint64_t frac = (uint64_t) (f & 0x0000ffff);
 	    frac *= 1000000;
