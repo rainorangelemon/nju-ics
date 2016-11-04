@@ -23,43 +23,13 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	if(new1<0){
 		new1 = -new1;
 		f=-f;
-		len = sprintf(buf,"-"); 
-		
+		len = sprintf(buf,"-"); 		
 	}
-	len = len+sprintf(len+buf,"%u",f>>16);
-	len = len+sprintf(buf+len,".");
-	len = len+sprintf(buf+len,"%.6llu",(((long long)(new1&(0xffff)))*1000000)>>16);
-	/*int j;
-	for(j=len+1;j>len-6;j--){
-		buf[j]=buf[j-1];
-	}
-	buf[len-6]='.';
-	len=len+1;*/
+	len = len+sprintf(len+buf,"%u",new1>>16);
+	len = len+sprintf(len+buf,".");
+	len = len+sprintf(len+buf,"%.6llu",(((long long)(new1&(0xffff)))*1000000)>>16);
 	return __stdio_fwrite(buf, len, stream);
-	
-	/*char buf[80];
-	int len;
-	if (f < 0){
-					        len = sprintf(buf, "-");
-						        f = -f;
-							    }
-		        else
-				        len = 0;
-
-			    len += sprintf(buf + len, "%u", f >> 16);
-			        len += sprintf(buf + len, ".");
-
-				    uint64_t frac = (uint64_t) (f & 0x0000ffff);
-				        frac *= 1000000;
-					if(frac>0)
-						frac >>= 16;
-					else
-						frac=(frac+65535)>>16;
-
-					        len += sprintf(buf+len, "%.6llu", frac);
-
-							return __stdio_fwrite(buf, len, stream);
-*/}
+}
 
 static void modify_vfprintf() {
 	/* TODO: Implement this function to hijack the formating of "%f"
