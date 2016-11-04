@@ -18,7 +18,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 */
 
 	char buf[80];
-	long long new1 = ((long long)f);
+	long long new1 = ((long long)(int)f);
 	int len=0;
 	if(new1<0){
 		new1 = -new1;
