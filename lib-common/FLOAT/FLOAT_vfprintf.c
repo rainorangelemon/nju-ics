@@ -17,7 +17,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 *         0x00013333    "1.199996"
 	 */
 
-	/*char buf[80];
+	char buf[80];
 	long long new1 = ((long long)((long long)f * 1000000));
 	if(new1>0){
 		new1=new1>>16;
@@ -32,8 +32,8 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	}
 	buf[len-6]='.';
 	len=len+1;
-	return __stdio_fwrite(buf, len, stream);*/
-	char buf[80];
+	return __stdio_fwrite(buf, len, stream);
+	/*char buf[80];
 		int len;
 
 		    if (f < 0)
@@ -54,7 +54,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 					        len += sprintf(buf+len, "%.6llu", frac);
 
 							return __stdio_fwrite(buf, len, stream);
-}
+*/}
 
 static void modify_vfprintf() {
 	/* TODO: Implement this function to hijack the formating of "%f"
