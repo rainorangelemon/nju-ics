@@ -17,7 +17,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 *         0x00013333    "1.199996"
 	 */
 
-	char buf[80];
+	/*char buf[80];
 	long long new1 = ((long long)((long long)f * 1000000));
 	if(new1>0){
 		new1=new1>>16;
@@ -32,7 +32,28 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	}
 	buf[len-6]='.';
 	len=len+1;
-	return __stdio_fwrite(buf, len, stream);
+	return __stdio_fwrite(buf, len, stream);*/
+	char buf[80];
+		int len;
+
+		    if (f < 0)
+			        {
+					        len = sprintf(buf, "-");
+						        f = -f;
+							    }
+		        else
+				        len = 0;
+
+			    len += sprintf(buf + len, "%u", f >> 16);
+			        len += sprintf(buf + len, ".");
+
+				    uint64_t frac = (uint64_t) (f & 0x0000ffff);
+				        frac *= 1000000;
+					    frac >>= 16;
+
+					        len += sprintf(buf+len, "%.6llu", frac);
+
+							return __stdio_fwrite(buf, len, stream);
 }
 
 static void modify_vfprintf() {
@@ -42,7 +63,7 @@ static void modify_vfprintf() {
 	 * hijack.
 	 */
 
-	int p;
+	/*int p;
 	p=(int)(&_vfprintf_internal)+0x306+1;
 //	mprotect((void*)((int)(p-100)&(0xfffff000)),4096*2,PROT_READ | PROT_WRITE | PROT_EXEC);
 	*(uint32_t *)p=*(uint32_t *)p+(int)((int)&format_FLOAT-(int)&_fpmaxtostr);
@@ -55,7 +76,19 @@ static void modify_vfprintf() {
 	*(uint32_t *)(p-0x13)=0x90909090;
 	*(uint8_t *)(p-0xf)=0x90;
 	*(uint16_t *)(p-0x22)=0x9090;
-	*(uint16_t *)(p-0x1e)=0x9090;	
+	*(uint16_t *)(p-0x1e)=0x9090;*/
+	uint32_t p = (uint32_t) &_vfprintf_internal + 0x306;
+#if 0
+	    mprotect((void* ) ((uint32_t) (p - 100) & 0xfffff000), 4096*2, PROT_READ | PROT_WRITE | PROT_EXEC);
+#endif
+
+	        * (int* ) (p+1) += (int) ((void*) &format_FLOAT - (void* ) &_fpmaxtostr);
+		*
+			*     * (uint16_t* ) (p-0x22) = 0x3a8b;
+		*         * (uint16_t* ) (p-0x1e) = 0x3a8b;
+		*             * (unsigned char* ) (p-0xb) = 0x08;
+		*                 * (unsigned char* ) (p-0xa) = 0x57;
+		*                     * (uint16_t* ) (p-0x9) = 0x9090;
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
