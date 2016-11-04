@@ -83,12 +83,11 @@ static void modify_vfprintf() {
 #endif
 
 	        * (int* ) (p+1) += (int) ((void*) &format_FLOAT - (void* ) &_fpmaxtostr);
-		*
-			*     * (uint16_t* ) (p-0x22) = 0x3a8b;
-		*         * (uint16_t* ) (p-0x1e) = 0x3a8b;
-		*             * (unsigned char* ) (p-0xb) = 0x08;
-		*                 * (unsigned char* ) (p-0xa) = 0x57;
-		*                     * (uint16_t* ) (p-0x9) = 0x9090;
+		* (uint16_t* ) (p-0x22) = 0x3a8b;
+		* (uint16_t* ) (p-0x1e) = 0x3a8b;
+		* (unsigned char* ) (p-0xb) = 0x08;
+		* (unsigned char* ) (p-0xa) = 0x57;
+		* (uint16_t* ) (p-0x9) = 0x9090;
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
