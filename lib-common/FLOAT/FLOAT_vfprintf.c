@@ -22,19 +22,14 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	int len=0;
 	if(new1<0){
 		new1 = -new1;
+		f=-f;
 		len = sprintf(buf,"-"); 
 		
 	}
-	len = len+sprintf(len+buf,"%llu",new1>>16);
+	len = len+sprintf(len+buf,"%u",f>>16);
 	len = len+sprintf(buf+len,".");
-	uint64_t frac = (uint64_t) (f & 0x0000ffff);
-	    frac *= 1000000;
-	        frac >>= 16;
-
-		    len += sprintf(buf+len, "%.6llu", frac);
-	
-	/*len = len+sprintf(buf+len,"%.6llu",(((long long)(new1&(0xffff)))*1000000)>>16);
-	*//*int j;
+	len = len+sprintf(buf+len,"%.6llu",(((long long)(new1&(0xffff)))*1000000)>>16);
+	/*int j;
 	for(j=len+1;j>len-6;j--){
 		buf[j]=buf[j-1];
 	}
