@@ -27,7 +27,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	}
 	len = len+sprintf(len+buf,"%u",new1>>16);
 	len = len+sprintf(buf+len,".");
-	len = len+sprintf(buf+len,"%.6llu",(new1&(0xffff)*1000000)>>16);
+	len = len+sprintf(buf+len,"%.6llu",((new1&(0xffff))*1000000)>>16);
 	/*int j;
 	for(j=len+1;j>len-6;j--){
 		buf[j]=buf[j-1];
