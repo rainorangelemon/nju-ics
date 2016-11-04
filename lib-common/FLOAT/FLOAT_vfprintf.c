@@ -21,6 +21,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	long long new1 = ((long long)f);
 	int len=0;
 	if(new1<0){
+		f=-f;
 		new1 = -new1;
 		len = sprintf(buf,"-"); 
 		
