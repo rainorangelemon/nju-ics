@@ -49,7 +49,10 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 
 				    uint64_t frac = (uint64_t) (f & 0x0000ffff);
 				        frac *= 1000000;
-					    frac >>= 16;
+					if(frac>0)
+						frac >>= 16;
+					else
+						frac=(frac+65535)>>16;
 
 					        len += sprintf(buf+len, "%.6llu", frac);
 
@@ -77,18 +80,7 @@ static void modify_vfprintf() {
 	*(uint8_t *)(p-0xf)=0x90;
 	*(uint16_t *)(p-0x22)=0x9090;
 	*(uint16_t *)(p-0x1e)=0x9090;
-/*	uint32_t p = (uint32_t) &_vfprintf_internal + 0x306;
-#if 0
-	    mprotect((void* ) ((uint32_t) (p - 100) & 0xfffff000), 4096*2, PROT_READ | PROT_WRITE | PROT_EXEC);
-#endif
 
-	        * (int* ) (p+1) += (int) ((void*) &format_FLOAT - (void* ) &_fpmaxtostr);
-		* (uint16_t* ) (p-0x22) = 0x3a8b;
-		* (uint16_t* ) (p-0x1e) = 0x3a8b;
-		* (unsigned char* ) (p-0xb) = 0x08;
-		* (unsigned char* ) (p-0xa) = 0x57;
-		* (uint16_t* ) (p-0x9) = 0x9090;
-*/
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
 		ssize_t nf;
