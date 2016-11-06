@@ -23,8 +23,6 @@ typedef uint32_t swaddr_t;
 
 typedef uint16_t ioaddr_t;
 
-volatile static int dummy;
-
 #pragma pack (1)
 typedef union {
 	uint32_t _4;
