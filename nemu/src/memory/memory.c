@@ -153,7 +153,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t result;
 	int zero=0;
 	result=(unalign_rw(piece+zero,4)) & (~0u >> ((4 - len) << 3));
-	printf("read: addr: %u len: %u, result: %u\n",addr,len,result);
+	printf("read: addr: %x len: %u, result: %x\n",addr,len,result);
 	return result;
 }
 
