@@ -158,6 +158,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
+	printf("\n");
+	printf("read: addr: %x len: %u, data: %x\n",addr,len,data);
 	L1_write(addr, len, data);
 }
 
