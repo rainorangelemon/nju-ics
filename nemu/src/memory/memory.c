@@ -111,12 +111,7 @@ void L2_write(uint32_t addr, uint32_t len, uint32_t data){
 	int L2_index=L2_read(addr);
 	memcpy(cache2[L2_index].data+index,&data,len);
 	cache2[L2_index].d=false;
-	int k;
-	int mask_size=BURST_LEN+1;
-	uint8_t mask[mask_size];
-	memset(mask,1,mask_size+1);
-	for(k=0;k<len;k++)
-		ddr3_write(((addr>>6)<<6)+k*BURST_LEN+index, cache2[L2_index].data+index+k*BURST_LEN,mask);
+	dram_write(addr,len,data);
 	return ;
 }
 
