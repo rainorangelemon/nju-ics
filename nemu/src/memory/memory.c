@@ -59,15 +59,15 @@ uint32_t L2_read(uint32_t addr){
 		int mask_size=BURST_LEN+1;
 		uint8_t mask[mask_size];
 		memset(mask,1,mask_size+1);
-		for(k=0;k<(data_size);k++)
-			ddr3_write(((addr>>6)<<6)+k, cache2[i+j].data+k, mask);
+		for(k=0;k<(data_size/BURST_LEN);k++)
+			ddr3_write(((addr>>6)<<6)+k*BURST_LEN, cache2[i+j].data+k*BURST_LEN,mask);
 	}
 	cache2[i+j].d=false;
 	cache2[i+j].v=true;
 	cache2[i+j].tag=addr>>18;
 	int k;
-	for(k=0;k<data_size;k++){
-		ddr3_read(((addr>>6)<<6)+k, cache2[i+j].data+k);
+	for(k=0;k<data_size/BURST_LEN;k++){
+		ddr3_read(((addr>>6)<<6)+k*BURST_LEN, cache2[i+j].data+k*BURST_LEN);
 	}
 	return i+j;
 }
@@ -116,7 +116,7 @@ void L2_write(uint32_t addr, uint32_t len, uint32_t data){
 	uint8_t mask[mask_size];
 	memset(mask,1,mask_size+1);
 	for(k=0;k<len;k++)
-		ddr3_write(((addr>>6)<<6)+k+index, cache2[L2_index].data+index+k ,mask);
+		ddr3_write(((addr>>6)<<6)+k*BURST_LEN+index, cache2[L2_index].data+index+k*BURST_LEN,mask);
 	return ;
 }
 
