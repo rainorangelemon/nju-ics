@@ -56,11 +56,8 @@ uint32_t L2_read(uint32_t addr){
 	}
 	if(cache2[i+j].d==1){
 		int k;
-		int mask_size=BURST_LEN+1;
-		uint8_t mask[mask_size];
-		memset(mask,1,mask_size+1);
-		for(k=0;k<(data_size/BURST_LEN);k++)
-			ddr3_write(((addr>>6)<<6)+k*BURST_LEN, cache2[i+j].data+k*BURST_LEN,mask);
+		for(k=0;k<data_size;k++)
+			dram_write(((addr>>6)<<6)+k, 1,cache2[i+j].data[k]);
 	}
 	cache2[i+j].d=false;
 	cache2[i+j].v=true;
