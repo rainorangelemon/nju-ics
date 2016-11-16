@@ -67,7 +67,7 @@ uint32_t L2_read(uint32_t addr){
 	cache2[i+j].tag=addr>>18;
 	int k;
 	for(k=0;k<data_size;k++){
-		cache2[i+j].data[k]=dram_read(((addr>>6)<<6)+k*2, 2);
+		cache2[i+j].data[k]=dram_read(((addr>>6)<<6)+k, 1);
 	}
 	return i+j;
 }
