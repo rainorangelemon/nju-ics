@@ -148,12 +148,13 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	}else{
 		memcpy(piece,cache1[L1_index].data+index,len);
 	}
-	/*
-	uint32_t result=(unalign_rw(piece,4)) & (~0u >> ((4 - len) << 3));
-	return result;*/
+	/*below needs to change if correct*/
+	printf("\n");
+	uint32_t result;
 	int zero=0;
-	uint32_t tmp = unalign_rw(piece + zero, 4) & (~0u >> ((4 - len) << 3)); 
-	return tmp;
+	result=(unalign_rw(piece+zero,4)) & (~0u >> ((4 - len) << 3));
+	printf("read: addr: %u len: %u, result: %u\n",addr,len,result);
+	return result;
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
