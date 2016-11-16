@@ -15,9 +15,6 @@ void ddr3_write(hwaddr_t, void*,uint8_t*);
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
-
-
-
 struct Cache_L1{
 	bool v;
 	uint32_t tag;
@@ -30,6 +27,16 @@ struct Cache_L2{
 	uint32_t tag;
 	uint8_t data[data_size];
 }cache2[L2_size/data_size];
+
+void cache_initial(){
+        int i;
+        for(i=0;i<L1_size/(data_size);i++){
+        	cache1[i].v = false;
+        }       
+	for(i=0;i<L2_size/(data_size);i ++){
+		cache2[i].v = false;
+	}
+}
 
 uint32_t L2_read(uint32_t addr){
 	uint32_t group_number = (addr >> 6)&(L2_group_number-1); /*if data_size is not 64, here needs to be modified.*/
