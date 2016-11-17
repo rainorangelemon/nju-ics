@@ -9,9 +9,6 @@
 #define L2_way 16
 #define L1_group_number L1_size/(L1_way*data_size)
 #define L2_group_number L2_size/(L2_way*data_size)
-void ddr3_read(hwaddr_t, void*);
-void ddr3_write(hwaddr_t, void*,uint8_t*);
-
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
