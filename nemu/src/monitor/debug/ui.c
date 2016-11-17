@@ -123,13 +123,26 @@ void cmd_x(unsigned int area_size,unsigned int result){
 }
 
 static int cmd_x_total(char *args){	
-	unsigned int area_size;
+	unsigned int area_size=1;
 	char *expr_str = malloc(sizeof(char)*(strlen(args)));
 	bool success=true;
 	printf("here?\n");
-	sscanf(args,"%d %s",&area_size,expr_str);
-        printf("ooo");
-	int result = expr(expr_str,&success);
+        if(args){
+		area_size=0;
+	        while(args&&*args&&*args==' ') 
+			args++;
+	        for (;args && *args &&(*args<='9')&&(*args>='0');args++){
+		        area_size = area_size * 10 + *args - '0';
+		}
+		while (args && *args && *args == ' ') 
+			args++;
+	        if (!args || !*args) {
+		        printf("invalid arguments\n");
+		        return 0;
+	        }
+	}
+	printf("ooo");
+	int result = expr(args,&success);
 	printf("exm?");
 	if(success==false){
 		free(expr_str);
