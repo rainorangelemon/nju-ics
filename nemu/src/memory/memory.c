@@ -54,7 +54,7 @@ uint32_t L2_read(uint32_t addr){
 	if(empty_index==-1){
 		j = (rand() % L2_way); 
 	}
-	if(cache2[i+j].d==1){
+	if((cache2[i+j].d==1)&&(cache2[i+j].v==1)){
 		int k;
 		for(k=0;k<data_size;k++)
 			dram_write(((addr>>6)<<6)+k, 1,cache2[i+j].data[k]);
