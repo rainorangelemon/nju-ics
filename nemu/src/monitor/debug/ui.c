@@ -125,8 +125,8 @@ void cmd_x(unsigned int area_size,unsigned int result){
 static int cmd_x_total(char *args){	
 	unsigned int area_size;
 	char * expr_str=malloc((sizeof(char))*(strlen(args)));
-	printf("here?\n");
 	bool success=true;
+	printf("here?\n");
 	sscanf(args,"%d%s",&area_size,expr_str);
         printf("ooo");
 	int result = expr(expr_str,&success);
