@@ -75,6 +75,7 @@ uint32_t L1_read(uint32_t addr){
 	int i=group_number*(L1_size/(data_size*L1_group_number));
 	int empty_index=-1;
 	int j;
+	printf("shit3\n");
 	for(j=0;j<L1_way;j++){
 		if(((cache1[i+j].tag)==(addr>>13))&&(cache1[i+j].v==1)){  /*if data_size is not 64b and L1_size changed, here needs to be modified.*/
 			return i+j;
@@ -83,7 +84,9 @@ uint32_t L1_read(uint32_t addr){
 			empty_index=i+j;
 		}
 	}
+	printf("shit4\n");
 	int L2_index=L2_read(addr);
+	printf("shit5\n");
 	if(empty_index==-1){
 		j = (rand() % L1_way); 
 	}
