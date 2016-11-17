@@ -131,7 +131,8 @@ static int cmd_x_total(char *args){
 		area_size=0;
 	        while(args&&*args&&*args==' ') 
 			args++;
-	        for (;args && *args &&(*args<='9')&&(*args>='0');args++){
+	        printf("there?\n");
+		for (;args && *args &&(*args<='9')&&(*args>='0');args++){
 		        area_size = area_size * 10 + *args - '0';
 		}
 		while (args && *args && *args == ' ') 
