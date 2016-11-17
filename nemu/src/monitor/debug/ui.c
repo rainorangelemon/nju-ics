@@ -126,11 +126,13 @@ static int cmd_x_total(char *args){
 	bool success=true;
 	sscanf(args,"%d%s",&area_size,expr_str);
         int result = expr(expr_str,&success);
+	printf("meimo\n");
 	if(success==false){
 		free(expr_str);
 		printf("Wrong expr.\n");
 		return 0;
 	}
+	printf("wellwell\n");
 	cmd_x(area_size,result);
 	free(expr_str);
         return 0;
