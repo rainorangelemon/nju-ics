@@ -133,7 +133,9 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	int index = addr & (data_size-1);
 	uint8_t piece[4];
 	memset(piece,0,sizeof(piece));
+	printf("shit1\n");
 	int L1_index = L1_read(addr);
+	printf("shit2\n");
 	if(data_size<=index+len){
 		memcpy(piece,cache1[L1_index].data+index,data_size-index);
 		int L1_index_ = L1_read(addr+len);
