@@ -44,7 +44,7 @@ uint32_t L2_read(uint32_t addr){
 	int empty_index=-1;
 	int j;
 	for(j=0;j<L2_way;j++){
-		if(((cache2[i+j].tag)==(addr>>18))&&(cache2[i+j].v=1)){  /*if data_size is not 64b and L2_size changed, here needs to be modified.*/
+		if(((cache2[i+j].tag)==(addr>>18))&&(cache2[i+j].v==1)){  /*if data_size is not 64b and L2_size changed, here needs to be modified.*/
 			return i+j;
 		}
 		if(cache2[i+j].v==0){
@@ -76,7 +76,7 @@ uint32_t L1_read(uint32_t addr){
 	int empty_index=-1;
 	int j;
 	for(j=0;j<L1_way;j++){
-		if(((cache1[i+j].tag)==(addr>>13))&&(cache1[i+j].v=1)){  /*if data_size is not 64b and L1_size changed, here needs to be modified.*/
+		if(((cache1[i+j].tag)==(addr>>13))&&(cache1[i+j].v==1)){  /*if data_size is not 64b and L1_size changed, here needs to be modified.*/
 			return i+j;
 		}
 		if(cache1[i+j].v==0){
@@ -99,7 +99,7 @@ void L2_write(uint32_t addr, uint32_t len, uint32_t data){
 	int index = addr & (data_size-1);
 	int j;
 	for(j=0;j<L2_way;j++){
-		if(((cache2[i+j].tag)==(addr>>18))&&(cache2[i+j].v=1)){  /*if data_size is not 64b and L2_size changed, here needs to be modified.*/
+		if(((cache2[i+j].tag)==(addr>>18))&&(cache2[i+j].v==1)){  /*if data_size is not 64b and L2_size changed, here needs to be modified.*/
 			memcpy(cache2[i+j].data+index,&data,len);
 			cache2[i+j].d=true;
 			return ;
@@ -118,7 +118,7 @@ void L1_write(uint32_t addr, uint32_t len, uint32_t data){
 	int index = addr & (data_size-1);
 	int j;
 	for(j=0;j<L1_way;j++){
-		if(((cache1[i+j].tag)==(addr>>13))&&(cache1[i+j].v=1)){  /*if data_size is not 64b and L1_size changed, here needs to be modified.*/
+		if(((cache1[i+j].tag)==(addr>>13))&&(cache1[i+j].v==1)){  /*if data_size is not 64b and L1_size changed, here needs to be modified.*/
 			memcpy(cache1[i+j].data+index,&data,len);
 			break;
 		}
