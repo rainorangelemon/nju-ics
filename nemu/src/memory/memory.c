@@ -108,6 +108,7 @@ void L2_write(uint32_t addr, uint32_t len, uint32_t data){
 		if(((cache2[i+j].tag)==(addr>>18))&&(cache2[i+j].v==1)){  /*if data_size is not 64b and L2_size changed, here needs to be modified.*/
 			memcpy(cache2[i+j].data+index,&data,len);
 			cache2[i+j].d=true;
+			printf("L2: i+j:%d \n",i+j);
 			return ;
 		}
 	}
@@ -115,6 +116,7 @@ void L2_write(uint32_t addr, uint32_t len, uint32_t data){
 	memcpy(cache2[L2_index].data+index,&data,len);
 	cache2[L2_index].d=false;
 	dram_write(addr,len,data);
+	printf("L2:i+j:%d \n",i+j);
 	return ;
 }
 
@@ -129,6 +131,7 @@ void L1_write(uint32_t addr, uint32_t len, uint32_t data){
 			break;
 		}
 	}
+	printf("L1:i+j:%d ",i+j);
 	L2_write(addr,len,data);
 }
 
