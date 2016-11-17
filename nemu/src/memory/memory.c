@@ -53,7 +53,8 @@ uint32_t L2_read(uint32_t addr){
 	}
 	printf("i:%d j:%d\n",i,j);
 	if(empty_index==-1){
-		j = (rand() % L2_way); 
+		j = (rand() % L2_way);
+	       printf("new j:%d\n",j);	
 	}
 	if((cache2[i+j].d==1)&&(cache2[i+j].v==1)){
 		int k;
