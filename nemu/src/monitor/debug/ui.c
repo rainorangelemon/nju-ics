@@ -143,7 +143,7 @@ static int cmd_x_total(char *args){
 		        return 0;
 	        }
 	}
-	printf("ooo");
+	printf("ooo\n");
 	int result = expr(args,&success);
 	printf("exm?");
 	if(success==false){
