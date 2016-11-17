@@ -92,7 +92,10 @@ uint32_t L1_read(uint32_t addr){
 	}
 	cache1[i+j].v=true;
 	printf("shit6\n");
-	memcpy(cache1[i+j].data,cache2[L2_index].data,data_size);
+	int k;
+	for(k=0;k<data_size;k++){
+		cache1[i+j].data[k]=cache2[L2_index].data[k];
+	}
 	printf("shit7\n");
 	cache1[i+j].tag=addr>>13;
 	return i+j;
