@@ -137,8 +137,8 @@ static int cmd_x_total(char *args){
 		printf("well...\n");
 		while (args && *args && *args == ' ') 
 			args++;
-	        if (!args || !*args) {
 		printf("well...\n");
+	        if (!args || !*args) {
 		        printf("invalid arguments\n");
 		        return 0;
 	        }
