@@ -111,7 +111,8 @@ void cmd_x(unsigned int area_size,unsigned int result){
 	        unsigned int i;
 		for(i=0; i<area_size; i++){
 			printf("0x%x:  0x",result);
-		        memory_number = swaddr_read(result,4);          		 	    
+		        printf("heiheihei\n");
+			memory_number = swaddr_read(result,4);          		 	    
 			printf("%08x",memory_number);
 			result++;
 		}
@@ -126,13 +127,11 @@ static int cmd_x_total(char *args){
 	bool success=true;
 	sscanf(args,"%d%s",&area_size,expr_str);
         int result = expr(expr_str,&success);
-	printf("meimo\n");
 	if(success==false){
 		free(expr_str);
 		printf("Wrong expr.\n");
 		return 0;
 	}
-	printf("wellwell\n");
 	cmd_x(area_size,result);
 	free(expr_str);
         return 0;
