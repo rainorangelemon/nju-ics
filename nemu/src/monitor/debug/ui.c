@@ -131,10 +131,10 @@ static int cmd_x_total(char *args){
 		area_size=0;
 	        while(args&&*args&&*args==' ') 
 			args++;
-	        printf("there?\n");
 		for (;args && *args &&(*args<='9')&&(*args>='0');args++){
 		        area_size = area_size * 10 + *args - '0';
 		}
+		printf("well...\n");
 		while (args && *args && *args == ' ') 
 			args++;
 	        if (!args || !*args) {
