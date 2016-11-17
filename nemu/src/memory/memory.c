@@ -129,7 +129,7 @@ void L1_write(uint32_t addr, uint32_t len, uint32_t data){
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	printf("read: addr: %x len: %u ",addr,len);
+	printf("read: addr: %x len: %u",addr,len);
 	int index = addr & (data_size-1);
 	uint8_t piece[4];
 	memset(piece,0,sizeof(piece));
