@@ -91,6 +91,7 @@ uint32_t L1_read(uint32_t addr){
 		j = (rand() % L1_way); 
 	}
 	cache1[i+j].v=true;
+	printf("shit6\n");
 	memcpy(cache1[i+j].data,cache2[L2_index].data,data_size);
 	cache1[i+j].tag=addr>>13;
 	return i+j;
