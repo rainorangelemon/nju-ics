@@ -54,21 +54,21 @@ uint32_t L2_read(uint32_t addr){
 	printf("i:%d j:%d\n",i,j);
 	if(empty_index==-1){
 		j = (rand() % L2_way);
-	       printf("new j:%d\n",j);	
+		empty_index=i+j;
 	}
-	if((cache2[i+j].d==1)&&(cache2[i+j].v==1)){
+	if((cache2[empty_index].d==1)&&(cache2[empty_index].v==1)){
 		int k;
 		for(k=0;k<data_size;k++)
-			dram_write(((addr>>6)<<6)+k, 1,cache2[i+j].data[k]);
+			dram_write(((addr>>6)<<6)+k, 1,cache2[empty_index].data[k]);
 	}
-	cache2[i+j].d=false;
-	cache2[i+j].v=true;
-	cache2[i+j].tag=addr>>18;
+	cache2[empty_index].d=false;
+	cache2[empty_index].v=true;
+	cache2[empty_index].tag=addr>>18;
 	int k;
 	for(k=0;k<data_size;k++){
-		cache2[i+j].data[k]=dram_read(((addr>>6)<<6)+k, 1);
+		cache2[empty_index].data[k]=dram_read(((addr>>6)<<6)+k, 1);
 	}
-	return i+j;
+	return empty_index;
 }
 
 
@@ -91,14 +91,15 @@ uint32_t L1_read(uint32_t addr){
 	printf("shit5\n");
 	if(empty_index==-1){
 		j = (rand() % L1_way); 
+		empty_index=i+j;
 	}
-	cache1[i+j].v=true;
+	cache1[empty_index].v=true;
 	printf("shit6\n");
 	printf("i+j=%d L2_index=%d\n",i+j,L2_index);
-	memcpy(cache1[i+j].data,cache2[L2_index].data,data_size);
+	memcpy(cache1[empty_index].data,cache2[L2_index].data,data_size);
 	printf("shit7\n");
-	cache1[i+j].tag=addr>>13;
-	return i+j;
+	cache1[empty_index].tag=addr>>13;
+	return empty_index;
 }
 
 void L2_write(uint32_t addr, uint32_t len, uint32_t data){
