@@ -127,7 +127,8 @@ static int cmd_x_total(char *args){
 	char * expr_str=malloc((sizeof(char))*(strlen(args)));
 	bool success=true;
 	sscanf(args,"%d%s",&area_size,expr_str);
-        int result = expr(expr_str,&success);
+        printf("ooo");
+	int result = expr(expr_str,&success);
 	printf("exm?");
 	if(success==false){
 		free(expr_str);
