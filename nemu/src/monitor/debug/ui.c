@@ -109,13 +109,10 @@ static int cmd_info(char *args){
 void cmd_x(unsigned int area_size,unsigned int result){
 	        unsigned int memory_number;
 	        unsigned int i;
-		printf("Hi~~\n");
 		for(i=0; i<area_size; i++){
-			printf("shit\n");
 			memory_number = swaddr_read(result,4);          		 	    
 			printf("0x%x:  0x",result);
 			printf("%08x",memory_number);
-			printf("shit\n");
 			result++;
 		}
                 if(result!=(area_size-1)){					                        
@@ -127,17 +124,13 @@ static int cmd_x_total(char *args){
 	unsigned int area_size;
 	char *expr_str = malloc(sizeof(char)*(strlen(args)));
 	bool success=true;
-	printf("here?\n");
 	sscanf(args,"%d %s",&area_size,expr_str);
-        printf("ooo\n");
 	int result = expr(expr_str,&success);
-	printf("exm?\n");
 	if(success==false){
 		free(expr_str);
 		printf("Wrong expr.\n");
 		return 0;
 	}
-	printf("gggg\n");
 	cmd_x(area_size,result);
         free(expr_str);
 	return 0;
