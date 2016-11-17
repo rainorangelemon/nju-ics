@@ -128,6 +128,7 @@ static int cmd_x_total(char *args){
 	bool success=true;
 	sscanf(args,"%d%s",&area_size,expr_str);
         int result = expr(expr_str,&success);
+	printf("exm?");
 	if(success==false){
 		free(expr_str);
 		printf("Wrong expr.\n");
