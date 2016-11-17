@@ -125,7 +125,7 @@ void cmd_x(unsigned int area_size,unsigned int result){
 static int cmd_x_total(char *args){	
 	unsigned int area_size;
 	char expr_str[1000];
-	memset(expr_str,'\0',1000);
+	memset(expr_str,'\0',1000*sizeof(char));
 	bool success=true;
 	printf("here?\n");
 	sscanf(args,"%d%s",&area_size,expr_str);
