@@ -145,13 +145,13 @@ static int cmd_x_total(char *args){
 	}
 	printf("ooo\n");
 	int result = expr(args,&success);
-	printf("exm?");
+	printf("exm?\n");
 	if(success==false){
 		free(expr_str);
 		printf("Wrong expr.\n");
 		return 0;
 	}
-	printf("gggg");
+	printf("gggg\n");
 	cmd_x(area_size,result);
         free(expr_str);
 	return 0;
