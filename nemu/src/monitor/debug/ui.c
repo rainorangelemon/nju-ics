@@ -124,7 +124,8 @@ void cmd_x(unsigned int area_size,unsigned int result){
 
 static int cmd_x_total(char *args){	
 	unsigned int area_size;
-	char * expr_str=malloc((sizeof(char))*(strlen(args)));
+	char expr_str[1000];
+	memset(expr_str,'\0',1000);
 	bool success=true;
 	printf("here?\n");
 	sscanf(args,"%d%s",&area_size,expr_str);
@@ -132,13 +133,11 @@ static int cmd_x_total(char *args){
 	int result = expr(expr_str,&success);
 	printf("exm?");
 	if(success==false){
-		free(expr_str);
 		printf("Wrong expr.\n");
 		return 0;
 	}
 	printf("gggg");
 	cmd_x(area_size,result);
-	free(expr_str);
         return 0;
 }
 
