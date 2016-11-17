@@ -110,8 +110,8 @@ void cmd_x(unsigned int area_size,unsigned int result){
 	        unsigned int memory_number;
 	        unsigned int i;
 		for(i=0; i<area_size; i++){
-			printf("0x%x:  0x",result);
 			memory_number = swaddr_read(result,4);          		 	    
+			printf("0x%x:  0x",result);
 			printf("%08x",memory_number);
 			result++;
 		}
