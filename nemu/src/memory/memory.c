@@ -51,7 +51,6 @@ uint32_t L2_read(uint32_t addr){
 			empty_index=i+j;
 		}
 	}
-	printf("i:%d j:%d\n",i,j);
 	if(empty_index==-1){
 		j = (rand() % L2_way);
 		empty_index=i+j;
@@ -77,7 +76,6 @@ uint32_t L1_read(uint32_t addr){
 	int i=group_number*(L1_size/(data_size*L1_group_number));
 	int empty_index=-1;
 	int j;
-	printf("shit3\n");
 	for(j=0;j<L1_way;j++){
 		if(((cache1[i+j].tag)==(addr>>13))&&(cache1[i+j].v==1)){  /*if data_size is not 64b and L1_size changed, here needs to be modified.*/
 			return i+j;
@@ -86,18 +84,13 @@ uint32_t L1_read(uint32_t addr){
 			empty_index=i+j;
 		}
 	}
-	printf("shit4\n");
 	int L2_index=L2_read(addr);
-	printf("shit5\n");
 	if(empty_index==-1){
 		j = (rand() % L1_way); 
 		empty_index=i+j;
 	}
 	cache1[empty_index].v=true;
-	printf("shit6\n");
-	printf("i+j=%d L2_index=%d\n",i+j,L2_index);
 	memcpy(cache1[empty_index].data,cache2[L2_index].data,data_size);
-	printf("shit7\n");
 	cache1[empty_index].tag=addr>>13;
 	return empty_index;
 }
@@ -111,7 +104,6 @@ void L2_write(uint32_t addr, uint32_t len, uint32_t data){
 		if(((cache2[i+j].tag)==(addr>>18))&&(cache2[i+j].v==1)){  /*if data_size is not 64b and L2_size changed, here needs to be modified.*/
 			memcpy(cache2[i+j].data+index,&data,len);
 			cache2[i+j].d=true;
-			printf("L2: i+j :%d \n",i+j);
 			return ;
 		}
 	}
@@ -119,7 +111,6 @@ void L2_write(uint32_t addr, uint32_t len, uint32_t data){
 	memcpy(cache2[L2_index].data+index,&data,len);
 	cache2[L2_index].d=false;
 	dram_write(addr,len,data);
-	printf("L2:i+j:%d \n",i+j);
 	return ;
 }
 
@@ -134,20 +125,16 @@ void L1_write(uint32_t addr, uint32_t len, uint32_t data){
 			break;
 		}
 	}
-	printf("L1:i+j:%d ",i+j);
 	L2_write(addr,len,data);
 }
 
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	printf("read: addr: %x len: %u",addr,len);
 	int index = addr & (data_size-1);
 	uint8_t piece[4];
 	memset(piece,0,sizeof(piece));
-	printf("shit1\n");
 	int L1_index = L1_read(addr);
-	printf("shit2\n");
 	if(data_size<=index+len){
 		memcpy(piece,cache1[L1_index].data+index,data_size-index);
 		int L1_index_ = L1_read(addr+len);
@@ -159,12 +146,10 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t result;
 	int zero=0;
 	result=(unalign_rw(piece+zero,4)) & (~0u >> ((4 - len) << 3));
-	printf(", result: %x\n",result);
 	return result;
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-	printf("write: addr: %x len: %u, data: %x\n",addr,len,data);
 	L1_write(addr, len, data);
 }
 
