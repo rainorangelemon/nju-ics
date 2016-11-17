@@ -51,6 +51,7 @@ uint32_t L2_read(uint32_t addr){
 			empty_index=i+j;
 		}
 	}
+	printf("i:%d j:%d\n",i,j);
 	if(empty_index==-1){
 		j = (rand() % L2_way); 
 	}
