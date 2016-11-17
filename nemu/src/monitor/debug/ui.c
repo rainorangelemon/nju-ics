@@ -109,7 +109,7 @@ static int cmd_info(char *args){
 void cmd_x(unsigned int area_size,unsigned int result){
 	        unsigned int memory_number;
 	        unsigned int i;
-		printf("hi~~");
+		printf("Hi~~");
 		for(i=0; i<area_size; i++){
 			printf("shit");
 			memory_number = swaddr_read(result,4);          		 	    
@@ -133,6 +133,7 @@ static int cmd_x_total(char *args){
 		printf("Wrong expr.\n");
 		return 0;
 	}
+	printf("gggg");
 	cmd_x(area_size,result);
 	free(expr_str);
         return 0;
