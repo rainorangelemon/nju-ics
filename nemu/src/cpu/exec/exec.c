@@ -92,8 +92,9 @@ make_group(group6,
 	inv, inv, inv, inv, 
 	inv, inv, inv, inv)
 
+/* 0f 01 */
 make_group(group7,
-	inv, inv, inv, inv, 
+	inv, inv, lgdt, inv, 
 	inv, inv, inv, inv)
 
 
