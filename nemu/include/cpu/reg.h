@@ -2,10 +2,13 @@
 #define __REG_H__
 
 #include "common.h"
+#include "../../../lib-common/x86-inc/cpu.h"
 
 enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
 enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };
 enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
+enum { R_ES, R_CS, R_SS, R_DS, R_FS, R_GS };
+
 
 /* TODO: Re-organize the `CPU_state' structure to match the register
  * encoding scheme in i386 instruction format. For example, if we
@@ -13,6 +16,20 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  * cpu.gpr[1]._8[1], we will get the 'ch' register. Hint: Use `union'.
  * For more details about the register encoding scheme, see i386 manual.
  */
+
+struct SEG_REG{
+	union{
+		struct{
+			unsigned int dpl:2;
+			unsigned int ti:1;
+			unsigned int index:13;
+		}detail;
+		uint16_t val;
+	}selector;
+	uint32_t base;
+	uint32_t limit;
+};
+
 
 typedef struct {
     union{	
@@ -55,7 +72,59 @@ typedef struct {
 		}bits;
 	}flags;
 
+	/*pa3 added*/
+	struct {
+		uint32_t base;
+		uint32_t limit;
+	}gdtr;
+
+	union{
+		struct SEG_REG sr[6];
+		struct{
+			struct SEG_REG es,cs,ss,ds,fs,gs;
+		}regs;
+	}seg_reg;
+
+	CR0 cr0;
+	CR3 cr3;
+
+
 } CPU_state;
+
+union SELECTOR{
+	struct{
+		uint16_t rpl:2;
+		uint16_t ti:1;
+		uint16_t index:13;
+	};
+	uint16_t data;
+};
+
+struct SEG_descriptor{
+	union{
+		struct{
+			uint32_t limit:16;
+			uint32_t base:16;
+		}detail;
+		uint32_t data;
+	}one;
+	union{
+		struct{
+			uint32_t base2:8;
+			uint32_t type:5;
+			uint32_t dpl:2;
+			uint32_t p:1;
+			uint32_t limit2:4;
+			uint32_t avl:1;
+			uint32_t zero:1;
+			uint32_t b:1;
+			uint32_t g:1;
+			uint32_t base3:8;
+		}detail;
+		uint32_t data;
+	}two;
+};
+
 
 extern CPU_state cpu;
 
@@ -67,6 +136,7 @@ static inline int check_reg_index(int index) {
 #define reg_l(index) (cpu.gpr[check_reg_index(index)]._32)
 #define reg_w(index) (cpu.gpr[check_reg_index(index)]._16)
 #define reg_b(index) (cpu.gpr[check_reg_index(index) & 0x3]._8[index >> 2])
+#define seg(index) (cpu.seg_reg.sr[check_reg_index(index)])
 
 extern const char* regsl[];
 extern const char* regsw[];
