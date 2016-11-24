@@ -37,6 +37,7 @@ struct SEG_REG{
 		uint32_t b:1;
 		uint32_t g:1;
 	}attribute;
+	bool dirty;
 };
 
 

@@ -158,17 +158,47 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	hwaddr_write(addr, len, data);
 }
 
-uint32_t swaddr_read(swaddr_t addr, size_t len) {
-#ifdef DEBUG
-	assert(len == 1 || len == 2 || len == 4);
-#endif
-	return lnaddr_read(addr, len);
+void load_seg(uint8_t sreg){
+	lnaddr_t offset=(lnaddr_t)cpu.gdtr.base+8*seg(sreg).selector.detail.index;
+	uint32_t temp[2];
+	struct SEG_descriptor *gate= (struct SEG_descriptor *)temp;
+	temp[0]=lnaddr_read(offset,4);
+	temp[1]=lnaddr_read(offset+4,4);
+	seg(sreg).base=(gate->one).detail.base+((gate->two).detail.base2<<16)+((gate->two).detail.base3<<24);
+	seg(sreg).limit=(gate->one).detail.limit+((gate->two).detail.limit2<<16);
+	seg(sreg).attribute.type=(gate->two).detail.type;
+	seg(sreg).attribute.dpl=(gate->two).detail.dpl;
+	seg(sreg).attribute.p=(gate->two).detail.p;
+	seg(sreg).attribute.avl=(gate->two).detail.avl;
+	seg(sreg).attribute.b=(gate->two).detail.b;
+	seg(sreg).attribute.g=(gate->two).detail.g;
+	seg(sreg).dirty=true;
 }
 
-void swaddr_write(swaddr_t addr, size_t len, uint32_t data) {
+lnaddr_t seg_translate(swaddr_t addr,uint8_t sreg){
+	if(cpu.cr0.protect_enable==1){
+		if(seg(sreg).dirty==false){
+			load_seg(sreg);
+		}
+		return addr+seg(sreg).base;
+	}else{
+		return (lnaddr_t) addr;
+	}
+}
+
+uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
-	lnaddr_write(addr, len, data);
+	lnaddr_t lnaddr = seg_translate(addr,sreg);
+	return lnaddr_read(lnaddr, len);
+}
+
+void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
+#ifdef DEBUG
+	assert(len == 1 || len == 2 || len == 4);
+#endif
+	lnaddr_t lnaddr=seg_translate(addr,sreg);
+	lnaddr_write(lnaddr, len, data);
 }
 
