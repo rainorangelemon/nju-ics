@@ -86,7 +86,11 @@ void restart() {
 #endif
 	/* let cr0 be ok */
 	cpu.cr0.val=0;
-
+	
+	/*CS*/
+	seg(R_CS).dirty=true;
+	seg(R_CS).base=0;
+	seg(R_CS).limit=0xffffffff;
 
 	/* Read the entry code into memory. */
 	load_entry();

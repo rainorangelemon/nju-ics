@@ -27,7 +27,7 @@ struct SEG_REG{
 		uint16_t val;
 	}selector;
 	uint32_t base;
-	uint32_t limit:20;
+	uint32_t limit;
 	struct{
 		uint32_t type:5;
 		uint32_t dpl:2;
