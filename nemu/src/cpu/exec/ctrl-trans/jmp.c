@@ -23,6 +23,6 @@ make_helper(ljmp){
 	seg(R_CS).selector.val=dest;
 	seg(R_CS).dirty=false;
 	load_seg(R_CS);
-	cpu.eip=jump-7;
-	return 7;
+	cpu.eip=jump;
+	return 0;
 }
