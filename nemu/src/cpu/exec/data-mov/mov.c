@@ -44,3 +44,12 @@ make_helper(mov_r2cr){
 	}
 	return 2;
 }
+
+make_helper(mov_rm2sreg){
+	int len=decode_rm_w(eip+1);
+	uint8_t sreg=instr_fetch(eip+1,1);
+	sreg=(sreg>>3)&0x7;
+	seg(sreg).selector.val=op_src->val;
+	seg(sreg).dirty=false;
+	return len+1;
+}
