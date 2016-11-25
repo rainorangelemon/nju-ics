@@ -7,11 +7,11 @@ make_helper(concat(call_rel_,SUFFIX)){
 	if(ops_decoded.is_operand_size_16==true){
 		reg_l(R_ESP)=reg_l(R_ESP)-2;
 		uint16_t ip=(cpu.eip+DATA_BYTE+1)&(0x0000ffff);
-		MEM_W(reg_l(R_ESP),ip);
+		MEM_W(reg_l(R_ESP),ip,R_SS);
 		cpu.eip=((cpu.eip+op_src->val+DATA_BYTE+1)&(0x0000ffff))-DATA_BYTE-1;		
 	}else{
 		reg_l(R_ESP)=reg_l(R_ESP)-4;
-		MEM_W(reg_l(R_ESP),cpu.eip+DATA_BYTE+1);
+		MEM_W(reg_l(R_ESP),cpu.eip+DATA_BYTE+1,R_SS);
 		cpu.eip=cpu.eip+op_src->val;
 	}
 	print_asm_template1();
@@ -23,11 +23,11 @@ make_helper(concat(call_rm_,SUFFIX)){
 	if(ops_decoded.is_operand_size_16==true){
 		reg_l(R_ESP)=reg_l(R_ESP)-2;
 		uint16_t ip=(cpu.eip+len+1)&(0x0000ffff);
-		MEM_W(reg_l(R_ESP),ip);
+		MEM_W(reg_l(R_ESP),ip,R_SS);
 		cpu.eip=((op_src->val)&(0x0000ffff));		
 	}else{
 		reg_l(R_ESP)=reg_l(R_ESP)-4;
-		MEM_W(reg_l(R_ESP),cpu.eip+len+1);
+		MEM_W(reg_l(R_ESP),cpu.eip+len+1,R_SS);
 		cpu.eip=op_src->val;
 	}
 	print_asm_template1();

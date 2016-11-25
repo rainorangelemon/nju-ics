@@ -5,7 +5,7 @@
 static void do_execute(){
 	DATA_TYPE src_index=concat(reg_,SUFFIX)(R_EAX);
 	uint32_t dest_index=reg_l(R_EDI);
-	MEM_W(dest_index,src_index);
+	MEM_W(dest_index,src_index,R_ES);
 	if(cpu.flags.bits.df==0){
 		reg_l(R_EDI)=reg_l(R_EDI)+DATA_BYTE;
 	}else{

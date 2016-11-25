@@ -5,10 +5,10 @@
 static void do_execute() {
 	if(ops_decoded.is_operand_size_16==true){
 		reg_l(R_ESP)=reg_l(R_ESP)-2;
-		MEM_W(reg_l(R_ESP),op_src->val);
+		MEM_W(reg_l(R_ESP),op_src->val,R_SS);
 	}else{
 		reg_l(R_ESP)=reg_l(R_ESP)-4;
-		swaddr_write(reg_l(R_ESP),4,op_src->val);
+		swaddr_write(reg_l(R_ESP),4,op_src->val,R_SS);
 	}	
 	print_asm_template1();
 }

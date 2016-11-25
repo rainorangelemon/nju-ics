@@ -110,7 +110,7 @@ void cmd_x(unsigned int area_size,unsigned int result){
 	        unsigned int memory_number;
 	        unsigned int i;
 		for(i=0; i<area_size; i++){
-			memory_number = swaddr_read(result,4);          		 	    
+			memory_number = swaddr_read(result,4,R_DS);          		 	    
 			printf("0x%x:  0x",result);
 			printf("%08x",memory_number);
 			result=result+4;
@@ -209,11 +209,11 @@ static int cmd_bt(){
 			printf("name:%s ",function);
 			int i;
 			for(i=0;i<4;i++)
-				printf("args%d:0x%x  ",i,swaddr_read(ebp+8+4*i,4));
+				printf("args%d:0x%x  ",i,swaddr_read(ebp+8+4*i,4,R_SS));
 		}
 		printf("\n");
-		eip = swaddr_read(ebp+4,4);
-		ebp = swaddr_read(ebp,4);
+		eip = swaddr_read(ebp+4,4,R_SS);
+		ebp = swaddr_read(ebp,4,R_SS);
 		case_number++;
 	}
 	return 0;

@@ -344,7 +344,7 @@ uint32_t eval(int p,int q){
 		///printf("dominant operator:%d\n",op); //TODO: for debug
 		int val2 = eval(op+1,q);
 		switch(tokens[op].type){
-			case DEREF: return swaddr_read((swaddr_t)val2,4);
+			case DEREF: return swaddr_read((swaddr_t)val2,4,R_DS);
 			case '!': return (!val2);
 			case NEG: return -val2;
 			default:{

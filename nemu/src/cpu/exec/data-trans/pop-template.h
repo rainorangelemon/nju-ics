@@ -3,7 +3,7 @@
 #define instr pop
 
 static void do_execute(){
-	DATA_TYPE result=MEM_R(reg_l(R_ESP));
+	DATA_TYPE result=MEM_R(reg_l(R_ESP),R_SS);
 	OPERAND_W(op_src,result);
 	if(ops_decoded.is_operand_size_16==true)
 		reg_l(R_ESP)=reg_l(R_ESP)+2;

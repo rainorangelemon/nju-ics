@@ -5,7 +5,7 @@
 static void do_execute(){
 	int IncDec=0;
 	uint32_t src_index=reg_l(R_EDI);
-	DATA_TYPE result=MEM_R(src_index);
+	DATA_TYPE result=MEM_R(src_index,R_ES);
 	result=~result;
 	DATA_TYPE sum=result+1+REG(R_EAX);
 	set_of(REG(R_EAX),result,DATA_BYTE,1);
