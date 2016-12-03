@@ -39,6 +39,8 @@
 #include "logic/shld.h"
 #include "logic/test.h"
 #include "logic/setcc.h"
+#include "logic/cld.h"
+#include "logic/std.h"
 
 #include "string/rep.h"
 #include "string/movs.h"
