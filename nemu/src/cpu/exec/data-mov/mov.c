@@ -37,10 +37,12 @@ make_helper(mov_r2cr){
 	uint8_t reg=instr_fetch(eip+1,1);
 	uint8_t src=reg&0x7;
 	uint8_t dest=(reg>>3)&(0x7);
-	if(dest!=3){
-		printf("mov_r2cr: wrong crx!\n");
-	}else{
+	if(dest==3){
 		cpu.cr3.val=reg_l(src);
+	}else if(dest==0){
+		cpu.cr0.val=reg_l(src);
+	}else{
+		printf("mov_r2cr: wrong crx!\n");
 	}
 	return 2;
 }
