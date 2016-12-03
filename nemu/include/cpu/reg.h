@@ -147,9 +147,9 @@ struct PAGE_descriptor{
 			uint32_t  :2;
 			uint32_t avail:3;
 			uint32_t addr:20;
-		}
+		};
 		uint32_t val;
-	}
+	};
 };
 
 extern CPU_state cpu;

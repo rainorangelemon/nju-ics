@@ -150,22 +150,22 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	L1_write(addr, len, data);
 }
 
-hwaddr_t page_translate(lnaddrt_t addr){
-	PAGE_descriptor dir;
-	PAGE_descriptor page;
-	dir.val = hwaddr_read((cpu.cr3.page_directory<<12)+(addr>>22)*4,4);
-	assert(dir.p,"directory has a problem\n");
+hwaddr_t page_translate(lnaddr_t addr){
+	struct PAGE_descriptor dir;
+	struct PAGE_descriptor page;
+	dir.val = hwaddr_read((cpu.cr3.page_directory_base<<12)+(addr>>22)*4,4);
+	Assert(dir.p,"directory has a problem\n");
 	page.val = hwaddr_read((dir.addr<<12)+((addr>>12)&0x3ff)*4,4);
-	assert(page.p,"page has a problem\n");
-	hwaddr=(page.addr<<12)+(addr&0xfff);
+	Assert(page.p,"page has a problem\n");
+	int hwaddr=(page.addr<<12)+(addr&0xfff);
 	return hwaddr;
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	assert(len==1||len==2||len==4);
 	if((cpu.cr0.protect_enable==1)&&(cpu.cr0.paging==1)){
-		if(addr&0xfffff000!=((addr+len-1)&(0xfffff000))){
-			assert(0,"wrong lnaddr_read!\n");
+		if((addr&0xfffff000)!=((addr+len-1)&(0xfffff000))){
+			Assert(0,"wrong lnaddr_read!\n");
 		}else{
 			hwaddr_t hwaddr = page_translate(addr);
 			return hwaddr_read(hwaddr,len);
@@ -178,11 +178,10 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	assert(len==1||len==2||len==4);
 	if((cpu.cr0.protect_enable==1)&&(cpu.cr0.paging==1)){
-		if(addr&0xfffff000!=((addr+len-1)&(0xfffff000))){
-			assert(0,"wrong lnaddr_write!\n");
+		if((addr&0xfffff000)!=((addr+len-1)&(0xfffff000))){
+			Assert(0,"wrong lnaddr_write!\n");
 		}else{
-			bool success;
-			hwaddr_t hwaddr = page_translate(addr,&success,false);
+			hwaddr_t hwaddr = page_translate(addr);
 			hwaddr_write(hwaddr,len,data);
 		}
 	}else{

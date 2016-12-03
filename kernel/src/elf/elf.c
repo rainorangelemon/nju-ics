@@ -21,6 +21,7 @@ uint32_t loader() {
 	Elf32_Phdr *ph = NULL;
 
 	uint8_t buf[4096];
+	uint8_t page_buf[4096];
 
 #ifdef HAS_DEVICE
 	ide_read(buf, ELF_OFFSET_IN_DISK, 4096);
@@ -46,13 +47,20 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			ramdisk_read((void*)ph->p_vaddr,ph->p_offset+ELF_OFFSET_IN_DISK,ph->p_filesz);
-			
-			/* TODO: zero the memory region 
-			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
-			 */
-			memset((void*)(ph->p_vaddr+ph->p_filesz),0,ph->p_memsz-ph->p_filesz);
-
+			int va;
+			int dirty=0;
+			for(va=ph->p_vaddr;va<ph->p_vaddr+ph->p_memsz;va=va+4096){
+				unsigned int off = va&0xfff;
+				va=va&0xfffff000;
+				unsigned int addr = mm_malloc(va,4096);
+				memset(page_buffer,0,4096);
+				unsigned int valid_num = 4096-off;
+				if((ph->p_filesz-dirty)<valid_num)
+					valid_num=ph->p_filesz-dirty;
+				ramdisk_read((void*)(page_buffer+off),ph->p_offset+ELF_OFFSET_IN_DISK+dirty,valid_num);
+				dirty=dirty+valid_num;
+				memcpy((void*)addr,page_buffer,4096);
+			}
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
 			extern uint32_t cur_brk, max_brk;
