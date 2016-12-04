@@ -21,7 +21,7 @@ uint32_t loader() {
 	Elf32_Phdr *ph = NULL;
 
 	uint8_t buf[4096];
-	uint8_t page_buffer[4096];
+	uint8_t page_buf[4096];
 
 #ifdef HAS_DEVICE
 	ide_read(buf, ELF_OFFSET_IN_DISK, 4096);
@@ -53,13 +53,13 @@ uint32_t loader() {
 				unsigned int off = va&0xfff;
 				va=va&0xfffff000;
 				unsigned int addr = mm_malloc(va,4096);
-				memset(page_buffer,0,4096);
+				memset(page_buf,0,4096);
 				unsigned int valid_num = 4096-off;
 				if((ph->p_filesz-dirty)<valid_num)
 					valid_num=ph->p_filesz-dirty;
-				ramdisk_read((void*)(page_buffer+off),ph->p_offset+ELF_OFFSET_IN_DISK+dirty,valid_num);
+				ramdisk_read((void*)(page_buf+off),ph->p_offset+ELF_OFFSET_IN_DISK+dirty,valid_num);
 				dirty=dirty+valid_num;
-				memcpy((void*)addr,page_buffer,4096);
+				memcpy((void*)addr,page_buf,4096);
 			}
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
