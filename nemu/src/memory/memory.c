@@ -197,12 +197,6 @@ void load_seg(uint8_t sreg){
 	temp[1]=lnaddr_read(offset+4,4);
 	seg(sreg).base=(gate->one).detail.base+((gate->two).detail.base2<<16)+((gate->two).detail.base3<<24);
 	seg(sreg).limit=(gate->one).detail.limit+((gate->two).detail.limit2<<16);
-	seg(sreg).attribute.type=(gate->two).detail.type;
-	seg(sreg).attribute.dpl=(gate->two).detail.dpl;
-	seg(sreg).attribute.p=(gate->two).detail.p;
-	seg(sreg).attribute.avl=(gate->two).detail.avl;
-	seg(sreg).attribute.b=(gate->two).detail.b;
-	seg(sreg).attribute.g=(gate->two).detail.g;
 	seg(sreg).dirty=true;
 }
 

@@ -11,6 +11,7 @@ static void do_execute(){
 	}else{
 		reg_l(R_EDI)=reg_l(R_EDI)-DATA_BYTE;	
 	}
+	print_asm_template1();
 }
 
 make_helper(concat3(instr,_,SUFFIX)){
