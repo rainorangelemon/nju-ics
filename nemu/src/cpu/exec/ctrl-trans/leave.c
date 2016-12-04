@@ -10,6 +10,7 @@ make_helper(leave){
 		int val = swaddr_read(reg_l(R_ESP),4,R_SS);
 		reg_l(R_ESP)=reg_l(R_ESP)+4;
 		reg_l(R_EBP)=val;
-	}	
+	}
+	print_asm_template1();	
 	return 1;
 }
