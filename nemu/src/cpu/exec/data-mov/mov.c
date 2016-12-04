@@ -44,6 +44,7 @@ make_helper(mov_r2cr){
 	}else{
 		printf("mov_r2cr: wrong crx!\n");
 	}
+	print_asm("mov_r2cr");
 	return 2;
 }
 
@@ -53,5 +54,6 @@ make_helper(mov_rm2sreg){
 	sreg=(sreg>>3)&0x7;
 	seg(sreg).selector.val=op_src->val;
 	seg(sreg).dirty=false;
+	print_asm("mov_r2cr");
 	return len+1;
 }
