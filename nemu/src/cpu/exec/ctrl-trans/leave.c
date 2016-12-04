@@ -11,6 +11,6 @@ make_helper(leave){
 		reg_l(R_ESP)=reg_l(R_ESP)+4;
 		reg_l(R_EBP)=val;
 	}
-	print_asm_template1();	
+	print_asm("leave");	
 	return 1;
 }
