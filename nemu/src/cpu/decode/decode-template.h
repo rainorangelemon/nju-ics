@@ -35,9 +35,9 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	
 	//panic("please implement me");
 
-	if(op_src->size==2)
+	if(DATA_BYTE==2)
 		op_src->simm=(int)(int16_t)(uint16_t)instr_fetch(eip,DATA_BYTE);
-	else if(op_src->size==1)
+	else if(DATA_BYTE==1)
 		op_src->simm=(int)(int8_t)(uint8_t)instr_fetch(eip,DATA_BYTE);
 	else
 		op_src->simm=(DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
