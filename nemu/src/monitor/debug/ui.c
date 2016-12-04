@@ -219,6 +219,16 @@ static int cmd_bt(){
 	return 0;
 }
 
+hwaddr_t page_translate(lnaddr_t addr);
+static int cmd_page(char *args){
+	char str[3];
+	unsigned int addr;
+	sscanf(args,"%2s%x",str,&addr);
+	hwaddr_t hw_addr=page_translate(addr);
+	printf("hwaddr: 0x%x\n",hw_addr);
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -235,7 +245,7 @@ static struct {
 	{"d","Delete a watchpoint",cmd_dw},
 	{"flags","Print Flags",cmd_flag},
 	{"bt","Print the Stack Frame Chain",cmd_bt},
-
+	{"page","just translate",cmd_page}
 	/* TODO: Add more commands */
 
 };
