@@ -19,6 +19,7 @@ make_helper(concat(jmp_rm_,SUFFIX)){
 		cpu.eip=(op_src->val)&0xffff;
 	else
 		cpu.eip=op_src->val;
+	printf("eip: %d   ",cpu.eip);
 	print_asm_template1();
 	return 0;
 }
