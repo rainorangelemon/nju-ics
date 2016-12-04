@@ -25,11 +25,14 @@ make_helper(mov_cr2r){
 	uint8_t reg = instr_fetch(eip+1,1);
 	uint8_t dest = reg & 0x7;
 	uint8_t src = (reg>>3)& (0x7);
-	if(src!=3){
-		printf("mov_cr2r: wrong crx!\n");
-	}else{
+	if(src==3){
 		reg_l(dest)=cpu.cr3.val;
+	}else if(src==0){
+		reg_l(dest)=cpu.cr0.val;
+	}else{
+		printf("mov_cr2r: wrong crx!\n");
 	}
+	print_asm("mov_cr2r");
 	return 2;
 }
 
