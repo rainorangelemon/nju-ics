@@ -4,7 +4,7 @@
 
 make_helper(concat(jmp_rel_,SUFFIX)){
 	int len=concat(decode_si_,SUFFIX)(eip+1);
-	printf("cpu.eip:%x  op_src->val: %x    ",cpu.eip,op_src->val);
+	printf("cpu.eip:%x  op_src->val: %x len:%d    ",cpu.eip,op_src->val,len);
 	cpu.eip=cpu.eip+op_src->val;
 	if(ops_decoded.is_operand_size_16==true){
 		cpu.eip=cpu.eip&0xffff;
