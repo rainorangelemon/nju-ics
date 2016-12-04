@@ -8,6 +8,7 @@ make_helper(concat(jmp_rel_,SUFFIX)){
 	if(ops_decoded.is_operand_size_16==true){
 		cpu.eip=cpu.eip&0xffff;
 	}
+	printf("eip: %x   ",cpu.eip);
 	print_asm_template1();
 	return len+1;
 }
@@ -19,7 +20,7 @@ make_helper(concat(jmp_rm_,SUFFIX)){
 		cpu.eip=(op_src->val)&0xffff;
 	else
 		cpu.eip=op_src->val;
-	printf("eip: %d   ",cpu.eip);
+	printf("eip: %x   ",cpu.eip);
 	print_asm_template1();
 	return 0;
 }
