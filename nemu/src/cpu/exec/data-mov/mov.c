@@ -54,6 +54,6 @@ make_helper(mov_rm2sreg){
 	sreg=(sreg>>3)&0x7;
 	seg(sreg).selector.val=op_src->val;
 	seg(sreg).dirty=false;
-	print_asm("mov_rm2sreg %d",op_src->val);
+	print_asm("mov_rm2sreg");
 	return len+1;
 }
