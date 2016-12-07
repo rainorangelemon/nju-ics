@@ -12,6 +12,8 @@
 #include "mov-template.h"
 #undef DATA_BYTE
 
+void init_tlb();
+
 /* for instruction encoding overloading */
 
 make_helper_v(mov_i2r)
@@ -27,6 +29,7 @@ make_helper(mov_cr2r){
 	uint8_t src = (reg>>3)& (0x7);
 	if(src==3){
 		reg_l(dest)=cpu.cr3.val;
+		init_tlb();
 	}else if(src==0){
 		reg_l(dest)=cpu.cr0.val;
 	}else{
@@ -36,15 +39,12 @@ make_helper(mov_cr2r){
 	return 2;
 }
 
-void init_tlb();
-
 make_helper(mov_r2cr){
 	uint8_t reg=instr_fetch(eip+1,1);
 	uint8_t src=reg&0x7;
 	uint8_t dest=(reg>>3)&(0x7);
 	if(dest==3){
 		cpu.cr3.val=reg_l(src);
-		init_tlb();
 	}else if(dest==0){
 		cpu.cr0.val=reg_l(src);
 	}else{
