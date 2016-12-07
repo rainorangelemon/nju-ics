@@ -11,6 +11,9 @@
 #define L2_group_number L2_size/(L2_way*data_size)
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
+hwaddr_t tlb_read(uint32_t);
+void tlb_write(uint32_t,uint32_t);
+
 
 struct Cache_L1{
 	bool v;
@@ -153,11 +156,15 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 hwaddr_t page_translate(lnaddr_t addr){
 	struct PAGE_descriptor dir;
 	struct PAGE_descriptor page;
+	int hwaddr=tlb_read(addr);
+	if(hwaddr!=-1)
+		return hwaddr;
 	dir.val = hwaddr_read((cpu.cr3.page_directory_base<<12)+(addr>>22)*4,4);
 	Assert(dir.p,"directory has a problem\n");
 	page.val = hwaddr_read((dir.addr<<12)+((addr>>12)&0x3ff)*4,4);
 	Assert(page.p,"page has a problem\n");
-	int hwaddr=(page.addr<<12)+(addr&0xfff);
+	hwaddr=(page.addr<<12)+(addr&0xfff);
+	tlb_write(addr,hwaddr);
 	return hwaddr;
 }
 

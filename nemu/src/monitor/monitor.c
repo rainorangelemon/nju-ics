@@ -11,6 +11,7 @@ void init_regex();
 void init_wp_pool();
 void init_ddr3();
 void cache_initial();
+void init_tlb();
 
 FILE *log_fp = NULL;
 
@@ -94,6 +95,9 @@ void restart() {
 
 	/* Read the entry code into memory. */
 	load_entry();
+
+	init_tlb();
+	cache_initial();
 
 	/* Set the register ok */
 	cpu.flags.eflags=0x2;
