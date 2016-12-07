@@ -37,6 +37,7 @@ void tlb_write(lnaddr_t lnaddr, hwaddr_t hwaddr){
 			return;
 		}
 	}
+	srand(0);
 	i=rand()%tlb_size;
 	tlb[i].v=1;
 	tlb[i].tag=tag;
