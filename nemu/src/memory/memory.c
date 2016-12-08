@@ -158,7 +158,7 @@ hwaddr_t page_translate(lnaddr_t addr){
 	struct PAGE_descriptor page;
 	int hwaddr=tlb_read(addr);
 	if(hwaddr!=-1)
-		return hwaddr;
+		return hwaddr+(addr&0xfff);
 	dir.val = hwaddr_read((cpu.cr3.page_directory_base<<12)+(addr>>22)*4,4);
 	Assert(dir.p,"directory has a problem\n");
 	page.val = hwaddr_read((dir.addr<<12)+((addr>>12)&0x3ff)*4,4);
