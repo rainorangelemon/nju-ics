@@ -9,6 +9,6 @@ make_helper(lgdt){
 		cpu.gdtr.limit=lnaddr_read(op_src->addr,2);
 		cpu.gdtr.base=lnaddr_read(op_src->addr+2,4);
 	}
-	print_asm_template1();
+	print_asm("lgdt");
 	return len+1;
 }
