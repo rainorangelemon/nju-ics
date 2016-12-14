@@ -1,4 +1,6 @@
 #include "cpu/exec/template-start.h"
+#include <setjmp.h>
+extern jmp_buf jbuf;
 #define instr iret
 #if DATA_BYTE==2
 static DATA_TYPE pop_2(){
@@ -26,6 +28,7 @@ static void do_execute(){
 	cpu.flags.eflags=pop_4();
 	seg(R_CS).dirty=false;
 #endif
+	longjmp(jbuf,1);
 	print_asm_template1();
 }
 

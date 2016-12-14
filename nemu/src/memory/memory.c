@@ -160,7 +160,7 @@ hwaddr_t page_translate(lnaddr_t addr){
 	if(hwaddr!=-1)
 		return hwaddr+(addr&0xfff);
 	dir.val = hwaddr_read((cpu.cr3.page_directory_base<<12)+(addr>>22)*4,4);
-	/*Assert(dir.p,"directory has a problem\n");*/
+	Assert(dir.p,"directory has a problem\n");
 	page.val = hwaddr_read((dir.addr<<12)+((addr>>12)&0x3ff)*4,4);
 	Assert(page.p,"page has a problem\n");
 	hwaddr=(page.addr<<12)+(addr&0xfff);
