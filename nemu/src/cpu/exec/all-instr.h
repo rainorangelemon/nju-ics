@@ -56,4 +56,5 @@
 
 #include "system/lgdt.h"
 #include "system/lidt.h"
+#include "system/int.h"
 #include "system/iret.h"
