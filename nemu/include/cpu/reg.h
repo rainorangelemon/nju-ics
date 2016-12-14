@@ -85,7 +85,7 @@ typedef struct {
 	/*pa3 added*/
 	struct {
 		uint32_t base;
-		uint16_t limit;
+		uint32_t limit;
 	}gdtr;
 
 	struct {
