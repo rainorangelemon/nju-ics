@@ -3,6 +3,9 @@
 
 #include "cpu/helper.h"
 
+make_helper(decode_zero_b);
+make_helper(decode_zero_w);
+make_helper(decode_zero_l);
 make_helper(decode_r_b);
 make_helper(decode_r_w);
 make_helper(decode_r_l);

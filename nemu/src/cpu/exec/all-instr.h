@@ -11,6 +11,8 @@
 #include "data-mov/movsx.h"
 #include "data-mov/movzx.h"
 #include "data-mov/cwtl_cltd.h"
+#include "data-mov/pusha.h"
+#include "data-mov/popa.h"
 
 #include "data-trans/push.h"
 #include "data-trans/pop.h"

@@ -78,7 +78,7 @@ typedef struct {
 			uint8_t space4:1;
 			uint8_t rf:1;
 			uint8_t vm:1;
-			uint16_t space5;
+			uint16_t space5:14;
 		}bits;
 	}flags;
 
