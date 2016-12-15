@@ -14,11 +14,11 @@ static void sys_ioctl(TrapFrame *tf) {
 	tf->eax = fs_ioctl(tf->ebx, tf->ecx, (void *)tf->edx);
 }
 
-static void sys_write(int fd,void *buf,int len,TrapFrame *tf){
+static void sys_write(int fd,char *buf,int len,TrapFrame *tf){
 	if(fd==1||fd==2){
 		int count;
 		for(count=0;count<len;count++)
-			serial_printc((char*)buf[count]);
+			serial_printc(*(buf++));
 		tf->eax=len;
 	}else if(fd>2){
 		tf->eax=0;
@@ -42,7 +42,7 @@ void do_syscall(TrapFrame *tf) {
 
 		case SYS_brk: sys_brk(tf); break;
 		case SYS_ioctl: sys_ioctl(tf); break;
-		case SYS_write: sys_write(tf->ebx,(void*)tf->ecx,tf->edx,tf);break;
+		case SYS_write: sys_write(tf->ebx,(char*)tf->ecx,tf->edx,tf);break;
 		/* TODO: Add more system calls. */
 
 		default: panic("Unhandled system call: id = %d, eip = 0x%08x", tf->eax, tf->eip);
