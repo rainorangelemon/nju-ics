@@ -13,7 +13,9 @@ uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 hwaddr_t tlb_read(uint32_t);
 void tlb_write(uint32_t,uint32_t);
-
+int is_mmio(hwaddr_t addr);
+void mmio_write(hwaddr_t addr,size_t len,uint32_t data,int map_NO);
+uint32_t mmio_read(hwaddr_t addr,size_t len,int map_NO);
 
 struct Cache_L1{
 	bool v;
@@ -131,26 +133,34 @@ void L1_write(uint32_t addr, uint32_t len, uint32_t data){
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	int index = addr & (data_size-1);
-	uint8_t piece[4];
-	memset(piece,0,sizeof(piece));
-	int L1_index = L1_read(addr);
-	if(data_size<=index+len){
-		memcpy(piece,cache1[L1_index].data+index,data_size-index);
-		int L1_index_ = L1_read(addr+len);
-		memcpy(piece+(data_size-index),cache1[L1_index_].data,len-(data_size-index));
-	}else{
-		memcpy(piece,cache1[L1_index].data+index,len);
-	}
-	/*below needs to change if correct*/
-	uint32_t result;
-	int zero=0;
-	result=(unalign_rw(piece+zero,4)) & (~0u >> ((4 - len) << 3));
-	return result;
+	int io_NO=is_mmio(addr);
+	if(io_NO==-1){
+		int index = addr & (data_size-1);
+		uint8_t piece[4];
+		memset(piece,0,sizeof(piece));
+		int L1_index = L1_read(addr);
+		if(data_size<=index+len){
+			memcpy(piece,cache1[L1_index].data+index,data_size-index);
+			int L1_index_ = L1_read(addr+len);
+			memcpy(piece+(data_size-index),cache1[L1_index_].data,len-(data_size-index));
+		}else{
+			memcpy(piece,cache1[L1_index].data+index,len);
+		}
+		/*below needs to change if correct*/
+		uint32_t result;
+		int zero=0;
+		result=(unalign_rw(piece+zero,4)) & (~0u >> ((4 - len) << 3));
+		return result;
+	}else
+		return mmio_read(addr,len,io_NO);
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-	L1_write(addr, len, data);
+	int io_NO=is_mmio(addr);
+	if(io_NO!=-1){
+		mmio_write(addr,len,data,io_NO);
+	}else
+		L1_write(addr, len, data);
 }
 
 hwaddr_t page_translate(lnaddr_t addr){

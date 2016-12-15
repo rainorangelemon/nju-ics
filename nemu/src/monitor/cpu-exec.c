@@ -4,6 +4,10 @@
 #include "cpu/helper.h"
 #include <setjmp.h>
 
+void raise_intr(uint8_t number);
+void i8259_ack_intr();
+uint8_t i8259_query_intr();
+
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -101,6 +105,11 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		if(nemu_state != RUNNING) { return; }
+		if(cpu.INTR&cpu.flags.bits.ief){
+			uint32_t intr_no=i8259_query_intr();
+			i8259_ack_intr();
+			raise_intr(intr_no);
+		}
 	}
 
 	if(nemu_state == RUNNING) { nemu_state = STOP; }
