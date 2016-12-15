@@ -200,11 +200,20 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 		return hwaddr_read(addr, len);
 }
 
+static uint32_t zeroes[]={0x0,0xff,0xffff,0x0,0xffffffff};
+
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	assert(len==1||len==2||len==4);
 	if((cpu.cr0.protect_enable==1)&&(cpu.cr0.paging==1)){
 		if((addr&0xfffff000)!=((addr+len-1)&(0xfffff000))){
-			Assert(0,"wrong lnaddr_write!\n");
+			uint32_t first=addr&0xfffff000;
+			uint32_t len1=4096-(addr-first);
+			uint32_t second=(addr+len-1)&0xfffff000;
+			uint32_t len2=len-len1;
+			hwaddr_t hwaddr=page_translate(addr);
+			hwaddr_write(hwaddr,len1,data&zeroes[len1]);
+			hwaddr=page_translate(second);
+                        hwaddr_write(hwaddr,len2,(data>>(8*len1))&zeroes[len2]);
 		}else{
 			hwaddr_t hwaddr = page_translate(addr);
 			hwaddr_write(hwaddr,len,data);
