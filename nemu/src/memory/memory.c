@@ -182,7 +182,15 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	assert(len==1||len==2||len==4);
 	if((cpu.cr0.protect_enable==1)&&(cpu.cr0.paging==1)){
 		if((addr&0xfffff000)!=((addr+len-1)&(0xfffff000))){
-			Assert(0,"wrong lnaddr_read!\n");
+			uint32_t first=addr&0xffff0000;
+			uint32_t len1=4096-(addr-first);
+			uint32_t second=(addr+len-1)&0xffff0000;
+			uint32_t len2=len-len1;
+			hwaddr_t hwaddr=page_translate(addr);
+			uint32_t data1=hwaddr_read(hwaddr,len1);
+			hwaddr=page_translate(second);
+			uint32_t data2=hwaddr_read(hwaddr,len2);
+			return (data2<<(8*len1))+data1;
 		}else{
 			hwaddr_t hwaddr = page_translate(addr);
 			return hwaddr_read(hwaddr,len);
