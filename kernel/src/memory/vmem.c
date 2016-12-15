@@ -14,7 +14,12 @@ void create_video_mapping() {
 	 * [0xa0000, 0xa0000 + SCR_SIZE) for user program. You may define
 	 * some page tables to create this mapping.
 	 */
-	panic("please implement me");
+	PTE *pte;
+	PDE *updir=get_updir();
+	updir->present=1;
+	pte=(PTE*)((updir->page_frame<<12)+0xa0);
+	pte->val=make_pte(0xa0000);
+	pte->present=1;
 }
 
 void video_mapping_write_test() {

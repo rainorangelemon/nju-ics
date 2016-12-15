@@ -57,7 +57,7 @@ uint32_t loader() {
 				unsigned int valid_num = 4096-off;
 				if((ph->p_filesz-dirty)<valid_num)
 					valid_num=ph->p_filesz-dirty;
-				ramdisk_read((void*)(page_buf+off),ph->p_offset+ELF_OFFSET_IN_DISK+dirty,valid_num);
+				ide_read((void*)(page_buf+off),ph->p_offset+ELF_OFFSET_IN_DISK+dirty,valid_num);
 				dirty=dirty+valid_num;
 				memcpy((void*)addr,page_buf,4096);
 			}
