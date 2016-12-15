@@ -58,3 +58,6 @@
 #include "system/lidt.h"
 #include "system/int.h"
 #include "system/iret.h"
+
+#include "io/in.h"
+#include "io/out.h"
