@@ -47,8 +47,8 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			int va;
-			int dirty=0;
+			uint32_t va;
+			uint32_t dirty=0;
 			for(va=ph->p_vaddr;va<ph->p_vaddr+ph->p_memsz;va=va+4096){
 				unsigned int off = va&0xfff;
 				va=va&0xfffff000;
