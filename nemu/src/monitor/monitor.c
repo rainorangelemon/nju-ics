@@ -12,6 +12,8 @@ void init_wp_pool();
 void init_ddr3();
 void cache_initial();
 void init_tlb();
+void init_device();
+void init_sdl();
 
 FILE *log_fp = NULL;
 
@@ -42,6 +44,10 @@ void init_monitor(int argc, char *argv[]) {
 
 	cache_initial();
 	init_ddr3();
+	
+	/*added in pa4*/
+	init_device();
+	init_sdl();
 
 	/* Display welcome message. */
 	welcome();
