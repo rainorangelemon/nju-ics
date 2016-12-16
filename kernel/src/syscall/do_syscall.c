@@ -18,7 +18,7 @@ static void sys_write(int fd,char *buf,int len,TrapFrame *tf){
 	if(fd==1||fd==2){
 		int count;
 		for(count=0;count<len;count++)
-			serial_printc(*(buf++));
+			serial_printc(((char*)tf->ecx)[count]);
 		tf->eax=len;
 	}else if(fd>2){
 		tf->eax=0;
