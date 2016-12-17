@@ -182,7 +182,8 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 		int index=addr&(data_size-1);
 		if(data_size<=index+len){
                         L1_write(addr,data_size-index,data);
-                        L1_write(addr+(data_size-index),len-(data_size-index),data);
+                        if((uint32_t)(addr+(data_size-index))<=0x7fffffff)
+				L1_write(addr+(data_size-index),len-(data_size-index),data);
                 }else{  
 			L1_write(addr, len, data);
 		}
