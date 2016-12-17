@@ -140,8 +140,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		memset(piece,0,sizeof(piece));
 		int L1_index = L1_read(addr);
 		if(data_size<=index+len){
-			memcpy(piece,cache1[L1_index].data+index,data_size-index);
 			int L1_index_ = L1_read(addr+len);
+			memcpy(piece,cache1[L1_index].data+index,data_size-index);
 			memcpy(piece+(data_size-index),cache1[L1_index_].data,len-(data_size-index));
 		}else{
 			memcpy(piece,cache1[L1_index].data+index,len);
