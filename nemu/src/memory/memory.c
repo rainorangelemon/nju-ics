@@ -125,7 +125,7 @@ void L1_write(uint32_t addr, uint32_t len, uint32_t data){
 		if(((cache1[i+j].tag)==(addr>>13))&&(cache1[i+j].v==1)){  /*if data_size is not 64b and L1_size changed, here needs to be modified.*/
 			memcpy(cache1[i+j].data+index,&data,len);
 		        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
-		                printf("L1_write:0x%x    data:0x%x\n",*(uint32_t*)(cache1[i+j].data+index),data);
+		                printf("L1_write:0x%x    data:0x%x  addr:0x%x\n",*(uint32_t*)(cache1[i+j].data+index),data,addr);
 		        }
 			break;
 		}
