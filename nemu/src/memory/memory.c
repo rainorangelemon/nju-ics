@@ -259,5 +259,8 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
 #endif
 	lnaddr_t lnaddr=seg_translate(addr,sreg);
 	lnaddr_write(lnaddr, len, data);
+	if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
+		printf("write:0x%x     read:0x%x  \n",lnaddr_read(lnaddr,len),data);
+	}
 }
 
