@@ -111,18 +111,12 @@ void L2_write(uint32_t addr, uint32_t len, uint32_t data){
 		if(((cache2[i+j].tag)==(addr>>18))&&(cache2[i+j].v==1)){  /*if data_size is not 64b and L2_size changed, here needs to be modified.*/
 			memcpy(cache2[i+j].data+index,&data,len);
 			cache2[i+j].d=true;
-		        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
-		                printf("L2_write:0x%x    data:0x%x  addr:0x%x\n",*(uint32_t*)(cache2[i+j].data+index),data,addr);
-		        }
 			return ;
 		}
 	}
 	int L2_index=L2_read(addr);
 	memcpy(cache2[L2_index].data+index,&data,len);
 	cache2[L2_index].d=true;
-        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
-                printf("L2_write:0x%x    data:0x%x  addr:0x%x\n",*(uint32_t*)(cache2[i+j].data+index),data,addr);
-        }
 	return ;
 }
 
@@ -134,9 +128,6 @@ void L1_write(uint32_t addr, uint32_t len, uint32_t data){
 	for(j=0;j<L1_way;j++){
 		if(((cache1[i+j].tag)==(addr>>13))&&(cache1[i+j].v==1)){  /*if data_size is not 64b and L1_size changed, here needs to be modified.*/
 			memcpy(cache1[i+j].data+index,&data,len);
-		        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
-		                printf("L1_write:0x%x    data:0x%x  addr:0x%x\n",*(uint32_t*)(cache1[i+j].data+index),data,addr);
-		        }
 			break;
 		}
 	}
@@ -162,9 +153,6 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		/*below needs to change if correct*/
 		uint32_t result;
 		int zero=0;
-	        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
-	                printf("hwaddr_read:0x%x%x%x%x  addr:%x\n",piece[3],piece[2],piece[1],piece[0],addr);
-	        }
 		result=(unalign_rw(piece+zero,4)) & (~0u >> ((4 - len) << 3));
 		return result;
 	}else
@@ -187,9 +175,6 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
                 }else{  
 			L1_write(addr, len, data);
 		}
-	        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
-	                printf("write:0x%x     read:0x%x  \n",hwaddr_read(addr,len),data);
-	        }
 	}
 }
 
@@ -247,9 +232,6 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 		}else{
 			hwaddr_t hwaddr = page_translate(addr);
 			hwaddr_write(hwaddr,len,data);
-		        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
-	               		printf("lnaddr: write:0x%x     read:0x%x  len:%d\n",hwaddr_read(hwaddr,len),data,len);
-		        }
 		}
 	}else{
 		hwaddr_write(addr,len,data);
@@ -292,8 +274,5 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
 #endif
 	lnaddr_t lnaddr=seg_translate(addr,sreg);
 	lnaddr_write(lnaddr, len, data);
-	if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
-		printf("write:0x%x     read:0x%x  \n",lnaddr_read(lnaddr,len),data);
-	}
 }
 
