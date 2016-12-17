@@ -152,7 +152,6 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		uint8_t piece[4];
 		memset(piece,0,sizeof(piece));
 		int L1_index = L1_read(addr);
-	        printf("L1_index:%d\n",L1_index);
 		if(data_size<=index+len){
 			int L1_index_ = L1_read(addr+len);
 			memcpy(piece,cache1[L1_index].data+index,data_size-index);
@@ -177,13 +176,15 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	if(io_NO!=-1){
 		mmio_write(addr,len,data,io_NO);
 	}else{
-		/*int index=addr&(data_size-1);
+		int index=addr&(data_size-1);
 		if(data_size<=index+len){
-                        int low=L1_read(addr,data_size-index,data);
-                        
-			int high=L1_read(addr+(data_size-index),data_size-index);
+                        L1_read(addr);
+                        L1_write(addr,data_size-index,data);
+			if(addr+len<=0x7ffffff){
+				L1_read(addr+(data_size-index));
 				L1_write(addr+(data_size-index),len-(data_size-index),data>>(data_size-index));
-                }else*/{  
+			}
+                }else{  
 			L1_write(addr, len, data);
 		}
 	        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
