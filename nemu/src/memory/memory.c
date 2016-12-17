@@ -159,8 +159,12 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	int io_NO=is_mmio(addr);
 	if(io_NO!=-1){
 		mmio_write(addr,len,data,io_NO);
-	}else
+	}else{
 		L1_write(addr, len, data);
+	        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
+	                printf("write:0x%x     read:0x%x  \n",hwaddr_read(addr,len),data);
+	        }
+	}
 }
 
 hwaddr_t page_translate(lnaddr_t addr){
