@@ -217,6 +217,9 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 		}else{
 			hwaddr_t hwaddr = page_translate(addr);
 			hwaddr_write(hwaddr,len,data);
+		        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
+	               		printf("lnaddr: write:0x%x     read:0x%x  \n",hwaddr_read(hwaddr,len),data);
+		        }
 		}
 	}else{
 		hwaddr_write(addr,len,data);
