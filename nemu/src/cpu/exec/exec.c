@@ -87,10 +87,10 @@ make_group(group5,
 	inc_rm_v, dec_rm_v, call_rm_v, inv, 
 	jmp_rm_v, inv, push_rm_v, inv)
 
-
+/* 0f ba */
 make_group(group6,
 	inv, inv, inv, inv, 
-	inv, inv, inv, inv)
+	inv, bt_i2rm_v, inv, inv)
 
 /* 0f 01 */
 make_group(group7,
@@ -208,13 +208,13 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x94 */	sete, setne, setbe, seta,
 /* 0x98 */	sets, setns, setp, setnp, 
 /* 0x9c */	setl, setge, setle, setg, 
-/* 0xa0 */	inv, inv, inv, inv, 
+/* 0xa0 */	inv, inv, inv, bt_r2rm_v, 
 /* 0xa4 */	shldi_v, inv, inv, inv,
 /* 0xa8 */	inv, inv, inv, inv,
 /* 0xac */	shrdi_v, inv, inv, imul_rm2r_v,
 /* 0xb0 */	inv, inv, inv, inv, 
 /* 0xb4 */	inv, inv, movzx_rmb2r_v, movzx_rmw2r, 
-/* 0xb8 */	inv, inv, inv, inv,
+/* 0xb8 */	inv, inv, group6, inv,
 /* 0xbc */	inv, inv, movsx_rmb2r_v, movsx_rmw2r,
 /* 0xc0 */	inv, inv, inv, inv,
 /* 0xc4 */	inv, inv, inv, inv,

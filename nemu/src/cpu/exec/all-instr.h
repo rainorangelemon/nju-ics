@@ -13,6 +13,7 @@
 #include "data-mov/cwtl_cltd.h"
 #include "data-mov/pusha.h"
 #include "data-mov/popa.h"
+#include "data-mov/bt.h"
 
 #include "data-trans/push.h"
 #include "data-trans/pop.h"
