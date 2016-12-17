@@ -179,12 +179,12 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	if(io_NO!=-1){
 		mmio_write(addr,len,data,io_NO);
 	}else{
-		/*int index=addr&(data_size-1);
+		int index=addr&(data_size-1);
 		if(data_size<=index+len){
                         L1_write(addr,data_size-index,data);
                         if((uint32_t)(addr+(data_size-index))<=0x7fffffff)
-				L1_write(addr+(data_size-index),len-(data_size-index),data);
-                }else*/{  
+				L1_write(addr+(data_size-index),len-(data_size-index),data>>(data_size-index));
+                }else{  
 			L1_write(addr, len, data);
 		}
 	        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
