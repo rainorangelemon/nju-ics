@@ -111,7 +111,7 @@ void L2_write(uint32_t addr, uint32_t len, uint32_t data){
 	}
 	int L2_index=L2_read(addr);
 	memcpy(cache2[L2_index].data+index,&data,len);
-	cache2[L2_index].d=false;
+	cache2[L2_index].d=true;
 	dram_write(addr,len,data);
 	return ;
 }
