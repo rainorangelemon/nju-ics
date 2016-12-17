@@ -149,6 +149,9 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		/*below needs to change if correct*/
 		uint32_t result;
 		int zero=0;
+	        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
+	                printf("hwaddr_read:0x%x%x%x%x  \n",piece[3],piece[2],piece[1],piece[0]);
+	        }
 		result=(unalign_rw(piece+zero,4)) & (~0u >> ((4 - len) << 3));
 		return result;
 	}else
