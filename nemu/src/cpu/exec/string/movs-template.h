@@ -7,8 +7,6 @@ static void do_execute(){
 	uint32_t src_index=reg_l(R_ESI);
 	uint32_t dest_index=reg_l(R_EDI);
 	MEM_W(dest_index,MEM_R(src_index,R_DS),R_ES);
-	printf("esi:0x%x ----->  edi:0x%x  from:0x%x  to:0x%x\n",src_index,dest_index,MEM_R(src_index,R_DS),MEM_R(dest_index,R_ES));
-	
 	if(cpu.flags.bits.df==0){
 		IncDec=DATA_BYTE;
 	}else{
