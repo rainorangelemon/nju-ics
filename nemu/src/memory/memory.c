@@ -34,9 +34,14 @@ void cache_initial(){
         int i;
         for(i=0;i<L1_size/(data_size);i++){
         	cache1[i].v = false;
+		cache1[i].tag=0;
+		memset(cache1[i].data,0,data_size);
         }       
 	for(i=0;i<L2_size/(data_size);i ++){
-		cache2[i].v = false;
+		cache2[i].v=false;
+		cache2[i].d=false;
+		cache2[i].tag=0;
+		memset(cache2[i].data,0,data_size);
 	}
 }
 
