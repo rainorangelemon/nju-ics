@@ -152,9 +152,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		uint8_t piece[4];
 		memset(piece,0,sizeof(piece));
 		int L1_index = L1_read(addr);
-	        if((cpu.esi==0xc01030c4)&&(cpu.edi==0xc014c03e)){
-	                printf("hwaddr_read:0x%x%x%x%x  addr:%x  L1_index:%d\n",piece[3],piece[2],piece[1],piece[0],addr,L1_index);
-	        }
+	        printf("L1_index:%d\n",L1_index);
 		if(data_size<=index+len){
 			int L1_index_ = L1_read(addr+len);
 			memcpy(piece,cache1[L1_index].data+index,data_size-index);
