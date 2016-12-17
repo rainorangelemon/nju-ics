@@ -157,7 +157,6 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 			memcpy(piece,cache1[L1_index].data+index,data_size-index);
 			memcpy(piece+(data_size-index),cache1[L1_index_].data,len-(data_size-index));
 		}else{
-			printf("Overbound\n");
 			memcpy(piece,cache1[L1_index].data+index,len);
 		}
 		/*below needs to change if correct*/
