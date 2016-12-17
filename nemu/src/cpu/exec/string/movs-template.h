@@ -7,7 +7,7 @@ static void do_execute(){
 	uint32_t src_index=reg_l(R_ESI);
 	uint32_t dest_index=reg_l(R_EDI);
 	MEM_W(dest_index,MEM_R(src_index,R_DS),R_ES);
-	if(reg_l(R_ESI)==0xc01030c6){
+	if(reg_l(R_ESI)==0xc01030c5){
 		printf("the number I read is: %d\n",MEM_R(src_index,R_DS));
 	}
 	if(cpu.flags.bits.df==0){
