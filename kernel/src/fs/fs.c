@@ -37,4 +37,102 @@ void ide_read(uint8_t *, uint32_t, uint32_t);
 void ide_write(uint8_t *, uint32_t, uint32_t);
 
 /* TODO: implement a simplified file system here. */
+typedef struct{
+	bool opened;
+	uint32_t offset;
+}Fstate;
 
+Fstate files[NR_FILES+3];
+
+static inline int strcmp(const char *s1,const char *s2){
+	int i=0;
+	while(s1[i]==s2[i]){
+		if(s1[i]=='\0')
+			return 0;
+		else
+			i++;
+	}
+	return s1[i]-s2[i];
+}
+
+int fs_open(const char *pathname,int flags){
+	int i;
+	for(i=3;i<(NR_FILES)+3;i++){
+		if(strcmp(file_table[i-3].name,pathname)==0){
+			files[i].opened=true;
+			files[i].offset=0;
+			return i;
+		}
+	}
+	Log("file not found!\n");
+	return 0;
+}
+
+int fs_read(int fd,void *buf,int len){
+	if((fd>2)&&(fd<(NR_FILES+3))&&(files[fd].opened)){
+		int n=(len<(file_table[fd-3].size-files[fd].offset))?(len):(file_table[fd-3].size-files[fd].offset);
+		ide_read(buf,file_table[fd-3].disk_offset+files[fd].offset,n);
+		files[fd].offset=files[fd].offset+n;
+		return n;
+	}
+	Log("fs_read:not good fd!\n");
+	return 0;
+}
+
+void serial_printc(char);
+int fs_write(int fd,void *buf,int len){
+	assert(len>=0);
+	if(fd==1||fd==2){
+		int i;
+		for(i=0;i<len;i++)
+			serial_printc(((char*)buf)[i]);
+		return len;
+	}else if((fd>2)&&(fd<(NR_FILES+3))&&files[fd].opened) {
+		int n=(len<(file_table[fd-3].size-files[fd].offset))?(len):(file_table[fd-3].size-files[fd].offset);
+		ide_write(buf,file_table[fd-3].disk_offset+files[fd].offset,n);
+		files[fd].offset=files[fd].offset+n;
+		return n;
+	}
+	Log("do not print stdin!\n");
+	return 0;
+}
+
+int fs_lseek(int fd,int offset,int whence){
+	int total_offset=0;
+	if((fd>2)&&(fd<(NR_FILES+3))&&files[fd].opened){
+		switch(whence){
+			case SEEK_SET:
+				total_offset=offset;
+				break;
+			case SEEK_CUR:
+				total_offset=files[fd].offset+offset;
+				break;
+			case SEEK_END:
+				total_offset=file_table[fd-3].size+offset;
+				break;
+			default:
+				Log("fs_lseek: bad whence!\n");
+				break;
+		}
+		if((total_offset>=0)&&(total_offset<=file_table[fd-3].size)){
+			files[fd].offset=total_offset;
+			return total_offset;
+		}else{
+			Log("outside area\n");
+			return -1;
+		}
+	}else{
+		Log("bad fd!\n");
+		return -1;
+	}
+}
+
+int fs_close(int fd){
+	if((fd>2)&&(fd<(NR_FILES+3))){
+		files[fd].opened=false;
+		files[fd].offset=0;
+		return 0;
+	}
+	Log("fs_close: bad fd!\n");
+	return -1;
+}
