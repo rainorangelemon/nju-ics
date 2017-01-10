@@ -22,7 +22,7 @@ keyboard_event(void) {
 		if(keycode_array[i]==(current&0x7f)){
 			if((current&0x80)!=0)
 				key_state[i]=KEY_STATE_RELEASE;
-			else if(key_state[i]=KEY_STATE_EMPTY)
+			else if(key_state[i]==KEY_STATE_EMPTY)
 				key_state[i]=KEY_STATE_PRESS;
 			break;
 		}
@@ -64,7 +64,7 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * Remember to enable interrupts before returning from the function.
 	 */
 	int i=0;
-	for(;i<NR_KEYS:i++){
+	for(;i<NR_KEYS;i++){
 		if(key_state[i]==KEY_STATE_PRESS){
 			key_press_callback(get_keycode(i));
 			release_key(i);
