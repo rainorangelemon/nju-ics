@@ -582,6 +582,7 @@ main_loop() {
    //
    // Run the main game routine
    //
+   Log("PAL_GameMain\n");
    PAL_GameMain();
 
    //
