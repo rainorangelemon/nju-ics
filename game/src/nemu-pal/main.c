@@ -298,6 +298,8 @@ PAL_SplashScreen(
    SDL_SetPalette(lpBitmapUp, SDL_LOGPAL | SDL_PHYSPAL, VIDEO_GetPalette(), 0, 256);
 #endif
 
+   Log("Read the bitmaps");
+
    //
    // Read the bitmaps
    //
@@ -354,6 +356,7 @@ PAL_SplashScreen(
       PAL_ProcessEvent();
       dwTime = SDL_GetTicks() - dwBeginTime;
 
+      Log("set the palette");
       //
       // Set the palette
       //
@@ -376,6 +379,7 @@ PAL_SplashScreen(
       SDL_SetPalette(lpBitmapUp, SDL_LOGPAL | SDL_PHYSPAL, VIDEO_GetPalette(), 0, 256);
 #endif
 
+      Log("draw the screen");
       //
       // Draw the screen
       //
@@ -483,7 +487,7 @@ PAL_SplashScreen(
          //
          break;
       }
-
+	Log("Delay a while...");
       //
       // Delay a while...
       //
