@@ -148,7 +148,6 @@ PAL_Init(
    PAL_InitResources();
    Log("PAL_InitResources success");
    SOUND_OpenAudio();
-   Log("My pot1\n");
 #ifdef PAL_WIN95
 #ifdef _DEBUG
    SDL_WM_SetCaption("Pal WIN95 (Debug Build)", NULL);
@@ -162,7 +161,6 @@ PAL_Init(
    SDL_WM_SetCaption("Pal", NULL);
 #endif
 #endif
-   Log("My pot2\n");
 }
 
 VOID
@@ -577,7 +575,9 @@ main_loop() {
    //
    // Show the trademark screen and splash screen
    //
+   Log("PAL_TrademarkScreen\n");
    PAL_TrademarkScreen();
+   Log("PAL_SplashScreen\n");
    PAL_SplashScreen();
 
    //
