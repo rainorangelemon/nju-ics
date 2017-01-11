@@ -24,9 +24,9 @@ static void do_execute(){
 #endif
 #if DATA_BYTE==4
 	cpu.eip=pop_4();
-	seg(R_CS).selector.val=pop_4();
-	cpu.flags.eflags=pop_4();
+	seg(R_CS).selector.val=(uint16_t)pop_4();
 	seg(R_CS).dirty=false;
+	cpu.flags.eflags=pop_4();
 #endif
 	longjmp(jbuf,1);
 	print_asm_template1();
