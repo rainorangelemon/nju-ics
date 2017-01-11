@@ -7,9 +7,7 @@ uint32_t mm_brk(uint32_t);
 int fs_ioctl(int, uint32_t, void *);
 
 static void sys_brk(TrapFrame *tf) {
-#ifdef IA32_PAGE
 	tf->eax=mm_brk(tf->ebx);
-#endif
 }
 
 static void sys_ioctl(TrapFrame *tf) {
