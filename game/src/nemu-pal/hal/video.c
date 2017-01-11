@@ -144,7 +144,7 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
 	s->h = height;
 	s->pitch = (width * depth) >> 3;
 	s->pixels = (flags & SDL_HWSURFACE ? (void *)VMEM_ADDR : malloc(s->pitch * height));
-	//assert(s->pixels);
+	assert(s->pixels);
 
 	return s;
 }
