@@ -47,8 +47,8 @@ Fstate files[NR_FILES+3];
 static inline int strcmp(const char *s1,const char *s2){
 	int i=0;
 	while(s1[i]==s2[i]){
-		if(s1[i]=='\0')
-			return 0;
+		if(s1[i]==0)
+			break;
 		else
 			i++;
 	}
@@ -98,7 +98,7 @@ int fs_write(int fd,void *buf,int len){
 }
 
 int fs_lseek(int fd,int offset,int whence){
-	int total_offset=0;
+	int total_offset=0x7fffffff;
 	if((fd>2)&&(fd<(NR_FILES+3))&&files[fd].opened){
 		switch(whence){
 			case SEEK_SET:

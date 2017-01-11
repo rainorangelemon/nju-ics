@@ -14,9 +14,11 @@ static const int keycode_array[] = {
 
 static int key_state[NR_KEYS];
 
+static volatile int current=0;
+
 void
 keyboard_event(void) {
-	int current=in_byte(0x60);
+	current=in_byte(0x60);
 	int i;
 	for(i=0;i<NR_KEYS;i++){
 		if(keycode_array[i]==(current&0x7f)){
