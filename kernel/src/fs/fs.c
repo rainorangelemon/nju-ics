@@ -98,29 +98,22 @@ int fs_write(int fd,void *buf,int len){
 }
 
 int fs_lseek(int fd,int offset,int whence){
-	int total_offset=0x7fffffff;
 	if((fd>2)&&(fd<(NR_FILES+3))&&files[fd].opened){
 		switch(whence){
 			case SEEK_SET:
-				total_offset=offset;
+				files[fd].offset=0;
 				break;
 			case SEEK_CUR:
-				total_offset=files[fd].offset+offset;
 				break;
 			case SEEK_END:
-				total_offset=file_table[fd-3].size+offset;
+				files[fd].offset=file_table[fd-3].size;
 				break;
 			default:
 				Log("fs_lseek: bad whence!\n");
 				break;
 		}
-		if((total_offset>=0)&&(total_offset<=file_table[fd-3].size)){
-			files[fd].offset=total_offset;
-			return total_offset;
-		}else{
-			Log("outside area\n");
-			return -1;
-		}
+		files[fd].offset+=offset;
+		return files[fd].offset;
 	}else{
 		Log("bad fd!\n");
 		return -1;
@@ -128,11 +121,6 @@ int fs_lseek(int fd,int offset,int whence){
 }
 
 int fs_close(int fd){
-	if((fd>2)&&(fd<(NR_FILES+3))){
-		files[fd].opened=false;
-		files[fd].offset=0;
-		return 0;
-	}
-	Log("fs_close: bad fd!\n");
-	return -1;
+	files[fd].opened=false;
+	return 0;
 }
