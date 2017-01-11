@@ -13,7 +13,7 @@ uint8_t i8259_query_intr();
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INSTR_TO_PRINT 270
+#define MAX_INSTR_TO_PRINT 32767
 
 int nemu_state = STOP;
 
