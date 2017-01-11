@@ -7,7 +7,7 @@ uint32_t mm_brk(uint32_t);
 int fs_ioctl(int, uint32_t, void *);
 
 static void sys_brk(TrapFrame *tf) {
-	tf->eax=mm_brk(tf->ebx);
+	mm_brk(tf->ebx);
 }
 
 static void sys_ioctl(TrapFrame *tf) {
