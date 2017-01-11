@@ -10,7 +10,7 @@ static void sys_brk(TrapFrame *tf) {
 #ifdef IA32_PAGE
 	tf->eax=mm_brk(tf->ebx);
 #endif
-	//tf->eax=0;
+	tf->eax=0;
 }
 
 static void sys_ioctl(TrapFrame *tf) {
