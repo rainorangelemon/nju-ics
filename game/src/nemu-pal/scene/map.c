@@ -61,7 +61,8 @@ PAL_LoadMap(
       iMapNum >= PAL_MKFGetChunkCount(fpGopMKF) ||
       iMapNum <= 0)
    {
-      return NULL;
+      Log("Here 2");
+	   return NULL;
    }
 
    //
