@@ -28,10 +28,30 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 	 * `w' X `h' of `src' surface to position (`dx', `dy') of
 	 * `dst' surface.
 	 */
-	int i,j;
-	for(i=0;i<h;i++)
-		for(j=0;j<w;j++)
-			dst->pixels[(dy+i)*(dst->w)+dx+j]=src->pixels[(sy+i)*(src->w)+sx+j];
+	/* I learn the following code from a senior student. He is very kind.*/
+		char *dp = (char *)dst->pixels;
+		char *sp = (char *)src->pixels;
+		asm volatile ("cld;\n\t"
+		"movl $0x0, %%eax;\n\t"    // i = 0;
+		"1: movl %%eax, %%edi;\n\t"  
+		"addl %0, %%edi;\n\t"      // dy + i;
+		"imul %1, %%edi;\n\t"      // *= dst->w
+		"addl %2, %%edi;\n\t"      // += dx
+		"addl %3, %%edi;\n\t"			
+		"movl %%eax, %%esi;\n\t"
+		"addl %4, %%esi;\n\t"      // sy + i;
+		"imul %5, %%esi;\n\t"
+		"addl %6, %%esi;\n\t"
+		"addl %7, %%esi;\n\t"
+		"movl %8, %%ecx;\n\t"
+		"rep movsb;\n\t"
+		"addl $0x1, %%eax;\n\t"
+		"cmp %%eax, %9;\n\t"
+		"jg 1b;\n\t"
+		:
+		:"m"(dy), "m"(dst->w), "m"(dx), "m"(dp),
+		"m"(sy), "m"(src->w), "m"(sx),"m"(sp), "m" (w), "m"(h) 
+		: "%eax", "%ecx", "%esi", "%edi");
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
