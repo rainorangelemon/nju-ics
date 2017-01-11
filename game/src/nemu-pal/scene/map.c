@@ -75,7 +75,8 @@ PAL_LoadMap(
    buf = (LPBYTE)malloc(size);
    if (buf == NULL)
    {
-      return NULL;
+      Log("Here 1");
+	   return NULL;
    }
 
    //
@@ -84,7 +85,8 @@ PAL_LoadMap(
    map = (LPPALMAP)malloc(sizeof(PALMAP));
    if (map == NULL)
    {
-      return NULL;
+      Log("Here 2");
+	   return NULL;
    }
 
    //
@@ -94,6 +96,7 @@ PAL_LoadMap(
    {
       free(buf);
       free(map);
+      Log("Here 3");
       return NULL;
    }
 
@@ -104,6 +107,7 @@ PAL_LoadMap(
    {
       free(map);
       free(buf);
+      Log("Here 4");
       return NULL;
    }
 
@@ -131,17 +135,20 @@ PAL_LoadMap(
    if (size <= 0)
    {
       free(map);
+      Log("Here 5");
       return NULL;
    }
    map->pTileSprite = (LPSPRITE)malloc(size);
    if (map->pTileSprite == NULL)
    {
       free(map);
+      Log("Here 6");
       return NULL;
    }
    if (PAL_MKFReadChunk(map->pTileSprite, size, iMapNum, fpGopMKF) < 0)
    {
       free(map);
+      Log("Here 7");
       return NULL;
    }
 
@@ -150,6 +157,7 @@ PAL_LoadMap(
    //
    map->iMapNum = iMapNum;
 
+   Log("map:%d Here 8",map);
    return map;
 }
 
