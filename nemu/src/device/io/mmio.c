@@ -45,7 +45,7 @@ int is_mmio(hwaddr_t addr) {
 }
 
 uint32_t mmio_read(hwaddr_t addr, size_t len, int map_NO) {
-	assert(len == 1 || len == 2 || len == 4);
+	//assert(len == 1 || len == 2 || len == 4);
 	MMIO_t *map = &maps[map_NO];
 	uint32_t data = *(uint32_t *)(map->mmio_space + (addr - map->low)) 
 		& (~0u >> ((4 - len) << 3));
