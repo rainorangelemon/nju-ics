@@ -24,7 +24,7 @@ make_helper(ret_c2){
                 cpu.eip=(cpu.eip)&0x0000ffff;
         }else{  
                 int val=swaddr_read(reg_l(R_ESP),4,R_SS);
-                reg_l(R_ESP)=reg_l(R_ESP)+4;
+                //reg_l(R_ESP)=reg_l(R_ESP)+4;
 		cpu.eip=val;
         }
 	cpu.eip-=len+1;
