@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ICS2016 Programming Assignment
 
 This project is the programming assignment of the class ICS(Introduction to Computer System) in Department of Computer Science and Technology, NanJing University.
@@ -65,3 +66,7 @@ This is a fork of the demo of NJU 2013 oslab0(the origin repository has been del
 ## NEMU-PAL
 
 This is a fork of Wei Mingzhi's SDLPAL(https://github.com/CecilHarvey/sdlpal). It is obtained by refactoring the original SDLPAL, as well as porting to NEMU.
+=======
+# nju-ics
+pa4最后一次提交没有完成
+>>>>>>> fcc54ee4d0892220db416484d41138a869895e96
